@@ -82,6 +82,42 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Projects row drag-to-scroll
+const projectsRow = document.querySelector('.projects-row');
+let isDragging = false;
+let hasDragged = false;
+let startX = 0;
+let scrollLeft = 0;
+
+if (projectsRow) {
+    projectsRow.addEventListener('mousedown', (e) => {
+        if (e.target.closest('a')) return;
+        isDragging = true;
+        hasDragged = false;
+        startX = e.pageX;
+        scrollLeft = projectsRow.scrollLeft;
+        projectsRow.style.cursor = 'grabbing';
+        projectsRow.style.userSelect = 'none';
+    });
+
+    projectsRow.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const walk = (e.pageX - startX) * 1.2;
+        projectsRow.scrollLeft = scrollLeft - walk;
+        if (Math.abs(walk) > 5) hasDragged = true;
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging && projectsRow) {
+            isDragging = false;
+            projectsRow.style.cursor = 'grab';
+            projectsRow.style.userSelect = '';
+            setTimeout(() => { hasDragged = false; }, 50);
+        }
+    });
+}
+
 // Project filter by tags
 const filterBtns = document.querySelectorAll('.filter-btn');
 const projectCards = document.querySelectorAll('.project-card');
@@ -105,6 +141,7 @@ filterBtns.forEach(btn => {
 projectCards.forEach(card => {
     card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
+        if (hasDragged) return;
         if (card.classList.contains('expanded') && e.target.closest('.project-media')) {
             const slides = card.querySelectorAll('.project-media-slide');
             const active = card.querySelector('.project-media-slide.active');
