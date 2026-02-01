@@ -100,3 +100,22 @@ filterBtns.forEach(btn => {
         });
     });
 });
+
+// Project expand on click
+projectCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        const wasExpanded = card.classList.contains('expanded');
+        projectCards.forEach(c => c.classList.remove('expanded'));
+        if (!wasExpanded) card.classList.add('expanded');
+    });
+});
+
+projectCards.forEach(card => {
+    card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+        }
+    });
+});

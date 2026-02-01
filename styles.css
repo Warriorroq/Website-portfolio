@@ -327,7 +327,7 @@ img {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     cursor: pointer;
-    transition: all var(--transition);
+    transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 
 .filter-btn:hover {
@@ -341,28 +341,64 @@ img {
     border-color: var(--accent);
 }
 
-.projects-grid {
-    display: grid;
-    gap: 2rem;
+.projects-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.project-card.hidden {
-    display: none;
+.projects-row::-webkit-scrollbar {
+    height: 6px;
+}
+
+.projects-row::-webkit-scrollbar-track {
+    background: var(--surface);
+    border-radius: 3px;
+}
+
+.projects-row::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
 }
 
 .project-card {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 2rem;
+    flex: 0 0 280px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: border-color var(--transition);
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-card.hidden {
+    flex: 0 0 0;
+    min-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .project-card:hover {
     border-color: var(--accent);
+}
+
+.project-card.expanded {
+    flex: 0 0 520px;
+    min-width: 520px;
+}
+
+.project-preview {
+    display: flex;
+    flex-direction: column;
 }
 
 .project-media {
@@ -381,35 +417,50 @@ img {
     font-size: 0.9rem;
 }
 
-.project-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
+.project-head {
+    padding: 1rem 1.25rem;
 }
 
-.project-content h3 {
-    font-size: 1.5rem;
+.project-head h3 {
+    font-size: 1.15rem;
     margin-bottom: 0.25rem;
 }
 
 .project-role {
     color: var(--accent);
     font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.project-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    padding: 0 1.25rem;
+    overflow: hidden;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-details-inner {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-bottom: 1.25rem;
+}
+
+.project-card.expanded .project-details {
+    grid-template-rows: 1fr;
 }
 
 .project-platform {
     color: var(--text-muted);
     font-size: 0.85rem;
-    margin-bottom: 1rem;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .project-tech li {
@@ -422,7 +473,7 @@ img {
 }
 
 .project-did {
-    margin-bottom: 1rem;
+    margin: 0;
 }
 
 .project-did li {
@@ -443,7 +494,7 @@ img {
 .project-links {
     display: flex;
     gap: 1rem;
-    margin-top: auto;
+    margin-top: 0.5rem;
 }
 
 .project-links a {
@@ -597,11 +648,44 @@ img {
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
     .project-card {
-        grid-template-columns: 1fr;
+        min-width: 240px;
     }
 
-    .project-media {
-        aspect-ratio: 16/9;
+    .project-card.expanded {
+        min-width: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .project-card {
+        flex: 0 0 220px;
+        min-width: 220px;
+    }
+
+    .project-card.expanded {
+        flex: 0 0 calc(100vw - 2rem);
+        min-width: 0;
+        max-width: calc(100vw - 2rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card {
+        flex: 0 0 180px;
+        min-width: 180px;
+    }
+
+    .project-card.expanded {
+        flex: 0 0 calc(100vw - 2rem);
+        min-width: 0;
+        max-width: calc(100vw - 2rem);
+    }
+
+    .projects-row {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: -1rem;
+        margin-right: -1rem;
     }
 }
 
