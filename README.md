@@ -31,11 +31,16 @@ npx serve
 
 2. **CV** — `Artur Okseniuk CV.pdf` уже в проекте
 
-3. **Видео/GIF проектов** — замени блоки `.project-placeholder` на `<img>` или `<video>`:
+3. **Фото проектов** — в развёрнутой карточке можно кликать по фото для смены. Добавь несколько слайдов в `.project-media-slides`:
 
 ```html
-<div class="project-media">
-    <img src="path/to/video-preview.gif" alt="Moon Match">
+<div class="project-media-slides">
+    <div class="project-media-slide active">
+        <img src="screenshot1.jpg" alt="Screenshot 1">
+    </div>
+    <div class="project-media-slide">
+        <img src="screenshot2.jpg" alt="Screenshot 2">
+    </div>
 </div>
 ```
 

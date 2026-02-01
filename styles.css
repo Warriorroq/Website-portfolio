@@ -376,15 +376,19 @@ img {
     overflow: hidden;
     cursor: pointer;
     scroll-snap-align: start;
-    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), margin 0.4s ease, border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
 }
 
 .project-card.hidden {
     flex: 0 0 0;
     min-width: 0;
+    max-width: 0;
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
+    border: none;
+    margin: 0 -1rem;
+    padding: 0;
 }
 
 .project-card:hover {
@@ -404,6 +408,56 @@ img {
 .project-media {
     aspect-ratio: 16/9;
     background: var(--bg-alt);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-media-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.project-media-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.project-media-slide .project-placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.project-media-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-media-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.project-card.expanded .project-media {
+    cursor: pointer;
+}
+
+.project-media-hint {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.project-card.expanded .project-media-hint {
+    opacity: 1;
 }
 
 .project-placeholder {

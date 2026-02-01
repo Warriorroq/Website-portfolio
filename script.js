@@ -105,6 +105,17 @@ filterBtns.forEach(btn => {
 projectCards.forEach(card => {
     card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
+        if (card.classList.contains('expanded') && e.target.closest('.project-media')) {
+            const slides = card.querySelectorAll('.project-media-slide');
+            const active = card.querySelector('.project-media-slide.active');
+            if (slides.length > 1) {
+                active?.classList.remove('active');
+                const next = active?.nextElementSibling || slides[0];
+                next.classList.add('active');
+            }
+            e.stopPropagation();
+            return;
+        }
         const wasExpanded = card.classList.contains('expanded');
         projectCards.forEach(c => c.classList.remove('expanded'));
         if (!wasExpanded) card.classList.add('expanded');
