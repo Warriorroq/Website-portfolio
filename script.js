@@ -17,7 +17,7 @@ function setTheme(name) {
 }
 
 function updateThemeButtons(activeName) {
-    document.querySelectorAll('.nav-theme-dropdown button[data-theme]').forEach(btn => {
+    document.querySelectorAll('.settings-theme-grid button[data-theme]').forEach(btn => {
         const name = btn.dataset.theme;
         if (name === activeName) {
             btn.setAttribute('data-active', '');
@@ -27,28 +27,52 @@ function updateThemeButtons(activeName) {
     });
 }
 
+function openSettingsPanel() {
+    const panel = document.getElementById('settings-panel');
+    const btn = document.querySelector('.nav-settings-btn');
+    panel?.classList.add('is-open');
+    panel?.setAttribute('aria-hidden', 'false');
+    btn?.setAttribute('aria-expanded', 'true');
+}
+
+function closeSettingsPanel() {
+    const panel = document.getElementById('settings-panel');
+    const btn = document.querySelector('.nav-settings-btn');
+    panel?.classList.remove('is-open');
+    panel?.setAttribute('aria-hidden', 'true');
+    btn?.setAttribute('aria-expanded', 'false');
+}
+
 function initTheme() {
     const saved = getSavedTheme();
     setTheme(saved);
 
-    const themeBtn = document.querySelector('.nav-theme-btn');
-    const dropdown = document.querySelector('.nav-theme-dropdown');
+    const settingsBtn = document.querySelector('.nav-settings-btn');
+    const panel = document.getElementById('settings-panel');
+    const closeBtn = document.querySelector('.settings-panel-close');
+    const backdrop = document.querySelector('.settings-panel-backdrop');
 
-    themeBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const expanded = themeBtn.getAttribute('aria-expanded') === 'true';
-        themeBtn.setAttribute('aria-expanded', !expanded);
+    settingsBtn?.addEventListener('click', () => {
+        if (panel?.classList.contains('is-open')) {
+            closeSettingsPanel();
+        } else {
+            openSettingsPanel();
+        }
     });
 
-    dropdown?.querySelectorAll('button[data-theme]').forEach(btn => {
+    closeBtn?.addEventListener('click', closeSettingsPanel);
+    backdrop?.addEventListener('click', closeSettingsPanel);
+
+    panel?.querySelectorAll('.settings-theme-grid button[data-theme]').forEach(btn => {
         btn.addEventListener('click', () => {
             setTheme(btn.dataset.theme);
-            themeBtn?.setAttribute('aria-expanded', 'false');
         });
     });
 
-    document.addEventListener('click', () => {
-        themeBtn?.setAttribute('aria-expanded', 'false');
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+            closeSettingsPanel();
+        }
     });
 }
 
@@ -69,6 +93,7 @@ if (navToggle && navMenu) {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
             navToggle.classList.remove('active');
+            closeSettingsPanel();
         });
     });
 }

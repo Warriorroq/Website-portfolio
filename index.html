@@ -26,29 +26,6 @@
                 <span></span>
             </button>
             <ul class="nav-menu">
-                <li class="nav-theme-wrap">
-                    <button class="nav-theme-btn" aria-label="Тема" aria-expanded="false" aria-haspopup="true">
-                        <span class="nav-theme-icon">◐</span>
-                        <span class="nav-theme-label">Тема</span>
-                    </button>
-                    <ul class="nav-theme-dropdown" role="menu">
-                        <li role="none"><button role="menuitem" data-theme="dark">Тёмная</button></li>
-                        <li role="none"><button role="menuitem" data-theme="light">Светлая</button></li>
-                        <li role="none"><button role="menuitem" data-theme="nord">Nord</button></li>
-                        <li role="none"><button role="menuitem" data-theme="forest">Forest</button></li>
-                        <li role="none"><button role="menuitem" data-theme="monokai">Monokai</button></li>
-                        <li role="none"><button role="menuitem" data-theme="dracula">Dracula</button></li>
-                        <li role="none"><button role="menuitem" data-theme="gruvbox">Gruvbox</button></li>
-                        <li role="none"><button role="menuitem" data-theme="tokyo">Tokyo Night</button></li>
-                        <li role="none"><button role="menuitem" data-theme="catppuccin">Catppuccin</button></li>
-                        <li role="none"><button role="menuitem" data-theme="solarized">Solarized</button></li>
-                        <li role="none"><button role="menuitem" data-theme="rose">Rose Pine</button></li>
-                        <li role="none"><button role="menuitem" data-theme="onedark">One Dark</button></li>
-                        <li role="none"><button role="menuitem" data-theme="ocean">Material Ocean</button></li>
-                        <li role="none"><button role="menuitem" data-theme="sunset">Sunset</button></li>
-                        <li role="none"><button role="menuitem" data-theme="cyber">Cyberpunk</button></li>
-                    </ul>
-                </li>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -56,9 +33,44 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="Artur Okseniuk CV.pdf" class="nav-cv" download>CV</a></li>
+                <li>
+                    <button class="nav-settings-btn" aria-label="Настройки" aria-expanded="false" aria-controls="settings-panel">
+                        <span class="nav-settings-icon">⚙</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
+
+    <aside id="settings-panel" class="settings-panel" aria-hidden="true">
+        <div class="settings-panel-inner">
+            <div class="settings-panel-header">
+                <h3>Настройки</h3>
+                <button class="settings-panel-close" aria-label="Закрыть">×</button>
+            </div>
+            <div class="settings-section">
+                <h4>Тема</h4>
+                <div class="settings-theme-grid" role="menu">
+                    <button role="menuitem" data-theme="dark">Тёмная</button>
+                    <button role="menuitem" data-theme="light">Светлая</button>
+                    <button role="menuitem" data-theme="nord">Nord</button>
+                    <button role="menuitem" data-theme="forest">Forest</button>
+                    <button role="menuitem" data-theme="monokai">Monokai</button>
+                    <button role="menuitem" data-theme="dracula">Dracula</button>
+                    <button role="menuitem" data-theme="gruvbox">Gruvbox</button>
+                    <button role="menuitem" data-theme="tokyo">Tokyo Night</button>
+                    <button role="menuitem" data-theme="catppuccin">Catppuccin</button>
+                    <button role="menuitem" data-theme="solarized">Solarized</button>
+                    <button role="menuitem" data-theme="rose">Rose Pine</button>
+                    <button role="menuitem" data-theme="onedark">One Dark</button>
+                    <button role="menuitem" data-theme="ocean">Material Ocean</button>
+                    <button role="menuitem" data-theme="sunset">Sunset</button>
+                    <button role="menuitem" data-theme="cyber">Cyberpunk</button>
+                </div>
+            </div>
+        </div>
+        <div class="settings-panel-backdrop" aria-hidden="true"></div>
+    </aside>
 
     <section id="home" class="hero">
         <div class="hero-content">
