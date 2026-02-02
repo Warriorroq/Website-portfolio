@@ -27,6 +27,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -226,8 +227,8 @@ img {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
+    width: min(600px, 100vw);
+    height: min(600px, 100vw);
     background: radial-gradient(circle, var(--hero-glow) 0%, transparent 70%);
     pointer-events: none;
 }
@@ -371,7 +372,7 @@ img {
 }
 
 #projects {
-    overflow: visible;
+    overflow-x: hidden;
 }
 
 .section-alt {
@@ -856,8 +857,8 @@ img {
     .projects-row {
         padding-left: 1rem;
         padding-right: 1rem;
-        margin-left: -1rem;
-        margin-right: -1rem;
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
