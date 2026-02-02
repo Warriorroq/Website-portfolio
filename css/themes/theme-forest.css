@@ -1,0 +1,13 @@
+/* Forest theme (green tones) */
+:root {
+    --bg: #1a2421;
+    --bg-alt: #243029;
+    --surface: #2d3d36;
+    --border: #3d5249;
+    --text: #e8f0ec;
+    --text-muted: #9ab5a8;
+    --accent: #52b788;
+    --accent-hover: #74c69d;
+    --nav-bg: rgba(26, 36, 33, 0.9);
+    --hero-glow: rgba(82, 183, 136, 0.18);
+}

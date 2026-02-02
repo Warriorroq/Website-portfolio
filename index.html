@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artur Okseniuk | Unity Developer & Software Engineer</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/themes/theme-dark.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('site-theme') || 'dark';
+            document.getElementById('theme-link').href = 'css/themes/theme-' + t + '.css';
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,6 +26,19 @@
                 <span></span>
             </button>
             <ul class="nav-menu">
+                <li class="nav-theme-wrap">
+                    <button class="nav-theme-btn" aria-label="Тема" aria-expanded="false" aria-haspopup="true">
+                        <span class="nav-theme-icon">◐</span>
+                        <span class="nav-theme-label">Тема</span>
+                    </button>
+                    <ul class="nav-theme-dropdown" role="menu">
+                        <li role="none"><button role="menuitem" data-theme="dark">Тёмная</button></li>
+                        <li role="none"><button role="menuitem" data-theme="light">Светлая</button></li>
+                        <li role="none"><button role="menuitem" data-theme="nord">Nord</button></li>
+                        <li role="none"><button role="menuitem" data-theme="forest">Forest</button></li>
+                        <li role="none"><button role="menuitem" data-theme="monokai">Monokai</button></li>
+                    </ul>
+                </li>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>

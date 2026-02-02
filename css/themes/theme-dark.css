@@ -1,0 +1,13 @@
+/* Dark theme (default) */
+:root {
+    --bg: #0d0d0f;
+    --bg-alt: #141418;
+    --surface: #1a1a1f;
+    --border: #2a2a32;
+    --text: #e8e8ed;
+    --text-muted: #8b8b9a;
+    --accent: #6366f1;
+    --accent-hover: #818cf8;
+    --nav-bg: rgba(13, 13, 15, 0.9);
+    --hero-glow: rgba(99, 102, 241, 0.15);
+}

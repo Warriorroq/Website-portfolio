@@ -1,0 +1,13 @@
+/* Monokai theme (warm dark) */
+:root {
+    --bg: #272822;
+    --bg-alt: #3e3d32;
+    --surface: #3c3b32;
+    --border: #49483e;
+    --text: #f8f8f2;
+    --text-muted: #a6e22e;
+    --accent: #fd971f;
+    --accent-hover: #e6db74;
+    --nav-bg: rgba(39, 40, 34, 0.9);
+    --hero-glow: rgba(253, 151, 31, 0.15);
+}
