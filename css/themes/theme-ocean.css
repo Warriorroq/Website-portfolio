@@ -1,0 +1,13 @@
+/* Material Ocean theme */
+:root {
+    --bg: #0f111a;
+    --bg-alt: #1a1f2e;
+    --surface: #232a3b;
+    --border: #3d4f5f;
+    --text: #8f93a2;
+    --text-muted: #6b7280;
+    --accent: #80a4c2;
+    --accent-hover: #95d5b2;
+    --nav-bg: rgba(15, 17, 26, 0.9);
+    --hero-glow: rgba(128, 164, 194, 0.15);
+}

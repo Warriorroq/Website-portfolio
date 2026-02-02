@@ -1,0 +1,13 @@
+/* Cyberpunk theme */
+:root {
+    --bg: #0d0221;
+    --bg-alt: #1a0a2e;
+    --surface: #2d1b4e;
+    --border: #4a2c6a;
+    --text: #e0d4f7;
+    --text-muted: #9b7ed9;
+    --accent: #ff2a6d;
+    --accent-hover: #05d9e8;
+    --nav-bg: rgba(13, 2, 33, 0.9);
+    --hero-glow: rgba(255, 42, 109, 0.2);
+}

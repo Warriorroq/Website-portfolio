@@ -1,6 +1,6 @@
 // Theme switcher
 const THEME_KEY = 'site-theme';
-const THEMES = ['dark', 'light', 'nord', 'forest', 'monokai'];
+const THEMES = ['dark', 'light', 'nord', 'forest', 'monokai', 'dracula', 'gruvbox', 'tokyo', 'catppuccin', 'solarized', 'rose', 'onedark', 'ocean', 'sunset', 'cyber'];
 
 function getSavedTheme() {
     return localStorage.getItem(THEME_KEY) || 'dark';

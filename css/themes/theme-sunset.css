@@ -1,0 +1,13 @@
+/* Sunset theme (warm orange) */
+:root {
+    --bg: #2d1b1b;
+    --bg-alt: #3d2828;
+    --surface: #4a3535;
+    --border: #5c4444;
+    --text: #f5e6d3;
+    --text-muted: #c4a484;
+    --accent: #e07a5f;
+    --accent-hover: #f4a261;
+    --nav-bg: rgba(45, 27, 27, 0.9);
+    --hero-glow: rgba(224, 122, 95, 0.18);
+}

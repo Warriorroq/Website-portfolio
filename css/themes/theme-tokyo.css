@@ -1,0 +1,13 @@
+/* Tokyo Night theme */
+:root {
+    --bg: #1a1b26;
+    --bg-alt: #24283b;
+    --surface: #414868;
+    --border: #565f89;
+    --text: #c0caf5;
+    --text-muted: #9aa5ce;
+    --accent: #7aa2f7;
+    --accent-hover: #bb9af7;
+    --nav-bg: rgba(26, 27, 38, 0.9);
+    --hero-glow: rgba(122, 162, 247, 0.18);
+}

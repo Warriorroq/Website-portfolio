@@ -1,0 +1,13 @@
+/* One Dark theme */
+:root {
+    --bg: #282c34;
+    --bg-alt: #21252b;
+    --surface: #2c323c;
+    --border: #3e4451;
+    --text: #abb2bf;
+    --text-muted: #5c6370;
+    --accent: #61afef;
+    --accent-hover: #e5c07b;
+    --nav-bg: rgba(40, 44, 52, 0.9);
+    --hero-glow: rgba(97, 175, 239, 0.18);
+}

@@ -1,0 +1,13 @@
+/* Gruvbox theme (warm brown) */
+:root {
+    --bg: #282828;
+    --bg-alt: #3c3836;
+    --surface: #504945;
+    --border: #665c54;
+    --text: #ebdbb2;
+    --text-muted: #a89984;
+    --accent: #fe8019;
+    --accent-hover: #fabd2f;
+    --nav-bg: rgba(40, 40, 40, 0.9);
+    --hero-glow: rgba(254, 128, 25, 0.15);
+}

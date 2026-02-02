@@ -1,0 +1,13 @@
+/* Rose Pine theme */
+:root {
+    --bg: #191724;
+    --bg-alt: #1f1d2e;
+    --surface: #26233a;
+    --border: #403d52;
+    --text: #e0def4;
+    --text-muted: #9ccfd8;
+    --accent: #c4a7e7;
+    --accent-hover: #eb6f92;
+    --nav-bg: rgba(25, 23, 36, 0.9);
+    --hero-glow: rgba(196, 167, 231, 0.15);
+}
