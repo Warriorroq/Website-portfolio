@@ -1,3 +1,166 @@
+// Translations
+const LANG_KEY = 'site-lang';
+const TRANSLATIONS = {
+    ru: {
+        nav_home: 'Главная',
+        nav_projects: 'Проекты',
+        nav_skills: 'Навыки',
+        nav_experience: 'Опыт',
+        nav_about: 'Обо мне',
+        nav_contact: 'Контакты',
+        nav_menu: 'Меню',
+        nav_settings: 'Настройки',
+        settings_title: 'Настройки',
+        settings_close: 'Закрыть',
+        settings_lang: 'Язык',
+        settings_theme: 'Тема',
+        theme_dark: 'Тёмная',
+        theme_light: 'Светлая',
+        hero_greeting: 'Привет, я',
+        hero_role: 'Unity Developer / Software Engineer',
+        hero_tagline: '3+ года в мобильных и live-service играх. Gameplay systems, оптимизация, AWS backend.',
+        hero_scroll: 'Прокрутка',
+        section_projects: 'Проекты',
+        section_skills: 'Навыки',
+        section_experience: 'Опыт',
+        section_about: 'Обо мне',
+        section_contact: 'Контакты',
+        projects_subtitle: 'Что я делал и чем могу быть полезен',
+        skills_subtitle: 'Tech stack без лишнего',
+        experience_subtitle: 'Где работал и что делал',
+        about_p1: 'Unity Developer с 3+ годами опыта в мобильных и live-service играх. Shipped несколько Unity mobile titles, работал с backend-driven features на AWS.',
+        about_p2: 'Фокус на gameplay systems, performance optimization и user experience. Образование: Computer Science (Step Academy, Kiev) и Software Engineering (University of Europe, Potsdam).',
+        about_p3: 'Увлечения: game dev, настолки (D&D, Battle mages), шахматы, литература.',
+        contact_subtitle: 'Свяжись со мной',
+        contact_cv: 'Скачать CV',
+        footer: '© 2025. Привет!',
+        filter_all: 'Все',
+        filter_mobile: 'Мобильные',
+        filter_pc: 'PC',
+        filter_unity: 'Unity',
+        filter_csharp: 'C#',
+        filter_aws: 'AWS',
+        filter_liveops: 'LiveOps',
+        filter_steam: 'Steam',
+        skills_show_all: 'Показать все навыки',
+        skills_hide: 'Скрыть навыки',
+        projects_error: 'Не удалось загрузить проекты.',
+        experience_error: 'Не удалось загрузить опыт.',
+        skills_error: 'Не удалось загрузить навыки.'
+    },
+    en: {
+        nav_home: 'Home',
+        nav_projects: 'Projects',
+        nav_skills: 'Skills',
+        nav_experience: 'Experience',
+        nav_about: 'About',
+        nav_contact: 'Contact',
+        nav_menu: 'Menu',
+        nav_settings: 'Settings',
+        settings_title: 'Settings',
+        settings_close: 'Close',
+        settings_lang: 'Language',
+        settings_theme: 'Theme',
+        theme_dark: 'Dark',
+        theme_light: 'Light',
+        hero_greeting: 'Hi, I\'m',
+        hero_role: 'Unity Developer / Software Engineer',
+        hero_tagline: '3+ years in mobile & live-service games. Gameplay systems, performance optimization, AWS backend.',
+        hero_scroll: 'Scroll',
+        section_projects: 'Projects',
+        section_skills: 'Skills',
+        section_experience: 'Experience',
+        section_about: 'About',
+        section_contact: 'Contact',
+        projects_subtitle: 'What I\'ve done and how I can help',
+        skills_subtitle: 'Tech stack, no fluff',
+        experience_subtitle: 'Where I worked and what I did',
+        about_p1: 'Unity Developer with 3+ years in mobile and live-service games. Shipped several Unity mobile titles, worked with backend-driven features on AWS.',
+        about_p2: 'Focus on gameplay systems, performance optimization and user experience. Education: Computer Science (Step Academy, Kiev) and Software Engineering (University of Europe, Potsdam).',
+        about_p3: 'Hobbies: game dev, board games (D&D, Battle mages), chess, literature.',
+        contact_subtitle: 'Get in touch',
+        contact_cv: 'Download CV',
+        footer: '© 2025. Hello!',
+        filter_all: 'All',
+        filter_mobile: 'Mobile',
+        filter_pc: 'PC',
+        filter_unity: 'Unity',
+        filter_csharp: 'C#',
+        filter_aws: 'AWS',
+        filter_liveops: 'LiveOps',
+        filter_steam: 'Steam',
+        skills_show_all: 'Show all skills',
+        skills_hide: 'Hide skills',
+        projects_error: 'Failed to load projects.',
+        experience_error: 'Failed to load experience.',
+        skills_error: 'Failed to load skills.'
+    }
+};
+
+function getSavedLang() {
+    const saved = localStorage.getItem(LANG_KEY);
+    return saved === 'en' || saved === 'ru' ? saved : 'en';
+}
+
+let currentLang = getSavedLang();
+
+function t(key) {
+    return TRANSLATIONS[currentLang]?.[key] ?? TRANSLATIONS.en?.[key] ?? key;
+}
+
+function setLang(lang) {
+    if (lang !== 'ru' && lang !== 'en') return;
+    currentLang = lang;
+    localStorage.setItem(LANG_KEY, lang);
+    document.documentElement.lang = lang;
+    document.title = lang === 'ru' ? 'Artur Okseniuk | Unity Developer & Software Engineer' : 'Artur Okseniuk | Unity Developer & Software Engineer';
+    applyTranslations();
+    updateLangButtons(lang);
+    updateSkillsToggle();
+    updateFilterLabels();
+}
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
+            el.textContent = val;
+        }
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        const val = t(key);
+        if (val) el.setAttribute('aria-label', val);
+    });
+}
+
+function updateLangButtons(lang) {
+    document.querySelectorAll('.settings-lang-btn[data-lang]').forEach(btn => {
+        if (btn.dataset.lang === lang) {
+            btn.setAttribute('data-active', '');
+        } else {
+            btn.removeAttribute('data-active');
+        }
+    });
+}
+
+function updateSkillsToggle() {
+    const toggle = document.querySelector('.skills-toggle');
+    const wrapper = document.querySelector('.skills-grid-wrapper');
+    if (toggle && wrapper) {
+        const isCollapsed = wrapper.classList.contains('collapsed');
+        toggle.textContent = isCollapsed ? t('skills_show_all') : t('skills_hide');
+    }
+}
+
+function updateFilterLabels() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        const tag = btn.dataset.tag;
+        if (tag) btn.textContent = t('filter_' + tag) || btn.textContent;
+    });
+}
+
 // Theme switcher
 const THEME_KEY = 'site-theme';
 const THEMES = ['dark', 'light', 'nord', 'forest', 'monokai', 'dracula', 'gruvbox', 'tokyo', 'catppuccin', 'solarized', 'rose', 'onedark', 'ocean', 'sunset', 'cyber'];
@@ -77,6 +240,19 @@ function initTheme() {
 }
 
 initTheme();
+
+function initLanguage() {
+    document.documentElement.lang = currentLang;
+    setLang(currentLang);
+
+    document.querySelectorAll('.settings-lang-btn[data-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setLang(btn.dataset.lang);
+        });
+    });
+}
+
+initLanguage();
 
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
@@ -180,6 +356,7 @@ async function loadData() {
         const filtersContainer = document.querySelector('.project-filters');
         if (filtersContainer) {
             filtersContainer.innerHTML = buildFilters(filters);
+            updateFilterLabels();
         }
 
         // Render projects
@@ -196,6 +373,7 @@ async function loadData() {
             if (totalItems >= 10) {
                 initSkillsCollapse(skillsGrid);
             }
+            updateSkillsToggle();
         }
 
         // Render experience
@@ -205,9 +383,9 @@ async function loadData() {
         }
     } catch (err) {
         console.error('Failed to load data:', err);
-        if (projectsRow) projectsRow.innerHTML = '<p class="projects-error">Не удалось загрузить проекты.</p>';
-        if (experienceList) experienceList.innerHTML = '<p class="experience-error">Не удалось загрузить опыт.</p>';
-        if (skillsGrid) skillsGrid.innerHTML = '<p class="skills-error">Не удалось загрузить навыки.</p>';
+        if (projectsRow) projectsRow.innerHTML = '<p class="projects-error">' + t('projects_error') + '</p>';
+        if (experienceList) experienceList.innerHTML = '<p class="experience-error">' + t('experience_error') + '</p>';
+        if (skillsGrid) skillsGrid.innerHTML = '<p class="skills-error">' + t('skills_error') + '</p>';
     }
 }
 
@@ -226,7 +404,7 @@ function initSkillsCollapse(skillsGrid) {
     const toggle = document.createElement('button');
     toggle.className = 'skills-toggle';
     toggle.type = 'button';
-    toggle.textContent = 'Show all skills';
+    toggle.textContent = t('skills_show_all');
     toggle.setAttribute('aria-expanded', 'false');
     if (actionsSlot) {
         actionsSlot.appendChild(toggle);
@@ -241,7 +419,7 @@ function initSkillsCollapse(skillsGrid) {
 
     toggle.addEventListener('click', () => {
         const isCollapsed = wrapper.classList.toggle('collapsed');
-        toggle.textContent = isCollapsed ? 'Show all skills' : 'Hide skills';
+        toggle.textContent = isCollapsed ? t('skills_show_all') : t('skills_hide');
         toggle.setAttribute('aria-expanded', !isCollapsed);
     });
 }

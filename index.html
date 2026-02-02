@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,21 +20,21 @@
     <nav class="nav">
         <div class="nav-container">
             <a href="#home" class="nav-logo">&lt;Dev/&gt;</a>
-            <button class="nav-toggle" aria-label="Меню">
+            <button class="nav-toggle" aria-label="Menu" data-i18n-aria="nav_menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+                <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+                <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
+                <li><a href="#about" data-i18n="nav_about">About</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
                 <li><a href="Artur Okseniuk CV.pdf" class="nav-cv" download>CV</a></li>
                 <li>
-                    <button class="nav-settings-btn" aria-label="Настройки" aria-expanded="false" aria-controls="settings-panel">
+                    <button class="nav-settings-btn" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" data-i18n-aria="nav_settings">
                         <span class="nav-settings-icon">⚙</span>
                     </button>
                 </li>
@@ -45,14 +45,21 @@
     <aside id="settings-panel" class="settings-panel" aria-hidden="true">
         <div class="settings-panel-inner">
             <div class="settings-panel-header">
-                <h3>Настройки</h3>
-                <button class="settings-panel-close" aria-label="Закрыть">×</button>
+                <h3 data-i18n="settings_title">Settings</h3>
+                <button class="settings-panel-close" aria-label="Close" data-i18n-aria="settings_close">×</button>
             </div>
             <div class="settings-section">
-                <h4>Тема</h4>
+                <h4 data-i18n="settings_lang">Language</h4>
+                <div class="settings-lang-btns">
+                    <button class="settings-lang-btn" data-lang="ru" role="menuitem">Russian</button>
+                    <button class="settings-lang-btn" data-lang="en" role="menuitem">English</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h4 data-i18n="settings_theme">Theme</h4>
                 <div class="settings-theme-grid" role="menu">
-                    <button role="menuitem" data-theme="dark">Тёмная</button>
-                    <button role="menuitem" data-theme="light">Светлая</button>
+                    <button role="menuitem" data-theme="dark" data-i18n="theme_dark">Dark</button>
+                    <button role="menuitem" data-theme="light" data-i18n="theme_light">Light</button>
                     <button role="menuitem" data-theme="nord">Nord</button>
                     <button role="menuitem" data-theme="forest">Forest</button>
                     <button role="menuitem" data-theme="monokai">Monokai</button>
@@ -74,28 +81,28 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <p class="hero-greeting">Привет, я</p>
+            <p class="hero-greeting" data-i18n="hero_greeting">Hi, I'm</p>
             <h1 class="hero-name">Artur Okseniuk</h1>
-            <p class="hero-role">Unity Developer / Software Engineer</p>
-            <p class="hero-tagline">3+ years in mobile & live-service games. Gameplay systems, performance optimization, AWS backend.</p>
+            <p class="hero-role" data-i18n="hero_role">Unity Developer / Software Engineer</p>
+            <p class="hero-tagline" data-i18n="hero_tagline">3+ years in mobile & live-service games. Gameplay systems, performance optimization, AWS backend.</p>
         </div>
         <div class="hero-scroll">
-            <span>Scroll</span>
+            <span data-i18n="hero_scroll">Scroll</span>
             <div class="scroll-line"></div>
         </div>
     </section>
 
     <section id="projects" class="section">
         <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <p class="section-subtitle">Что я делал и чем могу быть полезен</p>
+            <h2 class="section-title" data-i18n="section_projects">Projects</h2>
+            <p class="section-subtitle" data-i18n="projects_subtitle">What I've done and how I can help</p>
             
             <div class="project-filters">
-                <!-- Фильтры загружаются из projects.json -->
+                <!-- Filters loaded from projects.json -->
             </div>
             
             <div class="projects-row">
-                <!-- Проекты загружаются из projects.json -->
+                <!-- Projects loaded from projects.json -->
             </div>
         </div>
     </section>
@@ -103,41 +110,41 @@
     <section id="skills" class="section section-alt">
         <div class="container">
             <div class="section-header-row">
-                <h2 class="section-title">Skills</h2>
+                <h2 class="section-title" data-i18n="section_skills">Skills</h2>
                 <div class="section-header-actions"></div>
             </div>
-            <p class="section-subtitle">Tech stack без лишнего</p>
+            <p class="section-subtitle" data-i18n="skills_subtitle">Tech stack, no fluff</p>
             <div class="skills-grid">
-                <!-- Skills загружаются из skills.json -->
+                <!-- Skills loaded from skills.json -->
             </div>
         </div>
     </section>
 
     <section id="experience" class="section">
         <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">Где работал и что делал</p>
+            <h2 class="section-title" data-i18n="section_experience">Experience</h2>
+            <p class="section-subtitle" data-i18n="experience_subtitle">Where I worked and what I did</p>
             <div class="experience-list">
-                <!-- Experience загружается из experience.json -->
+                <!-- Experience loaded from experience.json -->
             </div>
         </div>
     </section>
 
     <section id="about" class="section section-alt">
         <div class="container container-narrow">
-            <h2 class="section-title">About</h2>
+            <h2 class="section-title" data-i18n="section_about">About</h2>
             <div class="about-content">
-                <p>Unity Developer с 3+ годами опыта в мобильных и live-service играх. Shipped несколько Unity mobile titles, работал с backend-driven features на AWS.</p>
-                <p>Фокус на gameplay systems, performance optimization и user experience. Образование: Computer Science (Step Academy, Kiev) и Software Engineering (University of Europe, Potsdam).</p>
-                <p>Увлечения: game dev, настолки (D&D, Battle mages), шахматы, литература.</p>
+                <p data-i18n="about_p1">Unity Developer with 3+ years in mobile and live-service games. Shipped several Unity mobile titles, worked with backend-driven features on AWS.</p>
+                <p data-i18n="about_p2">Focus on gameplay systems, performance optimization and user experience. Education: Computer Science (Step Academy, Kiev) and Software Engineering (University of Europe, Potsdam).</p>
+                <p data-i18n="about_p3">Hobbies: game dev, board games (D&D, Battle mages), chess, literature.</p>
             </div>
         </div>
     </section>
 
     <section id="contact" class="section">
         <div class="container">
-            <h2 class="section-title">Contact</h2>
-            <p class="section-subtitle">Свяжись со мной</p>
+            <h2 class="section-title" data-i18n="section_contact">Contact</h2>
+            <p class="section-subtitle" data-i18n="contact_subtitle">Get in touch</p>
             <div class="contact-links">
                 <a href="mailto:arthur.okseniuk@gmail.com" class="contact-link">
                     <span class="contact-icon">✉</span>
@@ -157,14 +164,14 @@
                 </a>
             </div>
             <div class="contact-cv">
-                <a href="Artur Okseniuk CV.pdf" download class="btn btn-primary">Download CV</a>
+                <a href="Artur Okseniuk CV.pdf" download class="btn btn-primary" data-i18n="contact_cv">Download CV</a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025. Hello!</p>
+            <p data-i18n="footer">© 2025. Hello!</p>
         </div>
     </footer>
 

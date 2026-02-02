@@ -233,6 +233,36 @@ img {
     letter-spacing: 0.05em;
 }
 
+.settings-lang-btns {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.settings-lang-btn {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.settings-lang-btn:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+.settings-lang-btn[data-active] {
+    color: var(--accent);
+    border-color: var(--accent);
+    font-weight: 600;
+}
+
 .settings-theme-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
