@@ -141,12 +141,17 @@ function initSkillsItems() {
 
 function initSkillsCollapse(skillsGrid) {
     const container = skillsGrid.parentElement;
+    const actionsSlot = container.querySelector('.section-header-actions');
     const toggle = document.createElement('button');
     toggle.className = 'skills-toggle';
     toggle.type = 'button';
     toggle.textContent = 'Show all skills';
     toggle.setAttribute('aria-expanded', 'false');
-    container.insertBefore(toggle, skillsGrid);
+    if (actionsSlot) {
+        actionsSlot.appendChild(toggle);
+    } else {
+        container.insertBefore(toggle, skillsGrid);
+    }
 
     const wrapper = document.createElement('div');
     wrapper.className = 'skills-grid-wrapper collapsed';
