@@ -1,0 +1,35 @@
+{
+  "experience": [
+    {
+      "company": "Roamer Games",
+      "period": "Oct 2024 — Now",
+      "role": "Gameplay Unity Developer / Cloud Software Engineer · Berlin (Hybrid)",
+      "items": [
+        "Shipped 4 mobile games (Moon Match, Bitcoin Bubble Merge, Bitcoin Bus Jam, BS - Neneko pop!)",
+        "Live mobile projects with ongoing updates (Crypto Crawler, Boe Wings)",
+        "In-game social features and internal tooling",
+        "Backend services on AWS (Lambda, DynamoDB, RDS)"
+      ]
+    },
+    {
+      "company": "VicVent Studios",
+      "period": "Mar 2024 — Aug 2024",
+      "role": "Unity Developer · Kiev (Remote)",
+      "items": [
+        "Gameplay prototypes (TPS, FPS, Tower Defense, Racing)",
+        "Core mechanics, player input, AI behavior",
+        "Scraping tool with backend integration"
+      ]
+    },
+    {
+      "company": "Freelance",
+      "period": "2019 — 2023",
+      "role": "Developer",
+      "items": [
+        "Telegram / Discord bots (Python)",
+        "Backend services and automation tools",
+        "Algorithmic and math problems for CS students"
+      ]
+    }
+  ]
+}

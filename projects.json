@@ -1,4 +1,14 @@
 {
+  "filters": [
+    { "tag": "all", "label": "All" },
+    { "tag": "mobile", "label": "Mobile" },
+    { "tag": "pc", "label": "PC" },
+    { "tag": "unity", "label": "Unity" },
+    { "tag": "csharp", "label": "C#" },
+    { "tag": "aws", "label": "AWS" },
+    { "tag": "liveops", "label": "LiveOps" },
+    { "tag": "steam", "label": "Steam" }
+  ],
   "projects": [
     {
       "title": "Moon Match",

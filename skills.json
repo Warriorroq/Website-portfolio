@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {
+      "title": "Languages",
+      "items": ["C#", "Python", "C++", "HLSL"]
+    },
+    {
+      "title": "Unity",
+      "items": ["Gameplay systems", "R3, Zenject, Netcode", "Shader Graph, DOTS", "Steam API (Facepunch)"]
+    },
+    {
+      "title": "AWS / Backend",
+      "items": ["Lambda, DynamoDB, RDS", "Route53, S3, CloudWatch", "IAM, PostgreSQL"]
+    },
+    {
+      "title": "Other",
+      "items": ["Git, SQL", "Math (linear algebra, probability)", "Algorithms"]
+    }
+  ]
+}

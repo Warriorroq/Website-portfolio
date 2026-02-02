@@ -74,25 +74,38 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Observe experience and skills (static content)
-document.querySelectorAll('.experience-item, .skills-category').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-});
-
-// Load projects from JSON and render
-async function loadProjects() {
+// Load projects, experience and skills from JSON
+async function loadData() {
     const projectsRow = document.querySelector('.projects-row');
-    if (!projectsRow) return;
+    const experienceList = document.querySelector('.experience-list');
+    const skillsGrid = document.querySelector('.skills-grid');
+    if (!projectsRow && !experienceList && !skillsGrid) return;
 
     try {
-        const res = await fetch('projects.json');
-        const data = await res.json();
-        const projects = data.projects || [];
+        const [projectsRes, experienceRes, skillsRes] = await Promise.all([
+            fetch('projects.json'),
+            fetch('experience.json'),
+            fetch('skills.json')
+        ]);
+        const projectsData = await projectsRes.json();
+        const experienceData = await experienceRes.json();
+        const skillsData = await skillsRes.json();
+        const projects = projectsData.projects || [];
+        const filters = projectsData.filters || [];
+        const experience = experienceData.experience || [];
+        const skills = skillsData.skills || [];
 
-        projectsRow.innerHTML = projects.map(p => {
+        // Render filters
+        const filtersContainer = document.querySelector('.project-filters');
+        if (filtersContainer) {
+            filtersContainer.innerHTML = filters.map((f, i) =>
+                `<button class="filter-btn${i === 0 ? ' active' : ''}" data-tag="${escapeHtml(f.tag || '')}">${escapeHtml(f.label || f.tag || '')}</button>`
+            ).join('');
+        }
+
+        // Render projects
+        if (projectsRow) {
+            projectsRow.innerHTML = projects.map(p => {
             const tagsStr = (p.tags || []).join(' ');
             const slidesHtml = (p.slides || []).map((s, i) =>
                 `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`
@@ -124,12 +137,64 @@ async function loadProjects() {
                 </article>
             `;
         }).join('');
+            initProjectCards();
+        }
 
-        initProjectCards();
+        // Render skills
+        if (skillsGrid) {
+            skillsGrid.innerHTML = skills.map(cat => {
+                const itemsHtml = (cat.items || []).map(item => `<li>${escapeHtml(item)}</li>`).join('');
+                return `
+                    <div class="skills-category">
+                        <h4>${escapeHtml(cat.title || '')}</h4>
+                        <ul>${itemsHtml}</ul>
+                    </div>
+                `;
+            }).join('');
+            initSkillsItems();
+        }
+
+        // Render experience
+        if (experienceList) {
+            experienceList.innerHTML = experience.map(exp => {
+                const itemsHtml = (exp.items || []).map(item => `<li>${escapeHtml(item)}</li>`).join('');
+                return `
+                    <article class="experience-item">
+                        <div class="experience-header">
+                            <h3>${escapeHtml(exp.company || '')}</h3>
+                            <span class="experience-period">${escapeHtml(exp.period || '')}</span>
+                        </div>
+                        <p class="experience-role">${escapeHtml(exp.role || '')}</p>
+                        <ul>${itemsHtml}</ul>
+                    </article>
+                `;
+            }).join('');
+            initExperienceItems();
+        }
     } catch (err) {
-        console.error('Failed to load projects:', err);
-        projectsRow.innerHTML = '<p class="projects-error">Не удалось загрузить проекты.</p>';
+        console.error('Failed to load data:', err);
+        if (projectsRow) projectsRow.innerHTML = '<p class="projects-error">Не удалось загрузить проекты.</p>';
+        if (experienceList) experienceList.innerHTML = '<p class="experience-error">Не удалось загрузить опыт.</p>';
+        if (skillsGrid) skillsGrid.innerHTML = '<p class="skills-error">Не удалось загрузить навыки.</p>';
     }
+}
+
+function initSkillsItems() {
+    document.querySelectorAll('.skills-category').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
+}
+
+function initExperienceItems() {
+    document.querySelectorAll('.experience-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
 }
 
 function escapeHtml(str) {
@@ -196,7 +261,7 @@ function initProjectCards() {
     });
 }
 
-loadProjects();
+loadData();
 
 // Projects row drag-to-scroll
 const projectsRow = document.querySelector('.projects-row');
