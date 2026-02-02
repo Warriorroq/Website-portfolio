@@ -2,19 +2,23 @@
   "skills": [
     {
       "title": "Languages",
-      "items": ["C#", "Python", "C++", "HLSL"]
+      "items": ["C#", "Python", "C++", "HLSL", "JavaScript", "TypeScript", "Lua"]
     },
     {
       "title": "Unity",
-      "items": ["Gameplay systems", "R3, Zenject, Netcode", "Shader Graph, DOTS", "Steam API (Facepunch)"]
+      "items": ["Gameplay systems", "R3, Zenject, Netcode", "Shader Graph, DOTS", "Steam API (Facepunch)", "Addressables", "Timeline", "Animation Rigging", "ProBuilder"]
     },
     {
       "title": "AWS / Backend",
-      "items": ["Lambda, DynamoDB, RDS", "Route53, S3, CloudWatch", "IAM, PostgreSQL"]
+      "items": ["Lambda, DynamoDB, RDS", "Route53, S3, CloudWatch", "IAM, PostgreSQL", "API Gateway", "Cognito", "ECS"]
+    },
+    {
+      "title": "Tools & Workflow",
+      "items": ["Git, SQL", "Jira, Confluence", "CI/CD", "Docker", "REST APIs", "WebSockets"]
     },
     {
       "title": "Other",
-      "items": ["Git, SQL", "Math (linear algebra, probability)", "Algorithms"]
+      "items": ["Math (linear algebra, probability)", "Algorithms", "Data structures", "Design patterns", "Performance profiling", "Unit testing"]
     }
   ]
 }

@@ -552,6 +552,37 @@ img {
 }
 
 /* ===== Skills ===== */
+.skills-toggle {
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+}
+.skills-toggle:hover {
+    color: var(--bg);
+    background: var(--accent);
+}
+
+.skills-grid-wrapper {
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+.skills-grid-wrapper.collapsed {
+    max-height: 200px;
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+}
+.skills-grid-wrapper:not(.collapsed) {
+    max-height: 3000px;
+}
+
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

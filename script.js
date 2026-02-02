@@ -111,6 +111,10 @@ async function loadData() {
         if (skillsGrid) {
             skillsGrid.innerHTML = buildSkills(skills);
             initSkillsItems();
+            const totalItems = skills.reduce((n, cat) => n + (cat.items?.length || 0), 0);
+            if (totalItems >= 10) {
+                initSkillsCollapse(skillsGrid);
+            }
         }
 
         // Render experience
@@ -132,6 +136,27 @@ function initSkillsItems() {
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         observer.observe(el);
+    });
+}
+
+function initSkillsCollapse(skillsGrid) {
+    const container = skillsGrid.parentElement;
+    const toggle = document.createElement('button');
+    toggle.className = 'skills-toggle';
+    toggle.type = 'button';
+    toggle.textContent = 'Show all skills';
+    toggle.setAttribute('aria-expanded', 'false');
+    container.insertBefore(toggle, skillsGrid);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'skills-grid-wrapper collapsed';
+    container.insertBefore(wrapper, skillsGrid);
+    wrapper.appendChild(skillsGrid);
+
+    toggle.addEventListener('click', () => {
+        const isCollapsed = wrapper.classList.toggle('collapsed');
+        toggle.textContent = isCollapsed ? 'Show all skills' : 'Hide skills';
+        toggle.setAttribute('aria-expanded', !isCollapsed);
     });
 }
 
