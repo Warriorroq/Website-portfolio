@@ -1,0 +1,151 @@
+{
+  "projects": [
+    {
+      "title": "Moon Match",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "liveops"],
+      "tech": ["Unity", "C#", "LiveOps"],
+      "achievements": [
+        "Core gameplay systems",
+        "Live updates support",
+        "Shipped to production"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Google Play", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Bitcoin Bubble Merge",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "aws"],
+      "tech": ["Unity", "C#", "AWS"],
+      "achievements": [
+        "Gameplay mechanics",
+        "Backend integration",
+        "Shipped to production"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Store", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Bitcoin Bus Jam",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "aws"],
+      "tech": ["Unity", "C#", "AWS"],
+      "achievements": [
+        "Gameplay mechanics",
+        "Backend integration",
+        "Shipped to production"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Store", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Crypto Crawler",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "aws"],
+      "tech": ["Unity", "C#", "AWS"],
+      "achievements": [
+        "In-game social features",
+        "Internal tooling",
+        "Ongoing live updates"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Store", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Boe Wings",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "aws"],
+      "tech": ["Unity", "C#", "AWS"],
+      "achievements": [
+        "In-game social features",
+        "Internal tooling",
+        "Ongoing live updates"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Store", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Dice Gambit",
+      "role": "Gameplay Systems & Polishing",
+      "platform": "PC · Steam",
+      "tags": ["pc", "unity", "csharp", "steam"],
+      "tech": ["Unity", "C#", "Steam API"],
+      "achievements": [
+        "Gameplay systems",
+        "Polishing & QA",
+        "Steam release"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Steam", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    },
+    {
+      "title": "Floss",
+      "role": "Gameplay Systems & Polishing",
+      "platform": "PC · Steam",
+      "tags": ["pc", "unity", "csharp", "steam"],
+      "tech": ["Unity", "C#", "Steam API"],
+      "achievements": [
+        "Gameplay systems",
+        "Polishing & QA",
+        "Steam release"
+      ],
+      "slides": [
+        { "label": "Screenshot 1" },
+        { "label": "Screenshot 2" },
+        { "label": "Gameplay" }
+      ],
+      "links": [
+        { "label": "Steam", "url": "#" },
+        { "label": "Video", "url": "#" }
+      ]
+    }
+  ]
+}
