@@ -1,127 +1,43 @@
-// Translations
+// i18n: locale loaded from locales/{lang}.json, no hardcoded strings in script
 const LANG_KEY = 'site-lang';
-const TRANSLATIONS = {
-    ru: {
-        nav_home: 'Главная',
-        nav_projects: 'Проекты',
-        nav_skills: 'Навыки',
-        nav_experience: 'Опыт',
-        nav_about: 'Обо мне',
-        nav_contact: 'Контакты',
-        nav_menu: 'Меню',
-        nav_settings: 'Настройки',
-        settings_title: 'Настройки',
-        settings_close: 'Закрыть',
-        settings_lang: 'Язык',
-        settings_theme: 'Тема',
-        theme_dark: 'Тёмная',
-        theme_light: 'Светлая',
-        hero_greeting: 'Привет, я',
-        hero_role: 'Unity Developer / Software Engineer',
-        hero_tagline: '3+ года в мобильных и live-service играх. Gameplay systems, оптимизация, AWS backend.',
-        hero_scroll: 'Прокрутка',
-        section_projects: 'Проекты',
-        section_skills: 'Навыки',
-        section_experience: 'Опыт',
-        section_about: 'Обо мне',
-        section_contact: 'Контакты',
-        projects_subtitle: 'Что я делал и чем могу быть полезен',
-        skills_subtitle: 'Tech stack без лишнего',
-        experience_subtitle: 'Где работал и что делал',
-        about_p1: 'Unity Developer с 3+ годами опыта в мобильных и live-service играх. Shipped несколько Unity mobile titles, работал с backend-driven features на AWS.',
-        about_p2: 'Фокус на gameplay systems, performance optimization и user experience. Образование: Computer Science (Step Academy, Kiev) и Software Engineering (University of Europe, Potsdam).',
-        about_p3: 'Увлечения: game dev, настолки (D&D, Battle mages), шахматы, литература.',
-        contact_subtitle: 'Свяжись со мной',
-        contact_cv: 'Скачать CV',
-        footer: '© 2025. Привет!',
-        filter_all: 'Все',
-        filter_mobile: 'Мобильные',
-        filter_pc: 'PC',
-        filter_unity: 'Unity',
-        filter_csharp: 'C#',
-        filter_aws: 'AWS',
-        filter_liveops: 'LiveOps',
-        filter_steam: 'Steam',
-        filter_more: 'Ещё',
-        filter_less: 'Свернуть',
-        skills_show_all: 'Показать все навыки',
-        skills_hide: 'Скрыть навыки',
-        projects_error: 'Не удалось загрузить проекты.',
-        experience_error: 'Не удалось загрузить опыт.',
-        skills_error: 'Не удалось загрузить навыки.'
-    },
-    en: {
-        nav_home: 'Home',
-        nav_projects: 'Projects',
-        nav_skills: 'Skills',
-        nav_experience: 'Experience',
-        nav_about: 'About',
-        nav_contact: 'Contact',
-        nav_menu: 'Menu',
-        nav_settings: 'Settings',
-        settings_title: 'Settings',
-        settings_close: 'Close',
-        settings_lang: 'Language',
-        settings_theme: 'Theme',
-        theme_dark: 'Dark',
-        theme_light: 'Light',
-        hero_greeting: 'Hi, I\'m',
-        hero_role: 'Unity Developer / Software Engineer',
-        hero_tagline: '3+ years in mobile & live-service games. Gameplay systems, performance optimization, AWS backend.',
-        hero_scroll: 'Scroll',
-        section_projects: 'Projects',
-        section_skills: 'Skills',
-        section_experience: 'Experience',
-        section_about: 'About',
-        section_contact: 'Contact',
-        projects_subtitle: 'What I\'ve done and how I can help',
-        skills_subtitle: 'Tech stack, no fluff',
-        experience_subtitle: 'Where I worked and what I did',
-        about_p1: 'Unity Developer with 3+ years in mobile and live-service games. Shipped several Unity mobile titles, worked with backend-driven features on AWS.',
-        about_p2: 'Focus on gameplay systems, performance optimization and user experience. Education: Computer Science (Step Academy, Kiev) and Software Engineering (University of Europe, Potsdam).',
-        about_p3: 'Hobbies: game dev, board games (D&D, Battle mages), chess, literature.',
-        contact_subtitle: 'Get in touch',
-        contact_cv: 'Download CV',
-        footer: '© 2025. Hello!',
-        filter_all: 'All',
-        filter_mobile: 'Mobile',
-        filter_pc: 'PC',
-        filter_unity: 'Unity',
-        filter_csharp: 'C#',
-        filter_aws: 'AWS',
-        filter_liveops: 'LiveOps',
-        filter_steam: 'Steam',
-        filter_more: 'More',
-        filter_less: 'Less',
-        skills_show_all: 'Show all skills',
-        skills_hide: 'Hide skills',
-        projects_error: 'Failed to load projects.',
-        experience_error: 'Failed to load experience.',
-        skills_error: 'Failed to load skills.'
-    }
-};
+const SUPPORTED_LANGS = ['en', 'ru'];
+let translations = {};
+let currentLang = 'en';
 
 function getSavedLang() {
     const saved = localStorage.getItem(LANG_KEY);
-    return saved === 'en' || saved === 'ru' ? saved : 'en';
+    return SUPPORTED_LANGS.includes(saved) ? saved : 'en';
 }
 
-let currentLang = getSavedLang();
+async function loadLocale(lang) {
+    const path = `locales/${lang}.json`;
+    const res = await fetch(path);
+    if (!res.ok) {
+        if (lang !== 'en') return loadLocale('en');
+        translations = {};
+        return;
+    }
+    translations = await res.json();
+    return translations;
+}
 
 function t(key) {
-    return TRANSLATIONS[currentLang]?.[key] ?? TRANSLATIONS.en?.[key] ?? key;
+    return translations[key] ?? key;
 }
 
 function setLang(lang) {
-    if (lang !== 'ru' && lang !== 'en') return;
-    currentLang = lang;
-    localStorage.setItem(LANG_KEY, lang);
-    document.documentElement.lang = lang;
-    document.title = lang === 'ru' ? 'Artur Okseniuk | Unity Developer & Software Engineer' : 'Artur Okseniuk | Unity Developer & Software Engineer';
-    applyTranslations();
-    updateLangButtons(lang);
-    updateSkillsToggle();
-    updateFilterLabels();
+    if (!SUPPORTED_LANGS.includes(lang)) return;
+    loadLocale(lang).then(() => {
+        currentLang = lang;
+        localStorage.setItem(LANG_KEY, lang);
+        document.documentElement.lang = lang;
+        const title = t('page_title');
+        if (title) document.title = title;
+        applyTranslations();
+        updateLangButtons(lang);
+        updateSkillsToggle();
+        updateFilterLabels();
+    });
 }
 
 function applyTranslations() {
@@ -265,15 +181,22 @@ function initTheme() {
 
 initTheme();
 
-function initLanguage() {
+async function initLanguage() {
+    currentLang = getSavedLang();
+    await loadLocale(currentLang);
     document.documentElement.lang = currentLang;
-    setLang(currentLang);
+    const title = t('page_title');
+    if (title) document.title = title;
+    applyTranslations();
+    updateLangButtons(currentLang);
+    updateSkillsToggle();
+    updateFilterLabels();
 
     document.querySelectorAll('.settings-lang-btn[data-lang]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            setLang(btn.dataset.lang);
-        });
+        btn.addEventListener('click', () => setLang(btn.dataset.lang));
     });
+
+    loadData();
 }
 
 initLanguage();
@@ -515,8 +438,6 @@ function initProjectCards() {
         });
     });
 }
-
-loadData();
 
 const projectsRow = document.querySelector('.projects-row');
 let isDragging = false;
