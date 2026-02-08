@@ -1,4 +1,3 @@
-/* ===== Variables ===== */
 :root {
     --bg: #0d0d0f;
     --bg-alt: #141418;
@@ -18,7 +17,6 @@
     --transition: 0.2s ease;
 }
 
-/* ===== Reset & Base ===== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -53,7 +51,6 @@ img {
     height: auto;
 }
 
-/* ===== Navigation ===== */
 .nav {
     position: fixed;
     top: 0;
@@ -109,7 +106,6 @@ img {
     background: var(--accent-hover);
 }
 
-/* Settings button */
 .nav-settings-btn {
     display: flex;
     align-items: center;
@@ -135,7 +131,6 @@ img {
     border-color: var(--accent);
 }
 
-/* Settings panel */
 .settings-panel {
     position: fixed;
     top: 0;
@@ -309,7 +304,6 @@ img {
     background: var(--text);
 }
 
-/* ===== Hero ===== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -466,7 +460,6 @@ img {
     50% { opacity: 1; }
 }
 
-/* ===== Sections ===== */
 .section {
     padding: 5rem 1.5rem;
 }
@@ -512,7 +505,6 @@ img {
     margin-bottom: 3rem;
 }
 
-/* ===== Projects ===== */
 .project-filters {
     display: flex;
     flex-direction: column;
@@ -614,6 +606,7 @@ img {
 .project-card {
     flex: 0 0 280px;
     min-width: 280px;
+    max-width: 280px;
     display: flex;
     flex-direction: column;
     background: var(--surface);
@@ -622,7 +615,7 @@ img {
     overflow: hidden;
     cursor: pointer;
     scroll-snap-align: start;
-    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), margin 0.4s ease, border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
+    transition: flex-basis 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), max-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s ease, border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
 }
 
 .project-card.hidden {
@@ -636,6 +629,7 @@ img {
 .project-card.expanded {
     flex: 0 0 520px;
     min-width: 520px;
+    max-width: 520px;
 }
 
 .project-preview {
@@ -799,7 +793,6 @@ img {
     text-decoration: underline;
 }
 
-/* ===== Skills ===== */
 .skills-toggle {
     flex-shrink: 0;
     padding: 0.5rem 1rem;
@@ -856,7 +849,6 @@ img {
     border-bottom: none;
 }
 
-/* ===== Experience ===== */
 .experience-list {
     display: flex;
     flex-direction: column;
@@ -910,7 +902,6 @@ img {
     color: var(--accent);
 }
 
-/* ===== About ===== */
 .about-content p {
     font-size: 1.05rem;
     color: var(--text-muted);
@@ -921,7 +912,6 @@ img {
     margin-bottom: 0;
 }
 
-/* ===== Contact ===== */
 .contact-links {
     display: flex;
     flex-wrap: wrap;
@@ -955,7 +945,6 @@ img {
     text-align: center;
 }
 
-/* ===== Footer ===== */
 .footer {
     padding: 2rem 1.5rem;
     border-top: 1px solid var(--border);
@@ -967,14 +956,16 @@ img {
     color: var(--text-muted);
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 900px) {
     .project-card {
         min-width: 240px;
+        max-width: 240px;
     }
 
     .project-card.expanded {
+        flex: 0 0 400px;
         min-width: 400px;
+        max-width: 400px;
     }
 }
 
@@ -982,12 +973,13 @@ img {
     .project-card {
         flex: 0 0 220px;
         min-width: 220px;
+        max-width: 220px;
     }
 
     .project-card.expanded {
-        flex: 0 0 calc(100vw - 2rem);
-        min-width: 0;
-        max-width: calc(100vw - 2rem);
+        flex: 0 0 min(520px, calc(100vw - 2rem));
+        min-width: min(520px, calc(100vw - 2rem));
+        max-width: min(520px, calc(100vw - 2rem));
     }
 }
 
@@ -1003,12 +995,13 @@ img {
     .project-card {
         flex: 0 0 180px;
         min-width: 180px;
+        max-width: 180px;
     }
 
     .project-card.expanded {
-        flex: 0 0 calc(100vw - 2rem);
-        min-width: 0;
-        max-width: calc(100vw - 2rem);
+        flex: 0 0 min(400px, calc(100vw - 2rem));
+        min-width: min(400px, calc(100vw - 2rem));
+        max-width: min(400px, calc(100vw - 2rem));
     }
 
     .projects-row {
