@@ -42,6 +42,8 @@ const TRANSLATIONS = {
         filter_aws: 'AWS',
         filter_liveops: 'LiveOps',
         filter_steam: 'Steam',
+        filter_more: 'Ещё',
+        filter_less: 'Свернуть',
         skills_show_all: 'Показать все навыки',
         skills_hide: 'Скрыть навыки',
         projects_error: 'Не удалось загрузить проекты.',
@@ -89,6 +91,8 @@ const TRANSLATIONS = {
         filter_aws: 'AWS',
         filter_liveops: 'LiveOps',
         filter_steam: 'Steam',
+        filter_more: 'More',
+        filter_less: 'Less',
         skills_show_all: 'Show all skills',
         skills_hide: 'Hide skills',
         projects_error: 'Failed to load projects.',
@@ -154,14 +158,30 @@ function updateSkillsToggle() {
     }
 }
 
+function initFilterMore() {
+    const moreBtn = document.querySelector('.filter-more-btn');
+    const extra = document.querySelector('.project-filters-extra');
+    if (!moreBtn || !extra) return;
+    moreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        extra.classList.toggle('is-open');
+        const isOpen = extra.classList.contains('is-open');
+        moreBtn.setAttribute('aria-expanded', isOpen);
+        updateFilterLabels();
+    });
+}
+
 function updateFilterLabels() {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         const tag = btn.dataset.tag;
         if (!tag) return;
         const key = 'filter_' + tag;
         const translated = t(key);
-        // Only override with translation when we have one (not the key used as fallback)
         if (translated !== key) btn.textContent = translated;
+    });
+    document.querySelectorAll('.filter-more-btn').forEach(btn => {
+        const extra = document.querySelector('.project-filters-extra');
+        btn.textContent = extra && extra.classList.contains('is-open') ? t('filter_less') : t('filter_more');
     });
 }
 
@@ -360,6 +380,7 @@ async function loadData() {
         const filtersContainer = document.querySelector('.project-filters');
         if (filtersContainer) {
             filtersContainer.innerHTML = buildFilters(filters);
+            initFilterMore();
             updateFilterLabels();
         }
 

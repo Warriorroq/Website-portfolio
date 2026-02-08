@@ -5,9 +5,24 @@ function escapeHtml(str) {
 }
 
 function buildFilters(filters) {
-    return (filters || []).map((f, i) =>
-        `<button class="filter-btn${i === 0 ? ' active' : ''}" data-tag="${escapeHtml(f.tag || '')}">${escapeHtml(f.label || f.tag || '')}</button>`
-    ).join('');
+    const list = filters || [];
+    const primary = list.filter(f => f.primary !== false && (f.primary === true || list.indexOf(f) < 7));
+    const rest = list
+        .filter(f => !primary.includes(f))
+        .sort((a, b) => (a.label || a.tag || '').localeCompare(b.label || b.tag || '', undefined, { sensitivity: 'base' }));
+
+    const btn = (f, active) =>
+        `<button class="filter-btn${active ? ' active' : ''}" data-tag="${escapeHtml(f.tag || '')}">${escapeHtml(f.label || f.tag || '')}</button>`;
+
+    const mainBtns = primary.map((f, i) => btn(f, i === 0)).join('');
+    const moreBtn = rest.length
+        ? `<button type="button" class="filter-more-btn" data-i18n="filter_more" aria-expanded="false"></button>`
+        : '';
+    const extraRow = rest.length
+        ? `<div class="project-filters-extra">${rest.map(f => btn(f, false)).join('')}</div>`
+        : '';
+
+    return `<div class="project-filters-main">${mainBtns}${moreBtn}</div>${extraRow}`;
 }
 
 function buildProjects(projects) {
