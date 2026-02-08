@@ -19,7 +19,7 @@ function buildFilters(filters) {
         ? `<button type="button" class="filter-more-btn" data-i18n="filter_more" aria-expanded="false"></button>`
         : '';
     const extraRow = rest.length
-        ? `<div class="project-filters-extra">${rest.map(f => btn(f, false)).join('')}</div>`
+        ? `<div class="project-filters-extra"><div class="project-filters-extra-inner">${rest.map(f => btn(f, false)).join('')}</div></div>`
         : '';
 
     return `<div class="project-filters-main">${mainBtns}${moreBtn}</div>${extraRow}`;

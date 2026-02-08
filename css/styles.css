@@ -528,13 +528,27 @@ img {
 }
 
 .project-filters-extra {
-    display: none;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 0.35s ease;
 }
 
 .project-filters-extra.is-open {
+    grid-template-rows: 1fr;
+}
+
+.project-filters-extra-inner {
+    min-height: 0;
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.project-filters-extra.is-open .project-filters-extra-inner {
+    opacity: 1;
 }
 
 .filter-more-btn {
