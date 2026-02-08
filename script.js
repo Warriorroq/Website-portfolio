@@ -1,6 +1,6 @@
 // i18n: locale loaded from locales/{lang}.json, no hardcoded strings in script
 const LANG_KEY = 'site-lang';
-const SUPPORTED_LANGS = ['en', 'ru'];
+const SUPPORTED_LANGS = ['en', 'ru', 'de', 'uk'];
 let translations = {};
 let currentLang = 'en';
 

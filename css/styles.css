@@ -229,13 +229,13 @@ img {
 }
 
 .settings-lang-btns {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .settings-lang-btn {
-    flex: 1;
     padding: 0.5rem 0.75rem;
     font-family: inherit;
     font-size: 0.9rem;
