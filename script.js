@@ -157,7 +157,11 @@ function updateSkillsToggle() {
 function updateFilterLabels() {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         const tag = btn.dataset.tag;
-        if (tag) btn.textContent = t('filter_' + tag) || btn.textContent;
+        if (!tag) return;
+        const key = 'filter_' + tag;
+        const translated = t(key);
+        // Only override with translation when we have one (not the key used as fallback)
+        if (translated !== key) btn.textContent = translated;
     });
 }
 
@@ -493,7 +497,6 @@ function initProjectCards() {
 
 loadData();
 
-// Projects row drag-to-scroll
 const projectsRow = document.querySelector('.projects-row');
 let isDragging = false;
 let hasDragged = false;
@@ -501,6 +504,14 @@ let startX = 0;
 let scrollLeft = 0;
 
 if (projectsRow) {
+    // Mouse wheel horizontal scroll (when hovering over projects)
+    projectsRow.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+            e.preventDefault();
+            projectsRow.scrollLeft += e.deltaY;
+        }
+    }, { passive: false });
+
     projectsRow.addEventListener('mousedown', (e) => {
         if (e.target.closest('a')) return;
         isDragging = true;
