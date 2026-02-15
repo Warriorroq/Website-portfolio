@@ -99,6 +99,28 @@ function updateFilterLabels() {
         const extra = document.querySelector('.project-filters-extra');
         btn.textContent = extra && extra.classList.contains('is-open') ? t('filter_less') : t('filter_more');
     });
+    updatePetProjectsBtn();
+}
+
+function updatePetProjectsBtn() {
+    const btn = document.querySelector('.projects-pet-btn');
+    const extra = document.getElementById('projects-pet-extra');
+    if (!btn || !extra) return;
+    const isOpen = extra.classList.contains('is-open');
+    btn.textContent = isOpen ? t('projects_pet_hide') : t('projects_pet_projects');
+    btn.setAttribute('aria-expanded', isOpen);
+    extra.setAttribute('aria-hidden', !isOpen);
+}
+
+function initPetProjectsToggle() {
+    const btn = document.querySelector('.projects-pet-btn');
+    const extra = document.getElementById('projects-pet-extra');
+    if (!btn || !extra) return;
+    btn.addEventListener('click', () => {
+        extra.classList.toggle('is-open');
+        updatePetProjectsBtn();
+    });
+    updatePetProjectsBtn();
 }
 
 const THEME_KEY = 'site-theme';
@@ -305,6 +327,7 @@ async function loadData() {
         const experienceData = await experienceRes.json();
         const skillsData = await skillsRes.json();
         const projects = projectsData.projects || [];
+        const petProjects = projectsData.petProjects || [];
         const filters = projectsData.filters || [];
         const experience = experienceData.experience || [];
         const skills = skillsData.skills || [];
@@ -318,8 +341,28 @@ async function loadData() {
 
         if (projectsRow) {
             projectsRow.innerHTML = buildProjects(projects);
-            initProjectCards();
         }
+
+        const petWrap = document.getElementById('projects-pet-wrap');
+        const petExtra = document.getElementById('projects-pet-extra');
+        const petRow = document.querySelector('.projects-pet-row');
+        if (petWrap && petExtra && petRow) {
+            petWrap.hidden = false;
+            if (petProjects.length === 0) {
+                const emptyEl = document.createElement('p');
+                emptyEl.className = 'projects-pet-empty';
+                emptyEl.setAttribute('data-i18n', 'projects_pet_empty');
+                emptyEl.textContent = t('projects_pet_empty');
+                petRow.innerHTML = '';
+                petRow.appendChild(emptyEl);
+            } else {
+                petRow.innerHTML = buildProjects(petProjects);
+            }
+            initPetProjectsToggle();
+        }
+
+        initProjectCards();
+        initProjectsRowsScroll();
 
         if (skillsGrid) {
             skillsGrid.innerHTML = buildSkills(skills);
@@ -505,43 +548,47 @@ function initProjectCards() {
     });
 }
 
-const projectsRow = document.querySelector('.projects-row');
 let isDragging = false;
 let hasDragged = false;
 let startX = 0;
 let scrollLeft = 0;
+let activeProjectsRow = null;
 
-if (projectsRow) {
-    projectsRow.addEventListener('wheel', (e) => {
-        if (e.deltaY !== 0) {
-            e.preventDefault();
-            projectsRow.scrollLeft += e.deltaY;
-        }
-    }, { passive: false });
+function initProjectsRowsScroll() {
+    document.querySelectorAll('.projects-row').forEach(projectsRow => {
+        projectsRow.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0) {
+                e.preventDefault();
+                projectsRow.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
 
-    projectsRow.addEventListener('mousedown', (e) => {
-        if (e.target.closest('a')) return;
-        isDragging = true;
-        hasDragged = false;
-        startX = e.pageX;
-        scrollLeft = projectsRow.scrollLeft;
-        projectsRow.style.cursor = 'grabbing';
-        projectsRow.style.userSelect = 'none';
+        projectsRow.addEventListener('mousedown', (e) => {
+            if (e.target.closest('a')) return;
+            isDragging = true;
+            hasDragged = false;
+            activeProjectsRow = projectsRow;
+            startX = e.pageX;
+            scrollLeft = projectsRow.scrollLeft;
+            projectsRow.style.cursor = 'grabbing';
+            projectsRow.style.userSelect = 'none';
+        });
     });
 
-    projectsRow.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging || !activeProjectsRow) return;
         e.preventDefault();
         const walk = (e.pageX - startX) * 1.2;
-        projectsRow.scrollLeft = scrollLeft - walk;
+        activeProjectsRow.scrollLeft = scrollLeft - walk;
         if (Math.abs(walk) > 5) hasDragged = true;
     });
 
     document.addEventListener('mouseup', () => {
-        if (isDragging && projectsRow) {
+        if (isDragging && activeProjectsRow) {
+            activeProjectsRow.style.cursor = 'grab';
+            activeProjectsRow.style.userSelect = '';
+            activeProjectsRow = null;
             isDragging = false;
-            projectsRow.style.cursor = 'grab';
-            projectsRow.style.userSelect = '';
             setTimeout(() => { hasDragged = false; }, 50);
         }
     });

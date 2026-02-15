@@ -1,4 +1,5 @@
 {
+  "petProjects": [],
   "filters": [
     { "tag": "all", "label": "All", "primary": true },
     { "tag": "mobile", "label": "Mobile", "primary": true },
