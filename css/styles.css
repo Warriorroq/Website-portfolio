@@ -661,19 +661,7 @@ img {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url("../images/bg.png?v=1");
-    background-size: cover;
-    background-position: center;
-}
-
-.project-media-slides::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--slides-bg-tint);
-    mix-blend-mode: multiply;
-    pointer-events: none;
-    z-index: 0;
+    background: var(--bg-alt);
 }
 
 .project-media-slide {
