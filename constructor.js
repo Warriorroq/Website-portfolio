@@ -28,9 +28,14 @@ function buildFilters(filters) {
 function buildProjects(projects) {
     return (projects || []).map(p => {
         const tagsStr = (p.tags || []).join(' ');
-        const slidesHtml = (p.slides || []).map((s, i) =>
-            `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`
-        ).join('');
+        const slidesHtml = (p.slides || []).map((s, i) => {
+            const imgUrl = s.url || s.src || (typeof s.label === 'string' && /^https?:\/\//i.test(s.label) ? s.label : null);
+            const alt = (s.label && !/^https?:\/\//i.test(s.label)) ? s.label : (p.title || 'Project image');
+            if (imgUrl) {
+                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(alt)}" loading="lazy"></div>`;
+            }
+            return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`;
+        }).join('');
         const techHtml = (p.tech || []).map(t => `<li>${escapeHtml(t)}</li>`).join('');
         const achievementsHtml = (p.achievements || []).map(a => `<li>${escapeHtml(a)}</li>`).join('');
         const linksHtml = (p.links || []).map(l => `<a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.label || '')}</a>`).join('');

@@ -13,84 +13,74 @@
     { "tag": "aws-lambda", "label": "AWS Lambda" },
     { "tag": "dynamodb", "label": "DynamoDB" },
     { "tag": "gameplay", "label": "Gameplay Systems" },
-    { "tag": "prototyping", "label": "Prototyping" },
     { "tag": "social", "label": "Social Features" },
     { "tag": "tooling", "label": "Internal Tools" },
-    { "tag": "performance", "label": "Performance" },
     { "tag": "optimization", "label": "Optimization" },
-    { "tag": "realtime", "label": "Real-time" },
     { "tag": "netcode", "label": "Netcode" },
     { "tag": "facepunch", "label": "Facepunch Transport" },
     { "tag": "zenject", "label": "Zenject" },
-    { "tag": "dots", "label": "DOTS" },
     { "tag": "shadergraph", "label": "Shader Graph" },
     { "tag": "hlsl", "label": "HLSL" },
-    { "tag": "numpy", "label": "NumPy" },
-    { "tag": "pytorch", "label": "PyTorch" },
-    { "tag": "dotnet", "label": ".NET" }
+    { "tag": "external-sdk", "label": "External SDKs" },
+    { "tag": "analytics", "label": "Analytics" },
+    { "tag": "algorithms", "label": "Algorithms" },
+    { "tag": "math", "label": "Math" }
   ],
   "projects": [
     {
       "title": "Moon Match",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp"],
-      "tech": ["Unity", "C#"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "shadergraph", "tooling", "external-sdk", "analytics"],
+      "tech": ["Unity", "C#", "Mobile"],
       "achievements": [
-        "Core gameplay systems",
-        "Live updates support",
-        "Shipped to production"
+        "Implemented core match-3 gameplay mechanics and developed all major game systems."
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/zDeKacXqRgGRP5Wxf_nv7RIxIScbtLwUag9ua-35s2z65ilY93BndlxsA6oerDEX5wp_62qiISwncQ-D5fGNBQ=w526-h296-rw" },
+        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/sAgiN40Jvbftqy_OBxuF64j1tcL9dWXpNXJa3lDSE8FfTvBHPMjc7GY0KxZHTYArp-loZgyzGs5MQNFL74TODA=w2560-h1440-rw" }
       ],
       "links": [
-        { "label": "Google Play", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcointilematch" }
       ]
     },
     {
-      "title": "Bitcoin Bubble Merge",
+      "title": "Bubble Merge",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws"],
-      "tech": ["Unity", "C#", "AWS"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
+      "tech": ["Unity", "C#", "Mobile"],
       "achievements": [
-        "Gameplay mechanics",
-        "Backend integration",
-        "Shipped to production"
+        "Developed the core gameplay features and supported the project from prototyping to release.",
+        "Created tools to speed up level creation."
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/BtvodYYa2G9VfWaqF0tlLosXuyDKQf-Sme9jEQWDQuR6oLm88FjrZ4suzNO16-NN1aw=w526-h296-rw" },
+        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/d1Ze4rJK7W9GUkemHsUSYSdkDZh_igu0VWM1x1SEEi60TGY_xCp2fO01yND-8YJpoIQr=w526-h296-rw" },
+        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/rPLjqyyth40hvDcv-SLMtYj3zyy81MHcPy2ZBQeNdwfBLObgi_IxLVx2MZSjKwd5lgI=w526-h296-rw" }
       ],
       "links": [
-        { "label": "Store", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcoinbubblemerge" }
       ]
     },
     {
       "title": "Bitcoin Bus Jam",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws"],
-      "tech": ["Unity", "C#", "AWS"],
+      "tags": ["mobile", "unity", "csharp", "aws", "algorithms", "gameplay", "zenject", "prototyping", "tooling", "external-sdk", "analytics", "external-sdk", "optimization", "tooling", "aws-lambda", "rds", "s3", "route53", "social", "hlsl", "shadergraph"],
+      "tech": ["Unity", "C#", "Mobile", "AWS"],
       "achievements": [
-        "Gameplay mechanics",
-        "Backend integration",
-        "Shipped to production"
+        "Developed the core gameplay features and supported the project from prototyping to release.",
+        "Implemented procedural jiggle algorithm for gameplay",
+        "Developed a social features in game (leaderboards, achievements, friends, banning, etc.)",
+        "Created a tool to generate random levels and manage social features of the game"
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/I0THTGHRwWt1vDvtROHIHk4Qm9EtZBizIEBwCa5VClAjZySb9ycODepUqyoDnJR2MSI=w526-h296-rw" },
+        { "label": "Screenshot 2" , "url": "https://play-lh.googleusercontent.com/FRwNZaorT17kxAsk31D6er6uk7H_CB4tO3T2ofuT2aEZajx5Y9wwef6bcPYs7BKz7Vk=w526-h296-rw" }
       ],
       "links": [
-        { "label": "Store", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.buspuzzlegame" }
       ]
     },
     {
