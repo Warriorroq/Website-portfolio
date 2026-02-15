@@ -32,7 +32,7 @@ function buildProjects(projects) {
             const imgUrl = s.url || s.src || (typeof s.label === 'string' && /^https?:\/\//i.test(s.label) ? s.label : null);
             const alt = (s.label && !/^https?:\/\//i.test(s.label)) ? s.label : (p.title || 'Project image');
             if (imgUrl) {
-                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(alt)}" loading="lazy"></div>`;
+                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(alt)}" loading="lazy" referrerpolicy="no-referrer"></div>`;
             }
             return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`;
         }).join('');
