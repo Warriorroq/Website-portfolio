@@ -674,6 +674,19 @@ img {
     align-items: center;
     justify-content: center;
     z-index: 1;
+    background-image: url("../images/bg.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.project-media-slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--surface) 0%, transparent 40%, var(--bg-alt) 100%);
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .project-media-slide .project-placeholder {
