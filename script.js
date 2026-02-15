@@ -199,7 +199,6 @@ async function initLanguage() {
 
 initLanguage();
 
-// Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
@@ -209,7 +208,6 @@ if (navToggle && navMenu) {
         navToggle.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -219,7 +217,6 @@ if (navToggle && navMenu) {
     });
 }
 
-// Navbar background on scroll
 const nav = document.querySelector('.nav');
 
 function updateNavBackground() {
@@ -233,7 +230,6 @@ function updateNavBackground() {
 window.addEventListener('scroll', updateNavBackground);
 updateNavBackground();
 
-// Smooth scroll for anchor links (fallback for older browsers)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
@@ -250,7 +246,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Intersection Observer for scroll animations (optional)
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -264,7 +259,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Add visible class styles via JS
 const style = document.createElement('style');
 style.textContent = `
     .project-card.visible,
@@ -276,7 +270,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Load projects, experience and skills from JSON
 async function loadData() {
     const projectsRow = document.querySelector('.projects-row');
     const experienceList = document.querySelector('.experience-list');
@@ -312,10 +305,7 @@ async function loadData() {
         if (skillsGrid) {
             skillsGrid.innerHTML = buildSkills(skills);
             initSkillsItems();
-            const totalItems = skills.reduce((n, cat) => n + (cat.items?.length || 0), 0);
-            if (totalItems >= 10) {
-                initSkillsCollapse(skillsGrid);
-            }
+            initSkillsCollapse(skillsGrid);
             updateSkillsToggle();
         }
 
@@ -419,7 +409,6 @@ function initProjectCards() {
         observer.observe(el);
     });
 
-    // Project filter by tags
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -434,7 +423,6 @@ function initProjectCards() {
         });
     });
 
-    // Project expand on click
     projectCards.forEach(card => {
         card.addEventListener('click', (e) => {
             if (e.target.closest('a')) return;
@@ -468,7 +456,6 @@ function initProjectCards() {
         });
     });
 
-    // Обновлять «выдвижение» при загрузке картинок/видео и для начального активного слайда
     projectCards.forEach(card => {
         card.querySelectorAll('.project-media-slide').forEach(slide => {
             const img = slide.querySelector('img');
@@ -506,7 +493,6 @@ let startX = 0;
 let scrollLeft = 0;
 
 if (projectsRow) {
-    // Mouse wheel horizontal scroll (when hovering over projects)
     projectsRow.addEventListener('wheel', (e) => {
         if (e.deltaY !== 0) {
             e.preventDefault();
