@@ -1,4 +1,3 @@
-// i18n: locale loaded from locales/{lang}.json, no hardcoded strings in script
 const LANG_KEY = 'site-lang';
 const SUPPORTED_LANGS = ['en', 'ru', 'de', 'uk'];
 let translations = {};
@@ -101,7 +100,6 @@ function updateFilterLabels() {
     });
 }
 
-// Theme switcher
 const THEME_KEY = 'site-theme';
 const THEMES = ['dark', 'light', 'nord', 'forest', 'monokai', 'dracula', 'gruvbox', 'tokyo', 'catppuccin', 'solarized', 'rose', 'onedark', 'ocean', 'sunset', 'cyber'];
 
@@ -299,7 +297,6 @@ async function loadData() {
         const experience = experienceData.experience || [];
         const skills = skillsData.skills || [];
 
-        // Render filters
         const filtersContainer = document.querySelector('.project-filters');
         if (filtersContainer) {
             filtersContainer.innerHTML = buildFilters(filters);
@@ -307,13 +304,11 @@ async function loadData() {
             updateFilterLabels();
         }
 
-        // Render projects
         if (projectsRow) {
             projectsRow.innerHTML = buildProjects(projects);
             initProjectCards();
         }
 
-        // Render skills
         if (skillsGrid) {
             skillsGrid.innerHTML = buildSkills(skills);
             initSkillsItems();
@@ -324,7 +319,6 @@ async function loadData() {
             updateSkillsToggle();
         }
 
-        // Render experience
         if (experienceList) {
             experienceList.innerHTML = buildExperience(experience);
             initExperienceItems();
@@ -381,6 +375,31 @@ function initExperienceItems() {
     });
 }
 
+const CONTAINER_ASPECT = 16 / 9;
+const ASPECT_SIMILAR_THRESHOLD = 0.18; // ~18% — если пропорции в пределах, считаем «схоже с 16:9»
+
+function updateSlidePopsOut(slide) {
+    if (!slide) return;
+    const img = slide.querySelector('img');
+    if (!img) {
+        slide.classList.remove('slide-pops-out');
+        return;
+    }
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+    if (!w || !h) {
+        slide.classList.remove('slide-pops-out');
+        return;
+    }
+    const aspect = w / h;
+    const diff = Math.abs(aspect - CONTAINER_ASPECT) / CONTAINER_ASPECT;
+    if (diff <= ASPECT_SIMILAR_THRESHOLD) {
+        slide.classList.remove('slide-pops-out');
+    } else {
+        slide.classList.add('slide-pops-out');
+    }
+}
+
 function initProjectCards() {
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -419,14 +438,32 @@ function initProjectCards() {
                     active?.classList.remove('active');
                     const next = active?.nextElementSibling || slides[0];
                     next.classList.add('active');
+                    updateSlidePopsOut(next);
                 }
                 e.stopPropagation();
                 return;
             }
             const wasExpanded = card.classList.contains('expanded');
             projectCards.forEach(c => c.classList.remove('expanded'));
-            if (!wasExpanded) card.classList.add('expanded');
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                const activeSlide = card.querySelector('.project-media-slide.active');
+                if (activeSlide) updateSlidePopsOut(activeSlide);
+            }
         });
+    });
+
+    // Обновлять «выдвижение» при загрузке картинок и для начального активного слайда
+    projectCards.forEach(card => {
+        card.querySelectorAll('.project-media-slide').forEach(slide => {
+            const img = slide.querySelector('img');
+            if (img) {
+                img.addEventListener('load', () => updateSlidePopsOut(slide));
+                if (img.complete) updateSlidePopsOut(slide);
+            }
+        });
+        const initialActive = card.querySelector('.project-media-slide.active');
+        if (initialActive) updateSlidePopsOut(initialActive);
     });
 
     projectCards.forEach(card => {

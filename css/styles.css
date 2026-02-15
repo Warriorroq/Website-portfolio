@@ -10,6 +10,7 @@
     --success: #22c55e;
     --nav-bg: rgba(13, 13, 15, 0.9);
     --hero-glow: rgba(99, 102, 241, 0.15);
+    --slides-bg-tint: rgba(20, 20, 24, 0.6);
     --font-sans: 'Outfit', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     --radius: 8px;
@@ -660,6 +661,19 @@ img {
     position: relative;
     width: 100%;
     height: 100%;
+    background-image: url("../images/bg.png?v=1");
+    background-size: cover;
+    background-position: center;
+}
+
+.project-media-slides::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--slides-bg-tint);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .project-media-slide {
@@ -671,6 +685,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .project-media-slide .project-placeholder {
@@ -685,15 +700,25 @@ img {
     height: auto;
     object-fit: contain;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+}
+
+.project-card.expanded .project-media-slide.active.slide-pops-out img {
+    transform: scale(1.15);
+    z-index: 2;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
 .project-media-slide.active {
     opacity: 1;
     pointer-events: auto;
+    z-index: 1;
 }
 
 .project-card.expanded .project-media {
     cursor: pointer;
+    overflow: visible;
 }
 
 .project-media-hint {
