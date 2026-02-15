@@ -87,42 +87,35 @@
       "title": "Crypto Crawler",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws"],
-      "tech": ["Unity", "C#", "AWS"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
+      "tech": ["Unity", "C#"],
       "achievements": [
-        "In-game social features",
-        "Internal tooling",
-        "Ongoing live updates"
+        ""
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/9Ozxz54PLXy2P6YrvKF3rc-cYgFq_AE6k_3mNfQ9urJM1zdNVn7AAK598a-OBvOendw=w2560-h1440-rw" },
+        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/u6qcKeZEPjhME513QWqRNmUPwwdZuPIavF5cTd_WWqIkzDZe1EojJ_rI6xdjooeGmon5=w526-h296-rw" }
       ],
       "links": [
-        { "label": "Store", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.cryptocrawler" }
       ]
     },
     {
       "title": "Boe Wings",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws"],
-      "tech": ["Unity", "C#", "AWS"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "external-sdk", "analytics"],
+      "tech": ["Unity", "C#"],
       "achievements": [
-        "In-game social features",
-        "Internal tooling",
-        "Ongoing live updates"
+
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/VmnAMQ92eKjts0MRfsdJa9h77CbiPjrsJnQ-3rqCIRS0aiEv4wKdRCvbKtnwRwQZ4s8=w526-h296-rw" },
+        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/2wO43NRY8ZU1uLsQ4_veb6L4IzudeKQgOsD1G63ykvi-KjZKOr1whhDmuWOVsqHDCA=w526-h296-rw" },
+        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/09krBIzFSQJGzrBxMZyI1HvqU8vnQBHEOvwef_bvbGhvg26Afls8hEspbwRCa7S7YIA=w526-h296-rw" }
       ],
       "links": [
-        { "label": "Store", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.RoamerGames.CryptoJet&pcampaignid=web_share" }
       ]
     },
     {
@@ -132,18 +125,14 @@
       "tags": ["pc", "unity", "csharp", "steam"],
       "tech": ["Unity", "C#", "Steam API"],
       "achievements": [
-        "Gameplay systems",
-        "Polishing & QA",
-        "Steam release"
+
       ],
       "slides": [
         { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 2" }
       ],
       "links": [
-        { "label": "Steam", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Steam", "url": "#" }
       ]
     },
     {
@@ -153,18 +142,14 @@
       "tags": ["pc", "unity", "csharp", "steam"],
       "tech": ["Unity", "C#", "Steam API"],
       "achievements": [
-        "Gameplay systems",
-        "Polishing & QA",
-        "Steam release"
+
       ],
       "slides": [
         { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" },
-        { "label": "Gameplay" }
+        { "label": "Screenshot 2" }
       ],
       "links": [
-        { "label": "Steam", "url": "#" },
-        { "label": "Video", "url": "#" }
+        { "label": "Steam", "url": "#" }
       ]
     }
   ]
