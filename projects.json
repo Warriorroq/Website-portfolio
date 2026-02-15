@@ -92,7 +92,7 @@
       "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
       "tech": ["Unity", "C#"],
       "achievements": [
-        ""
+
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/9Ozxz54PLXy2P6YrvKF3rc-cYgFq_AE6k_3mNfQ9urJM1zdNVn7AAK598a-OBvOendw=w2560-h1440-rw" },
@@ -127,7 +127,7 @@
       "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
       "tech": ["Unity", "C#"],
       "achievements": [
-
+        ""
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/CL4Zvi7MwjPYPPb9V5h64T6bFTS6ru3_I-Tnq_yFb1KjirvMnJffBldqiToKbMXszI7Dg0r9SiLE8VNn8DptlUc=w526-h296-rw" },
@@ -148,11 +148,11 @@
 
       ],
       "slides": [
-        { "label": "Screenshot 1", "url":"" },
-        { "label": "Screenshot 2", "url":"" }
+        { "label": "Screenshot 1", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/fb1d483d337c3b5918e47552e3f03de158a01589/header_alt_assets_2.jpg?t=1769684777" },
+        { "label": "Screenshot 2", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/b079ce5b6f5fccc8411453913e19f6dee4d73acf/ss_b079ce5b6f5fccc8411453913e19f6dee4d73acf.1920x1080.jpg?t=1769684777" }
       ],
       "links": [
-        { "label": "Steam", "url": "#" }
+        { "label": "Steam", "url": "https://store.steampowered.com/app/1812860/Dice_Gambit" }
       ]
     },
     {

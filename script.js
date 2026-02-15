@@ -376,7 +376,7 @@ function initExperienceItems() {
 }
 
 const CONTAINER_ASPECT = 16 / 9;
-const ASPECT_SIMILAR_THRESHOLD = 0.18; // ~18% — если пропорции в пределах, считаем «схоже с 16:9»
+const ASPECT_SIMILAR_THRESHOLD = 0.18;
 
 function updateSlidePopsOut(slide) {
     if (!slide) return;
@@ -384,29 +384,34 @@ function updateSlidePopsOut(slide) {
     const video = slide.querySelector('video');
     const media = img || video;
     if (!media) {
-        slide.classList.remove('slide-pops-out');
+        slide.classList.remove('slide-pops-out', 'slide-cover');
         return;
     }
     const w = img ? img.naturalWidth : (video.videoWidth || 0);
     const h = img ? img.naturalHeight : (video.videoHeight || 0);
     if (!w || !h) {
-        slide.classList.remove('slide-pops-out');
+        slide.classList.remove('slide-pops-out', 'slide-cover');
         if (video) video.addEventListener('loadedmetadata', () => updateSlidePopsOut(slide), { once: true });
         return;
     }
     const aspect = w / h;
     const diff = Math.abs(aspect - CONTAINER_ASPECT) / CONTAINER_ASPECT;
-    if (diff <= ASPECT_SIMILAR_THRESHOLD) {
+    const shouldPopOut = diff > ASPECT_SIMILAR_THRESHOLD && h > w;
+    const shouldCover = w > h;
+    if (shouldPopOut) {
+        slide.classList.add('slide-pops-out');
+        slide.classList.remove('slide-cover');
+    } else if (shouldCover) {
+        slide.classList.add('slide-cover');
         slide.classList.remove('slide-pops-out');
     } else {
-        slide.classList.add('slide-pops-out');
+        slide.classList.remove('slide-pops-out', 'slide-cover');
     }
 }
 
 function initProjectCards() {
     const projectCards = document.querySelectorAll('.project-card');
 
-    // Observe project cards for scroll animation
     projectCards.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
