@@ -11,7 +11,6 @@
     { "tag": "s3", "label": "S3" },
     { "tag": "route53", "label": "Route53" },
     { "tag": "aws-lambda", "label": "AWS Lambda" },
-    { "tag": "dynamodb", "label": "DynamoDB" },
     { "tag": "gameplay", "label": "Gameplay Systems" },
     { "tag": "social", "label": "Social Features" },
     { "tag": "tooling", "label": "Internal Tools" },
@@ -52,7 +51,7 @@
       "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
       "tech": ["Unity", "C#", "Mobile"],
       "achievements": [
-        "Developed the core gameplay features and supported the project from prototyping to release.",
+        "Developed the core gameplay mechanics and supported the project from prototyping to release.",
         "Created tools to speed up level creation."
       ],
       "slides": [
@@ -68,13 +67,13 @@
       "title": "Bus Jam",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws", "algorithms", "gameplay", "zenject", "prototyping", "tooling", "external-sdk", "analytics", "external-sdk", "optimization", "tooling", "aws-lambda", "rds", "s3", "route53", "social", "hlsl", "shadergraph"],
+      "tags": ["mobile", "unity", "csharp", "aws", "algorithms", "gameplay", "zenject", "prototyping", "tooling", "external-sdk", "analytics", "external-sdk", "optimization", "tooling", "aws-lambda", "rds", "s3", "route53", "social", "hlsl", "shadergraph", "math"],
       "tech": ["Unity", "C#", "Mobile", "AWS"],
       "achievements": [
         "Developed the core gameplay features and supported the project from prototyping to release.",
         "Implemented procedural jiggle algorithm for gameplay",
         "Developed a social features in game (leaderboards, achievements, friends, banning, etc.)",
-        "Created a tool to generate random levels and manage social features of the game"
+        "Created a tools to generate random levels and manage social features of the game"
       ],
       "slides": [
         { "label": "Screenshot 0", "url": "https://play-lh.googleusercontent.com/DYFrMM_r_fzXnybx0DIQRk8dDLoh081gIc-Vvy3wJ9mDYvMLKt-h1PJcsZAb91XTvAg=w2560-h1440-rw" },
@@ -92,7 +91,7 @@
       "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
       "tech": ["Unity", "C#"],
       "achievements": [
-
+        "Resolved critical bugs and actively contributed to ongoing updates since 2025"
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/9Ozxz54PLXy2P6YrvKF3rc-cYgFq_AE6k_3mNfQ9urJM1zdNVn7AAK598a-OBvOendw=w2560-h1440-rw" },
@@ -106,10 +105,10 @@
       "title": "Boe Wings",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "external-sdk", "analytics"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "external-sdk", "analytics", "tooling"],
       "tech": ["Unity", "C#"],
       "achievements": [
-
+        "Resolved critical bugs and actively contributed to ongoing updates since 2025"
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/HB0E0_YCNLdqAYrO4PgVUHBunZd5Pfsqrz7EGpWuWveM6LP2oJcUX6kVusSroFdYRw=w526-h296-rw" },
@@ -124,10 +123,11 @@
       "title": "Bubble Shooter - Neneko Pop",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "shadergraph", "hlsl", "tooling", "external-sdk", "analytics", "optimization", "algorithms"],
       "tech": ["Unity", "C#"],
       "achievements": [
-        ""
+        "Developed the core gameplay mechanics and supported the project from prototyping to release.",
+        "Created tools to speed up level creation."
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/CL4Zvi7MwjPYPPb9V5h64T6bFTS6ru3_I-Tnq_yFb1KjirvMnJffBldqiToKbMXszI7Dg0r9SiLE8VNn8DptlUc=w526-h296-rw" },
@@ -145,7 +145,7 @@
       "tags": ["pc", "unity", "csharp", "steam"],
       "tech": ["Unity", "C#", "Steam API"],
       "achievements": [
-
+        "Contributed to gameplay system polishing and participated in playtesting to help improve the overall player experience."
       ],
       "slides": [
         { "label": "Screenshot 1", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/fb1d483d337c3b5918e47552e3f03de158a01589/header_alt_assets_2.jpg?t=1769684777" },
@@ -162,7 +162,7 @@
       "tags": ["pc", "unity", "csharp", "steam"],
       "tech": ["Unity", "C#", "Steam API"],
       "achievements": [
-
+        "Contributed to gameplay system polishing and participated in early playtesting to help improve the overall player experience."
       ],
       "slides": [
         { "label": "Screenshot 0", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/a2e8715c4161428e3efd252dc75f0ce06f7688cc/header.jpg?t=1766772869" },
