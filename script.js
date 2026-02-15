@@ -381,14 +381,17 @@ const ASPECT_SIMILAR_THRESHOLD = 0.18; // ~18% — если пропорции �
 function updateSlidePopsOut(slide) {
     if (!slide) return;
     const img = slide.querySelector('img');
-    if (!img) {
+    const video = slide.querySelector('video');
+    const media = img || video;
+    if (!media) {
         slide.classList.remove('slide-pops-out');
         return;
     }
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
+    const w = img ? img.naturalWidth : (video.videoWidth || 0);
+    const h = img ? img.naturalHeight : (video.videoHeight || 0);
     if (!w || !h) {
         slide.classList.remove('slide-pops-out');
+        if (video) video.addEventListener('loadedmetadata', () => updateSlidePopsOut(slide), { once: true });
         return;
     }
     const aspect = w / h;
@@ -435,9 +438,11 @@ function initProjectCards() {
                 const slides = card.querySelectorAll('.project-media-slide');
                 const active = card.querySelector('.project-media-slide.active');
                 if (slides.length > 1) {
+                    active?.querySelector('video')?.pause();
                     active?.classList.remove('active');
                     const next = active?.nextElementSibling || slides[0];
                     next.classList.add('active');
+                    next.querySelector('video')?.play().catch(() => {});
                     updateSlidePopsOut(next);
                 }
                 e.stopPropagation();
@@ -448,22 +453,35 @@ function initProjectCards() {
             if (!wasExpanded) {
                 card.classList.add('expanded');
                 const activeSlide = card.querySelector('.project-media-slide.active');
-                if (activeSlide) updateSlidePopsOut(activeSlide);
+                if (activeSlide) {
+                    updateSlidePopsOut(activeSlide);
+                    activeSlide.querySelector('video')?.play().catch(() => {});
+                }
+            } else {
+                card.querySelector('.project-media-slide.active video')?.pause();
             }
         });
     });
 
-    // Обновлять «выдвижение» при загрузке картинок и для начального активного слайда
+    // Обновлять «выдвижение» при загрузке картинок/видео и для начального активного слайда
     projectCards.forEach(card => {
         card.querySelectorAll('.project-media-slide').forEach(slide => {
             const img = slide.querySelector('img');
+            const video = slide.querySelector('video');
             if (img) {
                 img.addEventListener('load', () => updateSlidePopsOut(slide));
                 if (img.complete) updateSlidePopsOut(slide);
             }
+            if (video) {
+                video.addEventListener('loadedmetadata', () => updateSlidePopsOut(slide));
+                if (video.readyState >= 1) updateSlidePopsOut(slide);
+            }
         });
         const initialActive = card.querySelector('.project-media-slide.active');
-        if (initialActive) updateSlidePopsOut(initialActive);
+        if (initialActive) {
+            updateSlidePopsOut(initialActive);
+            initialActive.querySelector('video')?.play().catch(() => {});
+        }
     });
 
     projectCards.forEach(card => {

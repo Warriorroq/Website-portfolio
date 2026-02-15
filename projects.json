@@ -148,8 +148,8 @@
 
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" }
+        { "label": "Screenshot 1", "url":"" },
+        { "label": "Screenshot 2", "url":"" }
       ],
       "links": [
         { "label": "Steam", "url": "#" }
@@ -165,11 +165,12 @@
 
       ],
       "slides": [
-        { "label": "Screenshot 1" },
-        { "label": "Screenshot 2" }
+        { "label": "Screenshot 0", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/a2e8715c4161428e3efd252dc75f0ce06f7688cc/header.jpg?t=1766772869" },
+        { "label": "Screenshot 1", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/14be074f5823883f21b2ecb7e4ea2bbeaee8057c/ss_14be074f5823883f21b2ecb7e4ea2bbeaee8057c.1920x1080.jpg?t=1766772869" },
+        { "label": "Screenshot 2", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/1dcf27d0e9768800ce7f686b590ba85697e6a3db/ss_1dcf27d0e9768800ce7f686b590ba85697e6a3db.1920x1080.jpg?t=1766772869" }
       ],
       "links": [
-        { "label": "Steam", "url": "#" }
+        { "label": "Steam", "url": "https://store.steampowered.com/app/4003010/FLOSS" }
       ]
     }
   ]

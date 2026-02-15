@@ -29,10 +29,14 @@ function buildProjects(projects) {
     return (projects || []).map(p => {
         const tagsStr = (p.tags || []).join(' ');
         const slidesHtml = (p.slides || []).map((s, i) => {
-            const imgUrl = s.url || s.src || (typeof s.label === 'string' && /^https?:\/\//i.test(s.label) ? s.label : null);
-            const alt = (s.label && !/^https?:\/\//i.test(s.label)) ? s.label : (p.title || 'Project image');
-            if (imgUrl) {
-                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(alt)}" loading="lazy" referrerpolicy="no-referrer"></div>`;
+            const mediaUrl = s.url || s.src || (typeof s.label === 'string' && /^https?:\/\//i.test(s.label) ? s.label : null);
+            const alt = (s.label && !/^https?:\/\//i.test(s.label)) ? s.label : (p.title || 'Project media');
+            const isVideo = s.type === 'video' || (mediaUrl && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(mediaUrl));
+            if (mediaUrl && isVideo) {
+                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><video src="${escapeHtml(mediaUrl)}" title="${escapeHtml(alt)}" loop muted playsinline preload="metadata"></video></div>`;
+            }
+            if (mediaUrl) {
+                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><img src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(alt)}" loading="lazy" referrerpolicy="no-referrer"></div>`;
             }
             return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`;
         }).join('');

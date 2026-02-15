@@ -704,7 +704,8 @@ img {
     height: 100%;
 }
 
-.project-media-slide img {
+.project-media-slide img,
+.project-media-slide video {
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -715,7 +716,8 @@ img {
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
 }
 
-.project-card.expanded .project-media-slide.active.slide-pops-out img {
+.project-card.expanded .project-media-slide.active.slide-pops-out img,
+.project-card.expanded .project-media-slide.active.slide-pops-out video {
     transform: scale(1.15);
     z-index: 2;
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 2px 12px rgba(0, 0, 0, 0.25);
