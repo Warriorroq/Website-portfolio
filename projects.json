@@ -37,6 +37,7 @@
         "Implemented core match-3 gameplay mechanics and developed all major game systems."
       ],
       "slides": [
+        { "label": "Screenshot 0", "url": "https://play-lh.googleusercontent.com/3GzZB6MPnwqflEnqpT2PQcaULY8ZdarauIeEni-NnEdm-ZjninXucaL_G_7OaqN1tIbz1aXtsdoBQoksuNpo=w2560-h1440-rw" },
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/zDeKacXqRgGRP5Wxf_nv7RIxIScbtLwUag9ua-35s2z65ilY93BndlxsA6oerDEX5wp_62qiISwncQ-D5fGNBQ=w526-h296-rw" },
         { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/sAgiN40Jvbftqy_OBxuF64j1tcL9dWXpNXJa3lDSE8FfTvBHPMjc7GY0KxZHTYArp-loZgyzGs5MQNFL74TODA=w2560-h1440-rw" }
       ],
@@ -64,7 +65,7 @@
       ]
     },
     {
-      "title": "Bitcoin Bus Jam",
+      "title": "Bus Jam",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
       "tags": ["mobile", "unity", "csharp", "aws", "algorithms", "gameplay", "zenject", "prototyping", "tooling", "external-sdk", "analytics", "external-sdk", "optimization", "tooling", "aws-lambda", "rds", "s3", "route53", "social", "hlsl", "shadergraph"],
@@ -76,6 +77,7 @@
         "Created a tool to generate random levels and manage social features of the game"
       ],
       "slides": [
+        { "label": "Screenshot 0", "url": "https://play-lh.googleusercontent.com/DYFrMM_r_fzXnybx0DIQRk8dDLoh081gIc-Vvy3wJ9mDYvMLKt-h1PJcsZAb91XTvAg=w2560-h1440-rw" },
         { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/I0THTGHRwWt1vDvtROHIHk4Qm9EtZBizIEBwCa5VClAjZySb9ycODepUqyoDnJR2MSI=w526-h296-rw" },
         { "label": "Screenshot 2" , "url": "https://play-lh.googleusercontent.com/FRwNZaorT17kxAsk31D6er6uk7H_CB4tO3T2ofuT2aEZajx5Y9wwef6bcPYs7BKz7Vk=w526-h296-rw" }
       ],
@@ -110,12 +112,30 @@
 
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/VmnAMQ92eKjts0MRfsdJa9h77CbiPjrsJnQ-3rqCIRS0aiEv4wKdRCvbKtnwRwQZ4s8=w526-h296-rw" },
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/HB0E0_YCNLdqAYrO4PgVUHBunZd5Pfsqrz7EGpWuWveM6LP2oJcUX6kVusSroFdYRw=w526-h296-rw" },
         { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/2wO43NRY8ZU1uLsQ4_veb6L4IzudeKQgOsD1G63ykvi-KjZKOr1whhDmuWOVsqHDCA=w526-h296-rw" },
         { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/09krBIzFSQJGzrBxMZyI1HvqU8vnQBHEOvwef_bvbGhvg26Afls8hEspbwRCa7S7YIA=w526-h296-rw" }
       ],
       "links": [
         { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.RoamerGames.CryptoJet&pcampaignid=web_share" }
+      ]
+    },
+    {
+      "title": "Bubble Shooter - Neneko Pop",
+      "role": "Gameplay Unity Developer",
+      "platform": "Mobile · Roamer Games",
+      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
+      "tech": ["Unity", "C#"],
+      "achievements": [
+
+      ],
+      "slides": [
+        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/CL4Zvi7MwjPYPPb9V5h64T6bFTS6ru3_I-Tnq_yFb1KjirvMnJffBldqiToKbMXszI7Dg0r9SiLE8VNn8DptlUc=w526-h296-rw" },
+        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/DLsUPSbDpXYklknMvXo8TnFq770408FBQMgecTa1FYbknaVfmBiRkiNehVKEb-dP0Jq06BPmNqmkoc_4owoMCQ=w526-h296-rw" },
+        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/HVJL_2BW7p3zvmNNl7GCCkExYEeUPxxaSVKN6w02C_5EQkomuJ7psUZ6_XA_wM5zIYVKJpLZWIXbhLDoOyox=w526-h296-rw" }
+      ],
+      "links": [
+        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bubbleshooterneneko" }
       ]
     },
     {
