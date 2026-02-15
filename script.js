@@ -47,6 +47,7 @@ function applyTranslations() {
             el.textContent = val;
         }
     });
+    updateThemeMoreBtn();
     document.querySelectorAll('[data-i18n-aria]').forEach(el => {
         const key = el.getAttribute('data-i18n-aria');
         const val = t(key);
@@ -128,6 +129,16 @@ function updateThemeButtons(activeName) {
     });
 }
 
+function updateThemeMoreBtn() {
+    const moreBtn = document.querySelector('.settings-theme-more');
+    const extra = document.getElementById('settings-theme-extra');
+    if (!moreBtn || !extra) return;
+    const isOpen = extra.classList.contains('is-open');
+    moreBtn.textContent = isOpen ? t('settings_less_styles') : t('settings_more_styles');
+    moreBtn.setAttribute('aria-expanded', isOpen);
+    extra.setAttribute('aria-hidden', !isOpen);
+}
+
 function openSettingsPanel() {
     const panel = document.getElementById('settings-panel');
     const btn = document.querySelector('.nav-settings-btn');
@@ -169,6 +180,14 @@ function initTheme() {
             setTheme(btn.dataset.theme);
         });
     });
+
+    const themeMoreBtn = document.querySelector('.settings-theme-more');
+    const themeExtra = document.getElementById('settings-theme-extra');
+    themeMoreBtn?.addEventListener('click', () => {
+        themeExtra?.classList.toggle('is-open');
+        updateThemeMoreBtn();
+    });
+    updateThemeMoreBtn();
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && panel?.classList.contains('is-open')) {

@@ -289,6 +289,40 @@ img {
     font-weight: 600;
 }
 
+.settings-theme-more {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-align: left;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.settings-theme-more:hover {
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.settings-theme-extra {
+    display: none;
+    margin-top: 0.5rem;
+}
+
+.settings-theme-extra.is-open {
+    display: block;
+}
+
+.settings-theme-extra .settings-theme-grid {
+    margin-top: 0;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
