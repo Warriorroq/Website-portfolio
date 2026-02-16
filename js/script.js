@@ -319,9 +319,9 @@ async function loadData() {
 
     try {
         const [projectsRes, experienceRes, skillsRes] = await Promise.all([
-            fetch('projects.json'),
-            fetch('experience.json'),
-            fetch('skills.json')
+            fetch('data/projects.json'),
+            fetch('data/experience.json'),
+            fetch('data/skills.json')
         ]);
         const projectsData = await projectsRes.json();
         const experienceData = await experienceRes.json();

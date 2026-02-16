@@ -1,6 +1,32 @@
 A portfolio website.
 
-## Structure
+## Project Structure
+
+```
+Proj/
+├── index.html          # Main HTML file
+├── js/                 # JavaScript files
+│   ├── script.js       # Main application logic
+│   └── constructor.js  # HTML builders for dynamic content
+├── css/                # Stylesheets
+│   ├── styles.css      # Main styles
+│   └── themes/         # Theme files
+├── data/               # JSON data files
+│   ├── projects.json
+│   ├── experience.json
+│   └── skills.json
+├── locales/            # Translation files
+│   ├── en.json
+│   ├── ru.json
+│   ├── de.json
+│   └── uk.json
+├── images/             # Image assets
+│   └── bg.png
+└── docs/               # Documentation
+    └── Artur Okseniuk CV.pdf
+```
+
+## Website Structure
 
 - **Home** — name, role, tech stack, action buttons
 - **Projects** — projects with descriptions, tech stack, and links
