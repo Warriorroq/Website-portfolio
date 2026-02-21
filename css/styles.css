@@ -1136,6 +1136,44 @@ img {
     color: var(--text-muted);
 }
 
+/* 404 / error page */
+.error-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 1.5rem 2rem;
+    text-align: center;
+}
+
+.error-page-content {
+    max-width: 420px;
+}
+
+.error-code {
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 15vw, 7rem);
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.error-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.error-message {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.error-page .btn {
+    display: inline-block;
+}
+
 @media (max-width: 900px) {
     .project-card {
         min-width: 240px;

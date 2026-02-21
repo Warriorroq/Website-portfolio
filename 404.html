@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page not found</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/themes/theme-dark.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('site-theme') || 'dark';
+            document.getElementById('theme-link').href = 'css/themes/theme-' + t + '.css';
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">&lt;Dev/&gt;</a>
+        </div>
+    </nav>
+
+    <main class="error-page">
+        <div class="error-page-content">
+            <p class="error-code">404</p>
+            <h1 class="error-title">Page not found</h1>
+            <p class="error-message">The page you're looking for doesn't exist or has been moved.</p>
+            <a href="index.html" class="btn btn-primary">Back to home</a>
+        </div>
+    </main>
+</body>
+</html>
