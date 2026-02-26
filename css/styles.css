@@ -779,6 +779,52 @@ img {
     background: var(--bg-alt);
 }
 
+.project-media-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.project-media-arrow:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.project-media-arrow:focus {
+    outline: 2px solid var(--accent, #6b9fff);
+    outline-offset: 2px;
+}
+
+.project-media-arrow-prev {
+    left: 0.5rem;
+}
+
+.project-media-arrow-next {
+    right: 0.5rem;
+}
+
+.project-card.expanded .project-media-arrow {
+    opacity: 0.85;
+}
+
+.project-media.project-media-arrows-hidden .project-media-arrow {
+    display: none;
+}
+
 .project-media-slide {
     position: absolute;
     inset: 0;

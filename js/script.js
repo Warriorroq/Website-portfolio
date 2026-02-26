@@ -431,6 +431,14 @@ function initExperienceItems() {
 const CONTAINER_ASPECT = 16 / 9;
 const ASPECT_SIMILAR_THRESHOLD = 0.18;
 
+function updateMediaArrowsVisibility(card) {
+    const media = card?.querySelector('.project-media');
+    const active = card?.querySelector('.project-media-slide.active');
+    if (!media || !active) return;
+    const isImage = !!active.querySelector('img');
+    media.classList.toggle('project-media-arrows-hidden', isImage);
+}
+
 function updateSlidePopsOut(slide) {
     if (!slide) return;
     const img = slide.querySelector('img');
@@ -491,17 +499,23 @@ function initProjectCards() {
             if (e.target.closest('a')) return;
             if (hasDragged) return;
             if (card.classList.contains('expanded') && e.target.closest('.project-media')) {
+                const arrowPrev = e.target.closest('.project-media-arrow-prev');
+                const arrowNext = e.target.closest('.project-media-arrow-next');
                 const slides = card.querySelectorAll('.project-media-slide');
                 const active = card.querySelector('.project-media-slide.active');
                 if (slides.length > 1) {
                     active?.querySelector('video')?.pause();
                     active?.classList.remove('active');
-                    const next = active?.nextElementSibling || slides[0];
+                    const next = arrowPrev
+                        ? (active?.previousElementSibling || slides[slides.length - 1])
+                        : (active?.nextElementSibling || slides[0]);
                     next.classList.add('active');
                     next.querySelector('video')?.play().catch(() => {});
                     updateSlidePopsOut(next);
+                    updateMediaArrowsVisibility(card);
                 }
                 e.stopPropagation();
+                if (arrowPrev || arrowNext) e.preventDefault();
                 return;
             }
             const wasExpanded = card.classList.contains('expanded');
@@ -511,6 +525,7 @@ function initProjectCards() {
                 const activeSlide = card.querySelector('.project-media-slide.active');
                 if (activeSlide) {
                     updateSlidePopsOut(activeSlide);
+                    updateMediaArrowsVisibility(card);
                     activeSlide.querySelector('video')?.play().catch(() => {});
                 }
             } else {
@@ -535,6 +550,7 @@ function initProjectCards() {
         const initialActive = card.querySelector('.project-media-slide.active');
         if (initialActive) {
             updateSlidePopsOut(initialActive);
+            updateMediaArrowsVisibility(card);
             initialActive.querySelector('video')?.play().catch(() => {});
         }
     });

@@ -4,8 +4,8 @@
       "title": "Suns around",
       "role": "Developer",
       "platform": "PC · Windows · Endless Jam 2023",
-      "tags": ["pc", "gameplay", "procedural", "pc", "gameplay", "hlsl", "shadergraph"],
-      "tech": ["Procedural Generation"],
+      "tags": ["pc", "gameplay", "procedural", "unity", "csharp", "pc", "hlsl", "shadergraph"],
+      "tech": ["Unity", "C#", "Map Generation"],
       "achievements": ["Small survival game with procedural generated levels. Keep your ship alive and gain score by defeating enemies; don't leave the beacon behind."],
       "slides": [
         {"label": "Video 1", "url": "https://youtu.be/0WA-wfAu4V0"},

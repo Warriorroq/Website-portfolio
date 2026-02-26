@@ -61,6 +61,10 @@ function buildProjects(projects) {
             }
             return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><div class="project-placeholder"><span>${escapeHtml(s.label || '')}</span></div></div>`;
         }).join('');
+        const slidesCount = (p.slides || []).length;
+        const arrowsHtml = slidesCount > 1
+            ? `<button type="button" class="project-media-arrow project-media-arrow-prev" aria-label="Previous slide">&larr;</button><button type="button" class="project-media-arrow project-media-arrow-next" aria-label="Next slide">&rarr;</button>`
+            : '';
         const techHtml = (p.tech || []).map(t => `<li>${escapeHtml(t)}</li>`).join('');
         const achievementsHtml = (p.achievements || []).map(a => `<li>${escapeHtml(a)}</li>`).join('');
         const linksHtml = (p.links || []).map(l => `<a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.label || '')}</a>`).join('');
@@ -70,6 +74,7 @@ function buildProjects(projects) {
                 <div class="project-preview">
                     <div class="project-media" title="Click to change photo">
                         <div class="project-media-slides">${slidesHtml}</div>
+                        ${arrowsHtml}
                         <span class="project-media-hint">Click to change</span>
                     </div>
                     <div class="project-head">
