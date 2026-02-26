@@ -358,6 +358,7 @@ async function loadData() {
             } else {
                 petRow.innerHTML = buildProjects(petProjects);
             }
+            petExtra.classList.add('is-open');
             initPetProjectsToggle();
         }
 

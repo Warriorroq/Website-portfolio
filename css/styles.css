@@ -346,7 +346,7 @@ img {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8rem 1.5rem 4rem;
+    padding: 5rem 1.5rem 3rem;
     position: relative;
 }
 
@@ -496,7 +496,7 @@ img {
 }
 
 .section {
-    padding: 5rem 1.5rem;
+    padding: 3rem 1.5rem;
 }
 
 #projects {
@@ -1144,7 +1144,7 @@ img {
 }
 
 .footer {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.5rem;
     border-top: 1px solid var(--border);
     text-align: center;
 }
@@ -1160,7 +1160,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 1.5rem 2rem;
+    padding: 4rem 1.5rem 2rem;
     text-align: center;
 }
 
@@ -1276,7 +1276,7 @@ img {
     }
 
     .hero {
-        padding: 6rem 1rem 3rem;
+        padding: 4rem 1rem 2rem;
     }
 
     .hero-buttons {
