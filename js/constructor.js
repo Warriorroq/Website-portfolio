@@ -4,6 +4,23 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+function getEmbedVideoUrl(url, type) {
+    if (!url || typeof url !== 'string') return null;
+    if (type === 'youtube' || type === 'yt') {
+        const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+        if (m) return 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
+    }
+    if (type === 'vimeo') {
+        const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+        if (m) return 'https://player.vimeo.com/video/' + m[1];
+    }
+    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+    if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?rel=0';
+    const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vimeo) return 'https://player.vimeo.com/video/' + vimeo[1];
+    return null;
+}
+
 function buildFilters(filters) {
     const list = filters || [];
     const primary = list.filter(f => f.primary !== false && (f.primary === true || list.indexOf(f) < 7));
@@ -31,7 +48,11 @@ function buildProjects(projects) {
         const slidesHtml = (p.slides || []).map((s, i) => {
             const mediaUrl = s.url || s.src || (typeof s.label === 'string' && /^https?:\/\//i.test(s.label) ? s.label : null);
             const alt = (s.label && !/^https?:\/\//i.test(s.label)) ? s.label : (p.title || 'Project media');
-            const isVideo = s.type === 'video' || (mediaUrl && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(mediaUrl));
+            const embedSrc = getEmbedVideoUrl(mediaUrl, s.type);
+            const isVideo = s.type === 'video' || (mediaUrl && !embedSrc && /\.(mp4|webm|ogg|mov)(\?|$)/i.test(mediaUrl));
+            if (embedSrc) {
+                return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><iframe src="${escapeHtml(embedSrc)}" title="${escapeHtml(alt)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+            }
             if (mediaUrl && isVideo) {
                 return `<div class="project-media-slide${i === 0 ? ' active' : ''}"><video src="${escapeHtml(mediaUrl)}" title="${escapeHtml(alt)}" loop muted playsinline preload="metadata"></video></div>`;
             }
