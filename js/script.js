@@ -580,16 +580,34 @@ function initProjectsRowsScroll() {
             }
         }, { passive: false });
 
-        projectsRow.addEventListener('mousedown', (e) => {
-            if (e.target.closest('a')) return;
+        function startDrag(clientX) {
             isDragging = true;
             hasDragged = false;
             activeProjectsRow = projectsRow;
-            startX = e.pageX;
+            startX = clientX;
             scrollLeft = projectsRow.scrollLeft;
             projectsRow.style.cursor = 'grabbing';
             projectsRow.style.userSelect = 'none';
+        }
+
+        projectsRow.addEventListener('mousedown', (e) => {
+            if (e.target.closest('a')) return;
+            startDrag(e.pageX);
         });
+
+        projectsRow.addEventListener('touchstart', (e) => {
+            if (e.target.closest('a')) return;
+            startDrag(e.touches[0].clientX);
+        }, { passive: true });
+
+        projectsRow.addEventListener('touchmove', (e) => {
+            if (!isDragging || !activeProjectsRow || activeProjectsRow !== projectsRow) return;
+            e.preventDefault();
+            const x = e.touches[0].clientX;
+            const walk = (x - startX) * 1.2;
+            activeProjectsRow.scrollLeft = scrollLeft - walk;
+            if (Math.abs(walk) > 5) hasDragged = true;
+        }, { passive: false });
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -600,7 +618,7 @@ function initProjectsRowsScroll() {
         if (Math.abs(walk) > 5) hasDragged = true;
     });
 
-    document.addEventListener('mouseup', () => {
+    function endDragScroll() {
         if (isDragging && activeProjectsRow) {
             activeProjectsRow.style.cursor = 'grab';
             activeProjectsRow.style.userSelect = '';
@@ -608,6 +626,10 @@ function initProjectsRowsScroll() {
             isDragging = false;
             setTimeout(() => { hasDragged = false; }, 50);
         }
-    });
+    }
+
+    document.addEventListener('mouseup', endDragScroll);
+    document.addEventListener('touchend', endDragScroll);
+    document.addEventListener('touchcancel', endDragScroll);
 }
 

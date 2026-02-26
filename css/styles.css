@@ -629,10 +629,12 @@ img {
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    width: 100%;
 }
 
 .projects-pet-btn {
+    align-self: center;
     margin-top: 1.25rem;
     padding: 0.6rem 1.25rem;
     font-family: var(--font-sans);
