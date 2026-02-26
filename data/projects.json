@@ -26,9 +26,27 @@
       ],
       "slides": [
         { "label": "Screenshot 1", "url": "images/CH/photo_2026-02-26_16-30-13.jpg" },
-        { "label": "Screenshot 2", "url": "images/CH/photo_2026-02-26_16-30-27.jpg" }
+        { "label": "Screenshot 2", "url": "images/CH/photo_2026-02-26_16-30-27.jpg" },
+        { "label": "Screenshot 3", "url": "images/CH/photo_2026-02-26_16-43-39.jpg" },
+        { "label": "Screenshot 4", "url": "images/CH/photo_2026-02-26_16-43-43.jpg" }
       ],
       "links": []
+    },
+    {
+      "title": "Civichess",
+      "role": "Game Developer",
+      "platform": "PC · Unity",
+      "tags": ["unity", "csharp", "pc", "gameplay", "hlsl", "shadergraph", "facepunch", "netcode", "math"],
+      "tech": ["Unity", "C#", "Map Generation", "Facepunch Transport", "Netcode", "Math"],
+      "achievements": [
+        "Designed for 2–64 players, lightweight enough to run everywhere.",
+        "Maps scalable up to near-infinite sizes (though games would drag on)."
+      ],
+      "slides": [],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/Warriorroq/Civichess" },
+        { "label": "YouTube", "url": "https://www.youtube.com/watch?v=eFcwD_wYpbE" }
+      ]
     }
   ],
   "filters": [
