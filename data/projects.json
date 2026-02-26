@@ -1,13 +1,51 @@
 {
-  "petProjects": [],
+  "petProjects": [
+    {
+      "title": "Whisper",
+      "role": "Developer",
+      "platform": "PC · Unreal Engine 5 · NPC system (UE5)",
+      "tags": ["ue5", "pc", "gameplay", "ai-perception", "eqs", "blueprints"],
+      "tech": ["UE5", "C++", "Whisper", "Piper", "NVIDIA Audio2Face", "LLaMA (GGUF)", "AI Perception", "EQS", "Blueprints", "Animations/BlendSpaces"],
+      "achievements": [
+        "Built a fully local AI-driven NPC system in Unreal Engine, running all logic on the user's machine without cloud LLM services.",
+        "Integrated speech recognition (Whisper), voice synthesis (Piper), and facial animation via NVIDIA Audio2Face.",
+        "Deployed a quantized LLaMA model (GGUF) locally for real-time NPC dialogue and behavior generation."
+      ],
+      "slides": [],
+      "links": []
+    },
+    {
+      "title": "Christmas Horror",
+      "role": "Gameplay/AI Developer (in development)",
+      "platform": "PC · Unreal Engine 5",
+      "tags": ["ue5", "pc", "gameplay", "ai-perception", "ue5-navigation", "eqs", "gas", "blueprints", "behavior-trees"],
+      "tech": ["UE5", "C++", "AI Perception", "Navigation", "EQS", "GAS", "Blueprints", "Animations/BlendSpaces", "Behavior Trees"],
+      "achievements": [
+        "Implemented enemy with chase logic and player finding.",
+        "Interactable NPCs and core gameplay mechanics."
+      ],
+      "slides": [
+        { "label": "Screenshot 1", "url": "images/CH/photo_2026-02-26_16-30-13.jpg" },
+        { "label": "Screenshot 2", "url": "images/CH/photo_2026-02-26_16-30-27.jpg" }
+      ],
+      "links": []
+    }
+  ],
   "filters": [
     { "tag": "all", "label": "All", "primary": true },
     { "tag": "mobile", "label": "Mobile", "primary": true },
     { "tag": "pc", "label": "PC", "primary": true },
     { "tag": "unity", "label": "Unity", "primary": true },
+    { "tag": "ue5", "label": "UE5", "primary": true },
     { "tag": "csharp", "label": "C#", "primary": true },
     { "tag": "aws", "label": "AWS", "primary": true },
     { "tag": "steam", "label": "Steam", "primary": true },
+    { "tag": "gas", "label": "GAS" },
+    { "tag": "eqs", "label": "EQS" },
+    { "tag": "blueprints", "label": "Blueprints" },
+    { "tag": "behavior-trees", "label": "Behavior Trees" },
+    { "tag": "ue5-navigation", "label": "UE5 Navigation" },
+    { "tag": "ai-perception", "label": "AI Perception" },
     { "tag": "rds", "label": "RDS" },
     { "tag": "s3", "label": "S3" },
     { "tag": "route53", "label": "Route53" },

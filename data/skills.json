@@ -1,9 +1,6 @@
 {
   "skills": [
-    {
-      "title": "Languages",
-      "items": ["C#", "Python", "C++", "HLSL", "JavaScript"]
-    },
+    { "title": "Languages", "items": ["C#", "Python", "C++", "HLSL", "JavaScript"] },
     {
       "title": "Unity",
       "items": [
@@ -19,12 +16,41 @@
       ]
     },
     {
+      "title": "Unreal",
+      "items": [
+        "AI Perception System",
+        "Navigation",
+        "EQS",
+        "GAS",
+        "Blueprints (BPs)",
+        "Animations / BlendSpaces",
+        "Multiplayer replication basics",
+        "AI (Behavior Trees)"
+      ]
+    },
+    {
       "title": "AWS / Backend",
-      "items": ["Lambda, DynamoDB, RDS", "Route53, S3, CloudWatch", "IAM, PostgreSQL", "API Gateway", "Cognito", "ECS"]
+      "items": [
+        "Lambda, DynamoDB, RDS",
+        "Route53, S3, CloudWatch",
+        "IAM, PostgreSQL",
+        "API Gateway",
+        "Cognito",
+        "ECS"
+      ]
     },
     {
       "title": "Other",
-      "items": ["Math (linear algebra, probability)", "Algorithms", "Data structures", "Design patterns", "Performance profiling", "Unit testing", "Git, SQL", "Jira, Confluence"]
+      "items": [
+        "Math (linear algebra, probability)",
+        "Algorithms",
+        "Data structures",
+        "Design patterns",
+        "Performance profiling",
+        "Unit testing",
+        "Git, SQL",
+        "Jira, Confluence"
+      ]
     }
   ]
 }
