@@ -4,7 +4,7 @@
       "title": "Suns around",
       "role": "Developer",
       "platform": "PC · Windows · Endless Jam 2023",
-      "tags": ["pc", "gameplay", "procedural", "unity", "csharp", "pc", "hlsl", "shadergraph"],
+      "tags": ["pc", "gameplay", "procedural", "unity", "csharp", "pc", "hlsl", "shadergraph", "math", "algorithms"],
       "tech": ["Unity", "C#", "Map Generation"],
       "achievements": ["Small survival game with procedural generated levels. Keep your ship alive and gain score by defeating enemies; don't leave the beacon behind."],
       "slides": [
@@ -26,7 +26,7 @@
       "role": "Developer",
       "platform": "PC · Unreal Engine 5 · NPC system (UE5)",
       "tags": ["ue5", "pc", "gameplay", "ai-perception", "eqs", "blueprints"],
-      "tech": ["UE5", "C++", "Whisper", "Piper", "NVIDIA Audio2Face", "LLaMA (GGUF)", "AI Perception", "EQS", "Blueprints", "Animations/BlendSpaces"],
+      "tech": ["UE5", "C++"],
       "achievements": [
         "Built a fully local AI-driven NPC system in Unreal Engine, running all logic on the user's machine without cloud LLM services.",
         "Integrated speech recognition (Whisper), voice synthesis (Piper), and facial animation via NVIDIA Audio2Face.",
@@ -39,7 +39,7 @@
       "title": "Christmas Horror",
       "role": "Gameplay/AI Developer (in development)",
       "platform": "PC · Unreal Engine 5",
-      "tags": ["ue5", "pc", "gameplay", "ai-perception", "ue5-navigation", "eqs", "gas", "blueprints", "behavior-trees"],
+      "tags": ["ue5", "pc", "gameplay", "ai-perception", "ue5-navigation", "eqs", "gas", "blueprints", "behavior-trees", "algorithms"],
       "tech": ["UE5", "C++", "AI Perception", "Navigation", "EQS", "GAS", "Blueprints", "Animations/BlendSpaces", "Behavior Trees"],
       "achievements": [
         "Implemented enemy with chase logic and player finding.",
@@ -57,7 +57,7 @@
       "title": "Civichess",
       "role": "Game Developer",
       "platform": "PC · Unity",
-      "tags": ["unity", "csharp", "pc", "gameplay", "hlsl", "shadergraph", "facepunch", "netcode", "math"],
+      "tags": ["unity", "csharp", "pc", "gameplay", "hlsl", "shadergraph", "facepunch", "netcode", "math", "algorithms"],
       "tech": ["Unity", "C#", "Map Generation", "Facepunch Transport", "Netcode", "Math"],
       "achievements": [
         "Designed for 2–64 players, lightweight enough to run everywhere.",
@@ -75,7 +75,7 @@
       "title": "Realtime Fluid Simulation",
       "role": "Developer",
       "platform": "PC · Unity 2023 · URP",
-      "tags": ["unity", "csharp", "pc", "hlsl", "shadergraph", "optimization", "algorithms"],
+      "tags": ["unity", "csharp", "pc", "hlsl", "shadergraph", "optimization", "algorithms", "math"],
       "tech": ["Unity", "C#", "ShaderLab", "HLSL", "URP", "Compute Shaders", "Marching Cubes", "SPH", "Ray Marching"],
       "achievements": [
         "Real-time GPU-based fluid simulation and rendering pipeline (Unity 2023.2 URP).",
