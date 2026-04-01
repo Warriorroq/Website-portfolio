@@ -60,6 +60,7 @@ function applyTranslations() {
         const val = t(key);
         if (val) el.setAttribute('aria-label', val);
     });
+    updateProjectsCarouselDotsI18n();
 }
 
 function updateLangButtons(lang) {
@@ -119,6 +120,152 @@ function updatePetProjectsBtn() {
     extra.setAttribute('aria-hidden', !isOpen);
 }
 
+function getVisibleProjectCards(row) {
+    return Array.from(row.querySelectorAll('.project-card:not(.hidden)'));
+}
+
+function carouselGotoLabel(i) {
+    const tpl = t('projects_carousel_goto');
+    if (!tpl || tpl === 'projects_carousel_goto') return `Go to project ${i + 1}`;
+    return tpl.replace(/\{\{\s*n\s*\}\}/gi, String(i + 1));
+}
+
+function updateProjectsCarouselDotsI18n() {
+    document.querySelectorAll('.projects-carousel-dots').forEach(dotsEl => {
+        const tablistKey = dotsEl.getAttribute('data-i18n-aria');
+        if (tablistKey) {
+            const val = t(tablistKey);
+            if (val && val !== tablistKey) dotsEl.setAttribute('aria-label', val);
+        }
+        dotsEl.querySelectorAll('.projects-carousel-dot').forEach((btn, i) => {
+            btn.setAttribute('aria-label', carouselGotoLabel(i));
+        });
+    });
+}
+
+let projectsCarouselDotsTeardown = null;
+
+/** Horizontal scroll progress in [0, 1]: 0 = start, 1 = end of row. */
+function carouselScrollProgress(row) {
+    const maxScroll = Math.max(0, row.scrollWidth - row.clientWidth);
+    if (maxScroll <= 0) return { maxScroll, t: 0 };
+    const t = Math.min(1, Math.max(0, row.scrollLeft / maxScroll));
+    return { maxScroll, t };
+}
+
+function syncProjectsCarouselDotsActive(row, dotsEl) {
+    if (dotsEl.hidden || !dotsEl.querySelector('.projects-carousel-dot')) return;
+    const visible = getVisibleProjectCards(row);
+    const dots = dotsEl.querySelectorAll('.projects-carousel-dot');
+    if (!visible.length || dots.length !== visible.length) return;
+    const n = dots.length;
+    const { t } = carouselScrollProgress(row);
+    const idx = n <= 1 ? 0 : Math.round(t * (n - 1));
+    dots.forEach((d, i) => d.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
+}
+
+function buildProjectsCarouselDots(row, dotsEl) {
+    const visible = getVisibleProjectCards(row);
+    const canScroll = row.scrollWidth > row.clientWidth + 2;
+    if (visible.length <= 1 || !canScroll) {
+        dotsEl.hidden = true;
+        dotsEl.innerHTML = '';
+        return;
+    }
+    dotsEl.hidden = false;
+    dotsEl.innerHTML = '';
+    visible.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'projects-carousel-dot';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', 'false');
+        b.setAttribute('aria-label', carouselGotoLabel(i));
+        b.addEventListener('click', () => {
+            const cards = getVisibleProjectCards(row);
+            const n = cards.length;
+            if (n <= 0) return;
+            const maxScroll = Math.max(0, row.scrollWidth - row.clientWidth);
+            const targetLeft = n <= 1 ? 0 : maxScroll * (i / (n - 1));
+            row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        });
+        dotsEl.appendChild(b);
+    });
+    syncProjectsCarouselDotsActive(row, dotsEl);
+}
+
+function setupProjectsCarouselDots() {
+    if (projectsCarouselDotsTeardown) {
+        projectsCarouselDotsTeardown();
+        projectsCarouselDotsTeardown = null;
+    }
+    const cleanups = [];
+    document.querySelectorAll('.projects-carousel').forEach(carousel => {
+        const dotsEl = carousel.querySelector('.projects-carousel-dots');
+        const row = carousel.querySelector('.projects-row');
+        if (!dotsEl || !row) return;
+
+        let rafScroll = null;
+        const onScroll = () => {
+            if (rafScroll) return;
+            rafScroll = requestAnimationFrame(() => {
+                rafScroll = null;
+                syncProjectsCarouselDotsActive(row, dotsEl);
+            });
+        };
+
+        let resizeRaf = null;
+        const onResizeObs = () => {
+            if (resizeRaf) cancelAnimationFrame(resizeRaf);
+            resizeRaf = requestAnimationFrame(() => {
+                resizeRaf = null;
+                const visible = getVisibleProjectCards(row);
+                const canScroll = row.scrollWidth > row.clientWidth + 2;
+                const dots = dotsEl.querySelectorAll('.projects-carousel-dot');
+                const needDots = visible.length > 1 && canScroll;
+                if (!needDots) {
+                    if (!dotsEl.hidden || dots.length) {
+                        dotsEl.hidden = true;
+                        dotsEl.innerHTML = '';
+                    }
+                    return;
+                }
+                if (dots.length !== visible.length) {
+                    buildProjectsCarouselDots(row, dotsEl);
+                    updateProjectsCarouselDotsI18n();
+                } else {
+                    dotsEl.hidden = false;
+                    syncProjectsCarouselDotsActive(row, dotsEl);
+                }
+            });
+        };
+
+        row.addEventListener('scroll', onScroll, { passive: true });
+        const ro = new ResizeObserver(onResizeObs);
+        ro.observe(row);
+
+        const onVisibleChanged = () => {
+            buildProjectsCarouselDots(row, dotsEl);
+            updateProjectsCarouselDotsI18n();
+        };
+        carousel.addEventListener('projects-visible-changed', onVisibleChanged);
+
+        buildProjectsCarouselDots(row, dotsEl);
+        requestAnimationFrame(() => {
+            buildProjectsCarouselDots(row, dotsEl);
+            updateProjectsCarouselDotsI18n();
+        });
+
+        cleanups.push(() => {
+            row.removeEventListener('scroll', onScroll);
+            ro.disconnect();
+            carousel.removeEventListener('projects-visible-changed', onVisibleChanged);
+        });
+    });
+    updateProjectsCarouselDotsI18n();
+    projectsCarouselDotsTeardown = () => cleanups.forEach(fn => fn());
+}
+
 function initPetProjectsToggle() {
     const btn = document.querySelector('.projects-pet-btn');
     const extra = document.getElementById('projects-pet-extra');
@@ -126,6 +273,10 @@ function initPetProjectsToggle() {
     btn.addEventListener('click', () => {
         extra.classList.toggle('is-open');
         updatePetProjectsBtn();
+        const petCarousel = document.querySelector('.projects-pet-carousel');
+        requestAnimationFrame(() => {
+            petCarousel?.dispatchEvent(new CustomEvent('projects-visible-changed'));
+        });
     });
     updatePetProjectsBtn();
 }
@@ -368,6 +519,7 @@ async function loadData() {
 
         initProjectCards();
         initProjectsRowsScroll();
+        setupProjectsCarouselDots();
 
         if (skillsGrid) {
             skillsGrid.innerHTML = buildSkills(skills);
@@ -495,6 +647,7 @@ function initProjectCards() {
                 const match = tag === 'all' || tags.split(' ').includes(tag);
                 card.classList.toggle('hidden', !match);
             });
+            document.querySelector('.projects-carousel:not(.projects-pet-carousel)')?.dispatchEvent(new CustomEvent('projects-visible-changed'));
         });
     });
 
@@ -576,14 +729,14 @@ let scrollLeft = 0;
 let activeProjectsRow = null;
 
 function initProjectsRowsScroll() {
+    const blockWheel = (e) => {
+        e.preventDefault();
+    };
+    document.querySelectorAll('.projects-carousel').forEach(carousel => {
+        carousel.addEventListener('wheel', blockWheel, { passive: false });
+    });
     document.querySelectorAll('.projects-row').forEach(projectsRow => {
-        projectsRow.addEventListener('wheel', (e) => {
-            if (e.deltaY !== 0) {
-                e.preventDefault();
-                projectsRow.scrollLeft += e.deltaY;
-            }
-        }, { passive: false });
-
+        projectsRow.addEventListener('wheel', blockWheel, { passive: false });
         function startDrag(clientX) {
             isDragging = true;
             hasDragged = false;
@@ -591,7 +744,6 @@ function initProjectsRowsScroll() {
             startX = clientX;
             scrollLeft = projectsRow.scrollLeft;
             projectsRow.style.cursor = 'grabbing';
-            projectsRow.style.userSelect = 'none';
         }
 
         projectsRow.addEventListener('mousedown', (e) => {
@@ -625,7 +777,6 @@ function initProjectsRowsScroll() {
     function endDragScroll() {
         if (isDragging && activeProjectsRow) {
             activeProjectsRow.style.cursor = 'grab';
-            activeProjectsRow.style.userSelect = '';
             activeProjectsRow = null;
             isDragging = false;
             setTimeout(() => { hasDragged = false; }, 50);
