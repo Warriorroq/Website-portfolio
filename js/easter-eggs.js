@@ -30,10 +30,6 @@
                         'font-size: 15px; font-weight: 700; color: #c084fc; letter-spacing: 0.08em;'
                     );
                     console.log(
-                        '%cКод Konami. Читов нет — но ты настойчив.',
-                        'font-size: 12px; color: #94a3b8;'
-                    );
-                    console.log(
                         '%cKonami code. No cheats — just respect.',
                         'font-size: 12px; color: #94a3b8;'
                     );
