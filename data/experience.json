@@ -7,8 +7,8 @@
       "items": [
         "Shipped 4 mobile games (Moon Match, Bitcoin Bubble Merge, Bitcoin Bus Jam, BS - Neneko pop!)",
         "Live mobile projects with ongoing updates (Crypto Crawler, Boe Wings)",
-        "In-game social features and internal tooling",
-        "Backend services on AWS (Lambda, DynamoDB, RDS)"
+        "Designed and implemented in-game social features and internal tooling, improving engagement and speeding up live content iteration",
+        "Built and maintained backend services using AWS (Lambda, DynamoDB, RDS) for live updates and player-related systems"
       ]
     },
     {
@@ -16,22 +16,33 @@
       "period": "Mar 2024 — Aug 2024",
       "role": "Unity Developer · Kiev (Remote)",
       "items": [
-        "Gameplay prototypes (TPS, FPS, Tower Defense, Racing)",
-        "Core mechanics, player input, AI behavior",
+        "Developed multiple gameplay prototypes (TPS, FPS, Tower Defense, Racing)",
+        "Implemented core mechanics, player input, AI behavior, and progression systems to validate concepts and production feasibility",
         "Scraping tool with backend integration"
       ]
     },
     {
+      "company": "Ukr-pravo",
+      "period": "Jan 2021 — Sep 2023",
+      "role": "C# Developer / .NET Developer · Kiev (Hybrid)",
+      "items": [
+        "Developed and maintained internal case management and document systems",
+        "Automated legal workflows (contracts, templates, reporting)",
+        "Built and integrated databases for clients and case tracking",
+        "Implemented secure data handling and access control",
+        "Developed web applications and client portals using C# / .NET",
+        "Integrated third-party services and internal tools"
+      ]
+    },
+    {
       "company": "Freelance",
-      "period": "2019 — 2023",
+      "period": "2019 — 2021",
       "role": "Developer",
       "items": [
-        "Telegram / Discord bots (Python)",
-        "Backend services and automation tools",
-        "Algorithmic and math problems for CS students",        
-        "Small business websites and landing pages (HTML/CSS/JS)",
-        "Integration of payment APIs and authentication systems",
-        "..."
+        "Developed Telegram / Discord bots using Python",
+        "Built small backend services and automation tools for small businesses",
+        "Optimized scripts and services for performance and reliability",
+        "Solved algorithmic and math problems for CS students"
       ]
     }
   ]

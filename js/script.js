@@ -3,6 +3,14 @@ const SUPPORTED_LANGS = ['en', 'ru', 'de', 'uk'];
 let translations = {};
 let currentLang = 'en';
 
+async function fetchJson(url) {
+    const response = await fetch(url, { cache: 'no-cache' });
+    if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status}`);
+    }
+    return await response.json();
+}
+
 function getSavedLang() {
     const saved = localStorage.getItem(LANG_KEY);
     return SUPPORTED_LANGS.includes(saved) ? saved : 'en';
@@ -10,14 +18,13 @@ function getSavedLang() {
 
 async function loadLocale(lang) {
     const path = `locales/${lang}.json`;
-    const res = await fetch(path);
-    if (!res.ok) {
+    try {
+        translations = await fetchJson(path);
+        return translations;
+    } catch {
         if (lang !== 'en') return loadLocale('en');
         translations = {};
-        return;
     }
-    translations = await res.json();
-    return translations;
 }
 
 function t(key) {
@@ -318,14 +325,11 @@ async function loadData() {
     if (!projectsRow && !experienceList && !skillsGrid) return;
 
     try {
-        const [projectsRes, experienceRes, skillsRes] = await Promise.all([
-            fetch('data/projects.json'),
-            fetch('data/experience.json'),
-            fetch('data/skills.json')
+        const [projectsData, experienceData, skillsData] = await Promise.all([
+            fetchJson('data/projects.json'),
+            fetchJson('data/experience.json'),
+            fetchJson('data/skills.json')
         ]);
-        const projectsData = await projectsRes.json();
-        const experienceData = await experienceRes.json();
-        const skillsData = await skillsRes.json();
         const projects = projectsData.projects || [];
         const petProjects = projectsData.petProjects || [];
         const filters = projectsData.filters || [];
