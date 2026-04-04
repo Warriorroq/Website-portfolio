@@ -18,6 +18,11 @@
             this._updatables = [];
             this._drawables = [];
 
+            this.collision =
+                typeof global.CollisionSubsystem === 'function'
+                    ? new global.CollisionSubsystem(this)
+                    : null;
+
             this._running = false;
             this._raf = null;
             this._lastTime = 0;
@@ -115,6 +120,7 @@
                 this.start();
                 return;
             }
+            if (this.collision) this.collision.update(dt);
             this._updateEntities(dt);
         }
 

@@ -3,17 +3,6 @@
 
     var NS = 'http://www.w3.org/2000/svg';
 
-    /**
-     * Debug overlay: draws circles on zone bounding boxes (from Engine.zoneSelector → engine.zones).
-     * @param {Object} engine - Engine instance with root, zoneSelector, refreshZones, zones
-     * @param {Object} [options]
-     * @param {number} [options.radius=6] circle radius in CSS px
-     * @param {string} [options.stroke] stroke color
-     * @param {string} [options.fill] fill color
-     * @param {boolean} [options.edgeMidpoints=false] also draw circles at edge midpoints
-     * @param {number} [options.zIndex=2147483646] overlay stacking
-     * @returns {{ destroy: function() }} call destroy() to remove overlay and listeners
-     */
     function attach(engine, options) {
         options = options || {};
         var radius = options.radius != null ? options.radius : 6;
