@@ -102,6 +102,7 @@
         this.engine = engine;
         this.gravity = opts.gravity != null ? opts.gravity : 1500;
         this.restitution = opts.restitution != null ? opts.restitution : 0.72;
+        this.circleResolvePasses = opts.circleResolvePasses != null ? opts.circleResolvePasses : 4;
         this._bodies = [];
         this._activeOverlapKeys = Object.create(null);
     }
@@ -262,40 +263,68 @@
             }
         }
 
-        for (i = 0; i < bodies.length; i++) {
-            var eA = bodies[i];
-            if (!contactsPer[i]) continue;
-            var shA = shapeFromEntity(eA);
-            if (!shA || shA.type !== 'circle') continue;
-            var rA = shA.r;
-            var j;
-            for (j = i + 1; j < bodies.length; j++) {
-                if (!contactsPer[j]) continue;
-                var eB = bodies[j];
-                if (typeof eB.collisionSkip === 'function' && eB.collisionSkip()) continue;
-                var shB = shapeFromEntity(eB);
-                if (!shB || shB.type !== 'circle') continue;
-                var rB = shB.r;
-                var pen2 = circleCirclePenetration(eA.x, eA.y, rA, eB.x, eB.y, rB);
-                if (!pen2) continue;
-                eA.x += pen2.nx * pen2.pen * 0.5;
-                eA.y += pen2.ny * pen2.pen * 0.5;
-                eB.x -= pen2.nx * pen2.pen * 0.5;
-                eB.y -= pen2.ny * pen2.pen * 0.5;
-                var vnx = pen2.nx;
-                var vny = pen2.ny;
-                var relvx = (eA.vx || 0) - (eB.vx || 0);
-                var relvy = (eA.vy || 0) - (eB.vy || 0);
-                var reln = relvx * vnx + relvy * vny;
-                if (reln < 0) {
-                    var imp = -(1 + rest) * reln * 0.5;
-                    eA.vx = (eA.vx || 0) + imp * vnx;
-                    eA.vy = (eA.vy || 0) + imp * vny;
-                    eB.vx = (eB.vx || 0) - imp * vnx;
-                    eB.vy = (eB.vy || 0) - imp * vny;
+        var pairPasses = this.circleResolvePasses;
+        if (pairPasses < 1) pairPasses = 1;
+        var pass;
+        for (pass = 0; pass < pairPasses; pass++) {
+            var applyImpulse = pass === pairPasses - 1;
+            for (i = 0; i < bodies.length; i++) {
+                var eA = bodies[i];
+                if (!contactsPer[i]) continue;
+                var shA = shapeFromEntity(eA);
+                if (!shA || shA.type !== 'circle') continue;
+                var rA = shA.r;
+                var j;
+                for (j = i + 1; j < bodies.length; j++) {
+                    if (!contactsPer[j]) continue;
+                    var eB = bodies[j];
+                    if (typeof eB.collisionSkip === 'function' && eB.collisionSkip()) continue;
+                    var shB = shapeFromEntity(eB);
+                    if (!shB || shB.type !== 'circle') continue;
+                    var rB = shB.r;
+                    var pen2 = circleCirclePenetration(eA.x, eA.y, rA, eB.x, eB.y, rB);
+                    if (!pen2) continue;
+                    eA.x += pen2.nx * pen2.pen * 0.5;
+                    eA.y += pen2.ny * pen2.pen * 0.5;
+                    eB.x -= pen2.nx * pen2.pen * 0.5;
+                    eB.y -= pen2.ny * pen2.pen * 0.5;
+                    if (applyImpulse) {
+                        var vnx = pen2.nx;
+                        var vny = pen2.ny;
+                        var relvx = (eA.vx || 0) - (eB.vx || 0);
+                        var relvy = (eA.vy || 0) - (eB.vy || 0);
+                        var reln = relvx * vnx + relvy * vny;
+                        if (reln < 0) {
+                            var imp = -(1 + rest) * reln * 0.5;
+                            eA.vx = (eA.vx || 0) + imp * vnx;
+                            eA.vy = (eA.vy || 0) + imp * vny;
+                            eB.vx = (eB.vx || 0) - imp * vnx;
+                            eB.vy = (eB.vy || 0) - imp * vny;
+                        }
+                        contactsPer[i].push({ kind: 'body', other: eB });
+                        contactsPer[j].push({ kind: 'body', other: eA });
+                    }
                 }
-                contactsPer[i].push({ kind: 'body', other: eB });
-                contactsPer[j].push({ kind: 'body', other: eA });
+            }
+        }
+
+        for (i = 0; i < bodies.length; i++) {
+            var bufP = contactsPer[i];
+            if (!bufP) continue;
+            var eP = bodies[i];
+            var shP = shapeFromEntity(eP);
+            if (!shP || shP.type !== 'circle') continue;
+            var rP = shP.r;
+            if (eP.x < rP) eP.x = rP;
+            else if (eP.x > vw - rP) eP.x = vw - rP;
+            if (eP.y < rP) eP.y = rP;
+            else if (eP.y > vh - rP) eP.y = vh - rP;
+            for (var sp = 0; sp < statics.length; sp++) {
+                var boxP = statics[sp];
+                var penP = circleRectPenetration(eP.x, eP.y, rP, boxP.x, boxP.y, boxP.w, boxP.h);
+                if (!penP) continue;
+                eP.x += penP.nx * penP.pen;
+                eP.y += penP.ny * penP.pen;
             }
         }
 
