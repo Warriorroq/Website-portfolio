@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test | Artur Okseniuk</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/themes/theme-dark.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('site-theme') || 'dark';
+            document.getElementById('theme-link').href = 'css/themes/theme-' + t + '.css';
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .test-engine-wrap .test-engine-canvas {
+            display: block;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-alt);
+        }
+        .test-engine-hud {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">&lt;Dev/&gt;</a>
+            <button class="nav-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding: 4rem 1.5rem 6rem;">
+        <h1 style="font-family: var(--font-display, 'Outfit', sans-serif); font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 1rem;">Engine sandbox</h1>
+        <p class="lead" style="color: var(--text-muted); max-width: 42rem; margin-bottom: 2.5rem;">
+            Scratch page for canvas and interaction experiments. Everything below is filler so the layout has something to scroll past.
+        </p>
+
+        <section id="intro" style="margin-bottom: 2.5rem;">
+            <h2>Why seven bees?</h2>
+            <p>
+                Nobody scheduled the committee that named cloud regions, yet here we are typing <code>us-east-1</code> into muscle memory.
+                Between that and remembering which tab had the spreadsheet, modern productivity is mostly archaeology.
+            </p>
+            <p>
+                If this paragraph were useful, it would explain how the engine maps scroll zones. It does not—it only proves the type rhythm still works on a long line of uninterrupted text.
+            </p>
+        </section>
+
+        <section id="checklist" style="margin-bottom: 2.5rem;">
+            <h2>Arbitrary checklist</h2>
+            <ul style="padding-left: 1.25rem; max-width: 36rem;">
+                <li>Rename the test file before shipping (or don’t).</li>
+                <li>Confirm the theme toggle still reads from <code>localStorage</code>.</li>
+                <li>Pretend this item is about performance budgets.</li>
+            </ul>
+        </section>
+
+        <section id="aside-quote" style="margin-bottom: 2rem;">
+            <blockquote style="margin: 0; padding-left: 1rem; border-left: 3px solid var(--accent, #7c6cf0); color: var(--text-muted); font-style: italic;">
+                “A linter is just a very opinionated rubber duck.”
+            </blockquote>
+            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">— Source unknown, almost certainly made up.</p>
+        </section>
+
+        <section id="glossary" style="margin-bottom: 2.5rem;">
+            <h2>Words we misuse on purpose</h2>
+            <dl style="max-width: 40rem; margin: 0;">
+                <dt style="font-weight: 600; margin-top: 1rem;"><code>idempotent</code></dt>
+                <dd style="margin: 0.35rem 0 0 1rem; color: var(--text-muted);">“Safe to run twice” in meetings; “please stop rerunning migrations locally” in practice.</dd>
+                <dt style="font-weight: 600; margin-top: 1rem;"><code>observability</code></dt>
+                <dd style="margin: 0.35rem 0 0 1rem; color: var(--text-muted);">Three dashboards and a prayer that someone disabled the noisy INFO logger before prod.</dd>
+                <dt style="font-weight: 600; margin-top: 1rem;"><code>technical debt</code></dt>
+                <dd style="margin: 0.35rem 0 0 1rem; color: var(--text-muted);">The attic where we stack “we’ll fix it next sprint” until it qualifies for heritage status.</dd>
+            </dl>
+        </section>
+
+        <section id="telemetry" style="margin-bottom: 2.5rem;">
+            <h2>Fictional metrics (do not chart)</h2>
+            <pre style="font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 0.8125rem; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); overflow-x: auto; max-width: 44rem;"><code>tabs_open..................... 47
+coffee_half_life_min.......... 12
+meetings_that_could_be_slack.. 3 (optimistic)
+build_green_streak_days....... [REDACTED]</code></pre>
+        </section>
+
+        <section id="lunch-decisions" style="margin-bottom: 2.5rem;">
+            <h2>Lunch decision matrix</h2>
+            <table style="width: 100%; max-width: 36rem; border-collapse: collapse; font-size: 0.9375rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border); text-align: left;">
+                        <th style="padding: 0.5rem 0.75rem 0.5rem 0;">Signal</th>
+                        <th style="padding: 0.5rem 0.75rem;">Weight</th>
+                        <th style="padding: 0.5rem 0 0.5rem 0.75rem;">Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 0.65rem 0.75rem 0.65rem 0;">Fridge has leftovers</td>
+                        <td style="padding: 0.65rem 0.75rem; color: var(--text-muted);">High</td>
+                        <td style="padding: 0.65rem 0 0.65rem 0.75rem;">Guilt salad</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 0.65rem 0.75rem 0.65rem 0;">Slack poll tied 4–4</td>
+                        <td style="padding: 0.65rem 0.75rem; color: var(--text-muted);">Chaos</td>
+                        <td style="padding: 0.65rem 0 0.65rem 0.75rem;">Sandwich by coin flip</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.65rem 0.75rem 0.65rem 0;">Deadline at 17:00</td>
+                        <td style="padding: 0.65rem 0.75rem; color: var(--text-muted);">∞</td>
+                        <td style="padding: 0.65rem 0 0.65rem 0.75rem;">Desk cereal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="test-engine-wrap">
+            <canvas class="test-engine-canvas" width="800" height="240" aria-hidden="true"></canvas>
+            <p class="test-engine-hud">Canvas placeholder (not wired yet)</p>
+        </div>
+
+        <section id="footnotes" style="margin-top: 3rem;">
+            <h2>Additional nonsense</h2>
+            <p style="max-width: 42rem;">
+               The keyboard shortcut you need is always on the other OS. The one log line that explains the outage scrolled away six refreshes ago.
+               Somewhere a cron job runs weekly and nobody knows what folder it writes to—that folder is probably this paragraph.
+            </p>
+            <ol style="padding-left: 1.25rem; max-width: 40rem; margin-top: 1.25rem;">
+                <li>Step one: write a plan.</li>
+                <li>Step two: abandon the plan after discovering an edge case involving Safari.</li>
+                <li>Step three: ship anyway and update the README in your dreams.</li>
+            </ol>
+        </section>
+
+        <section id="colophon" style="margin-top: 2.5rem; margin-bottom: 0;">
+            <h2>Colophon</h2>
+            <p style="color: var(--text-muted); max-width: 38rem; font-size: 0.9375rem;">
+                Last updated whenever you hit save. No cookies were harmed; a few hypothetical pixels may have been composited without consent.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p><a href="index.html">← Back to site</a></p>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            var navToggle = document.querySelector('.nav-toggle');
+            var navMenu = document.querySelector('.nav-menu');
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function () {
+                    navMenu.classList.toggle('active');
+                    navToggle.classList.toggle('active');
+                });
+                navMenu.querySelectorAll('a').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        navMenu.classList.remove('active');
+                        navToggle.classList.remove('active');
+                    });
+                });
+            }
+            var nav = document.querySelector('.nav');
+            function updateNavBackground() {
+                if (!nav) return;
+                if (window.scrollY > 50) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            }
+            window.addEventListener('scroll', updateNavBackground);
+            updateNavBackground();
+        })();
+    </script>
+    <script src="js/easter-eggs.js"></script>
+    <script src="js/engine/engine.js"></script>
+    <script src="js/test.js"></script>
+</body>
+</html>
