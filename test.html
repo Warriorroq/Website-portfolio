@@ -16,14 +16,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .test-engine-wrap .test-engine-canvas {
-            display: block;
-            width: 100%;
+        .test-engine-wrap {
             max-width: 800px;
             margin: 0 auto;
+        }
+        .dom-playground {
+            position: relative;
+            min-height: 200px;
             border-radius: 12px;
             border: 1px solid var(--border);
             background: var(--bg-alt);
+            padding: 1rem 1.25rem 1.25rem;
+        }
+        .dom-playground-label {
+            font-family: var(--font-mono, 'JetBrains Mono', monospace);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0 0 0.75rem;
+        }
+        .physics-collider {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 0.75rem 0.75rem 0;
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: color-mix(in srgb, var(--accent, #7c6cf0) 12%, var(--bg-alt));
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            user-select: none;
         }
         .test-engine-hud {
             font-family: var(--font-mono, 'JetBrains Mono', monospace);
@@ -133,8 +154,12 @@ build_green_streak_days....... [REDACTED]</code></pre>
         </section>
 
         <div class="test-engine-wrap">
-            <canvas class="test-engine-canvas" width="800" height="240" aria-hidden="true"></canvas>
-            <p class="test-engine-hud">Canvas placeholder (not wired yet)</p>
+            <div class="dom-playground" aria-label="DOM physics playground">
+                <p class="dom-playground-label">DOM “canvas”: drag the ball; it uses gravity, bounces off the viewport and colliders below.</p>
+                <div class="physics-collider">Collider A</div>
+                <div class="physics-collider">Collider B</div>
+            </div>
+            <p class="test-engine-hud">Ball is a fixed-position DOM rigid body; pink overlay marks engine zone bounds.</p>
         </div>
 
         <section id="footnotes" style="margin-top: 3rem;">
@@ -192,6 +217,8 @@ build_green_streak_days....... [REDACTED]</code></pre>
     </script>
     <script src="js/easter-eggs.js"></script>
     <script src="js/engine/engine.js"></script>
+    <script src="js/engine/dom-ball.js"></script>
+    <script src="js/engine/zone-debug.js"></script>
     <script src="js/test.js"></script>
 </body>
 </html>
