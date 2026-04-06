@@ -1,10 +1,11 @@
 'use strict';
 
 import { Engine } from './engine/engine.js';
-import { DomBall } from './engine/entities/dom-ball.js';
+import { Mouse } from './engine/entities/mouse.js';
 import { ZoneDebugOverlay } from './engine/debug/zone-debug.js';
 import { Spritesheet } from './engine/animations/spritesheet.js';
-import { AnimationClip } from './engine/animations/animation-clip.js';
+import { AnimationClip, WrapMode } from './engine/animations/animation-clip.js';
+import { Animator } from './engine/animations/animator.js';
 
 var mouseSpritesheet = new Spritesheet({
     src: 'images/mouse_spritesheet.png',
@@ -19,6 +20,7 @@ var mouseHopClip = new AnimationClip({
     name: 'hop',
     speed: 8,
     spritesheet: mouseSpritesheet,
+    wrapMode: WrapMode.Loop
 });
 
 var engine = new Engine({
@@ -35,9 +37,23 @@ window.addEventListener('keydown', function (e) {
     var vw = document.documentElement.clientWidth;
     var vh = document.documentElement.clientHeight;
     var r = 20 + Math.floor(Math.random() * 10);
-    var x = r + Math.random() * (vw - 2 * r);
-    var y = r + Math.random() * (vh * 0.45);
-    engine.addEntity(new DomBall({ radius: r, x: x, y: y }));
+    var sheetFrameW = mouseSpritesheet.sheetWidth / mouseSpritesheet.columns;
+    var sheetFrameH = mouseSpritesheet.sheetHeight / mouseSpritesheet.rows;
+    var h = 2 * r;
+    var w = Math.round((h * sheetFrameW) / sheetFrameH);
+    var hw = w * 0.5;
+    var hh = h * 0.5;
+    var x = hw + Math.random() * Math.max(0, vw - w);
+    var y = hh + Math.random() * Math.max(0, vh * 0.45 - h);
+    engine.addEntity(
+        new Mouse({
+            width: w,
+            height: h,
+            x: x,
+            y: y,
+            animator: new Animator({ clip: mouseHopClip }),
+        })
+    );
 });
 
 mouseSpritesheet.load().then(function () {

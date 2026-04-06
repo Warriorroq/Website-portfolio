@@ -4,10 +4,11 @@ function clamp(v, a, b) {
     return v < a ? a : v > b ? b : v;
 }
 
-class DomBall {
+class Mouse {
     constructor(opts) {
         opts = opts || {};
-        this.radius = opts.radius != null ? opts.radius : 26;
+        this.w = opts.width != null ? opts.width : opts.radius != null ? opts.radius * 2 : 52;
+        this.h = opts.height != null ? opts.height : opts.radius != null ? opts.radius * 2 : 52;
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
         this.x = opts.x != null ? opts.x : vw * 0.5;
@@ -26,27 +27,46 @@ class DomBall {
         this._boundPtrMove = this._onPointerMove.bind(this);
         this._boundPtrUp = this._onPointerUp.bind(this);
         this._engine = null;
+        this.animator = opts.animator || null;
     }
 
     collisionSkip() {
         return this._dragging;
     }
 
+    _halfW() {
+        return this.w * 0.5;
+    }
+
+    _halfH() {
+        return this.h * 0.5;
+    }
+
+    getCollisionShape() {
+        return {
+            type: 'rect',
+            x: this.x - this._halfW(),
+            y: this.y - this._halfH(),
+            w: this.w,
+            h: this.h,
+        };
+    }
+
     _syncStyle() {
         if (!this.el) return;
-        var d = this.radius * 2;
-        this.el.style.width = d + 'px';
-        this.el.style.height = d + 'px';
-        this.el.style.left = this.x - this.radius + 'px';
-        this.el.style.top = this.y - this.radius + 'px';
+        this.el.style.width = this.w + 'px';
+        this.el.style.height = this.h + 'px';
+        this.el.style.left = this.x - this._halfW() + 'px';
+        this.el.style.top = this.y - this._halfH() + 'px';
     }
 
     _clampToViewport() {
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
-        var r = this.radius;
-        this.x = clamp(this.x, r, vw - r);
-        this.y = clamp(this.y, r, vh - r);
+        var hw = this._halfW();
+        var hh = this._halfH();
+        this.x = clamp(this.x, hw, vw - hw);
+        this.y = clamp(this.y, hh, vh - hh);
     }
 
     _onResize() {
@@ -106,14 +126,23 @@ class DomBall {
     onAdd(engine) {
         this._engine = engine || null;
         var el = document.createElement('div');
-        el.className = 'dom-ball';
+        el.className = 'dom-mouse';
         el.setAttribute('role', 'presentation');
-        el.style.cssText =
-            'position:fixed;z-index:99999;box-sizing:border-box;border-radius:50%;' +
-            'background:radial-gradient(circle at 32% 28%, #f0f4ff, #6b7cff 45%, #3d4dc4);' +
-            'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -6px 12px rgba(0,0,0,0.15);' +
-            'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
-            'will-change:left,top';
+        if (this.animator) {
+            el.style.cssText =
+                'position:fixed;z-index:99999;box-sizing:border-box;border-radius:2px;overflow:hidden;' +
+                'background-color:transparent;' +
+                'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -6px 12px rgba(0,0,0,0.15);' +
+                'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
+                'will-change:left,top';
+        } else {
+            el.style.cssText =
+                'position:fixed;z-index:99999;box-sizing:border-box;border-radius:2px;' +
+                'background-color:transparent;' +
+                'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -6px 12px rgba(0,0,0,0.15);' +
+                'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
+                'will-change:left,top';
+        }
         document.body.appendChild(el);
         this.el = el;
         this._clampToViewport();
@@ -124,11 +153,13 @@ class DomBall {
         el.addEventListener('pointercancel', this._boundPtrUp);
         window.addEventListener('resize', this._boundResize);
         if (this._engine && this._engine.collision) this._engine.collision.register(this);
+        if (this.animator) this.animator.attach(this.el);
     }
 
-    update() {
+    update(dt) {
         if (!this.el) return;
         this._syncStyle();
+        if (this.animator) this.animator.update(dt);
     }
 
     destroy() {
@@ -146,4 +177,4 @@ class DomBall {
     }
 }
 
-export { DomBall };
+export { Mouse };
