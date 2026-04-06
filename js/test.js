@@ -2,6 +2,7 @@
 
 import { Engine } from './engine/engine.js';
 import { Mouse } from './engine/entities/mouse.js';
+import { Ball } from './engine/entities/ball.js';
 import { ZoneDebugOverlay } from './engine/debug/zone-debug.js';
 import { Spritesheet } from './engine/animations/spritesheet.js';
 import { AnimationClip, WrapMode } from './engine/animations/animation-clip.js';
@@ -54,6 +55,19 @@ window.addEventListener('keydown', function (e) {
             animator: new Animator({ clip: mouseHopClip }),
         })
     );
+});
+
+window.addEventListener('keydown', function (e) {
+    if (e.code !== 'KeyB') return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    e.preventDefault();
+    var vw = document.documentElement.clientWidth;
+    var vh = document.documentElement.clientHeight;
+    var r = 14 + Math.floor(Math.random() * 12);
+    var x = r + Math.random() * Math.max(0, vw - 2 * r);
+    var y = r + Math.random() * Math.max(0, vh * 0.45 - 2 * r);
+    engine.addEntity(new Ball({ radius: r, x: x, y: y }));
 });
 
 mouseSpritesheet.load().then(function () {
