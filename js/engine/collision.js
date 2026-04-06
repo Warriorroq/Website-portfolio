@@ -4,6 +4,18 @@ function clamp(v, a, b) {
     return v < a ? a : v > b ? b : v;
 }
 
+function entityRestitution(subsys, ent) {
+    if (ent && typeof ent.collisionRestitution === 'number') return ent.collisionRestitution;
+    return subsys.restitution;
+}
+
+function entityRestitutionVelThreshold(subsys, ent) {
+    if (ent && typeof ent.collisionRestitutionVelocityThreshold === 'number') {
+        return ent.collisionRestitutionVelocityThreshold;
+    }
+    return subsys.restitutionVelocityThreshold;
+}
+
 var _nextBodyId = 1;
 function bodyId(body) {
     if (body._collisionBodyId == null) body._collisionBodyId = _nextBodyId++;
@@ -406,8 +418,6 @@ class CollisionSubsystem {
         var bodies = this._bodies;
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
-        var rest = this.restitution;
-        var velTh = this.restitutionVelocityThreshold;
         var pairVelTh = this.pairRestitutionVelocityThreshold;
         var statics = this._staticRectsFromZones();
         var contactsPer = [];
@@ -430,30 +440,40 @@ class CollisionSubsystem {
         }
 
         for (i = 0; i < bodies.length; i++) {
+            if (!contactsPer[i]) continue;
+            var entSnap = bodies[i];
+            entSnap._preResolveVx = entSnap.vx || 0;
+            entSnap._preResolveVy = entSnap.vy || 0;
+        }
+
+        for (i = 0; i < bodies.length; i++) {
             var buf = contactsPer[i];
             if (!buf) continue;
             var e = bodies[i];
             var shW = shapeFromEntity(e);
             if (!shW || (shW.type !== 'circle' && shW.type !== 'rect')) continue;
 
+            var restE = entityRestitution(this, e);
+            var velThE = entityRestitutionVelThreshold(this, e);
+
             if (shW.type === 'circle') {
                 var r = shW.r;
                 if (e.x < r) {
                     e.x = r;
-                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * rest;
+                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * restE;
                     buf.push({ kind: 'viewport', edge: 'left' });
                 } else if (e.x > vw - r) {
                     e.x = vw - r;
-                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * rest;
+                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * restE;
                     buf.push({ kind: 'viewport', edge: 'right' });
                 }
                 if (e.y < r) {
                     e.y = r;
-                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * rest;
+                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * restE;
                     buf.push({ kind: 'viewport', edge: 'top' });
                 } else if (e.y > vh - r) {
                     e.y = vh - r;
-                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * rest;
+                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * restE;
                     buf.push({ kind: 'viewport', edge: 'bottom' });
                 }
                 for (var s = 0; s < statics.length; s++) {
@@ -463,7 +483,7 @@ class CollisionSubsystem {
                     if (!sepC) continue;
                     e.x += sepC.nx * sepC.pen;
                     e.y += sepC.ny * sepC.pen;
-                    resolveVelocityAlongNormal(e, sepC.nx, sepC.ny, rest, velTh);
+                    resolveVelocityAlongNormal(e, sepC.nx, sepC.ny, restE, velThE);
                     buf.push({ kind: 'static', rect: box });
                 }
             } else {
@@ -471,20 +491,20 @@ class CollisionSubsystem {
                 var hh = shW.h * 0.5;
                 if (e.x - hw < 0) {
                     e.x = hw;
-                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * rest;
+                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * restE;
                     buf.push({ kind: 'viewport', edge: 'left' });
                 } else if (e.x + hw > vw) {
                     e.x = vw - hw;
-                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * rest;
+                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * restE;
                     buf.push({ kind: 'viewport', edge: 'right' });
                 }
                 if (e.y - hh < 0) {
                     e.y = hh;
-                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * rest;
+                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * restE;
                     buf.push({ kind: 'viewport', edge: 'top' });
                 } else if (e.y + hh > vh) {
                     e.y = vh - hh;
-                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * rest;
+                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * restE;
                     buf.push({ kind: 'viewport', edge: 'bottom' });
                 }
                 for (var s2 = 0; s2 < statics.length; s2++) {
@@ -495,7 +515,7 @@ class CollisionSubsystem {
                     if (!sep) continue;
                     e.x += sep.nx * sep.pen;
                     e.y += sep.ny * sep.pen;
-                    resolveVelocityAlongNormal(e, sep.nx, sep.ny, rest, velTh);
+                    resolveVelocityAlongNormal(e, sep.nx, sep.ny, restE, velThE);
                     buf.push({ kind: 'static', rect: box2 });
                 }
             }
@@ -584,7 +604,9 @@ class CollisionSubsystem {
                         var reln = relvx * bnx + relvy * bny;
                         if (reln < 0) {
                             pairImpulsed[pkey] = true;
-                            var rEff = rest;
+                            var rA = entityRestitution(this, eA);
+                            var rB = entityRestitution(this, eB);
+                            var rEff = rA < rB ? rA : rB;
                             if (pairVelTh > 0 && Math.abs(reln) < pairVelTh) rEff = 0;
                             var imp = -(1 + rEff) * reln * 0.5;
                             eA.vx = (eA.vx || 0) + imp * bnx;

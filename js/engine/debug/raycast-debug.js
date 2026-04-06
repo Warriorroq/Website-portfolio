@@ -22,19 +22,6 @@ class RaycastDebugHandle {
 }
 
 class RaycastDebugOverlay {
-    /**
-     * @param {import('../engine.js').Engine} engine
-     * @param {object} [options]
-     * @param {number} [options.rayCount=60]
-     * @param {function(import('../engine.js').Engine): {x:number,y:number}} [options.getOrigin]
-     * @param {number} [options.maxDistance]
-     * @param {object} [options.ignore]
-     * @param {string} [options.strokeHit]
-     * @param {string} [options.strokeMiss]
-     * @param {string} [options.strokeHitPoint]
-     * @param {number} [options.hitRadius]
-     * @param {number} [options.zIndex]
-     */
     static attach(engine, options) {
         options = options || {};
         var rayCount = options.rayCount != null ? options.rayCount : 60;

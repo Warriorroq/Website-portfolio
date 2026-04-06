@@ -3,6 +3,7 @@
 import { Engine } from './engine/engine.js';
 import { Mouse } from './engine/entities/mouse.js';
 import { Ball } from './engine/entities/ball.js';
+import { Cat } from './engine/entities/cat/cat.js';
 import { ZoneDebugOverlay } from './engine/debug/zone-debug.js';
 import { RaycastDebugOverlay } from './engine/debug/raycast-debug.js';
 import { Spritesheet } from './engine/animations/spritesheet.js';
@@ -88,6 +89,21 @@ window.addEventListener('keydown', function (e) {
     var x = r + Math.random() * Math.max(0, vw - 2 * r);
     var y = r + Math.random() * Math.max(0, vh * 0.45 - 2 * r);
     engine.addEntity(new Ball({ radius: r, x: x, y: y }));
+});
+
+window.addEventListener('keydown', function (e) {
+    if (e.code !== 'KeyC') return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    e.preventDefault();
+    var vw = document.documentElement.clientWidth;
+    var vh = document.documentElement.clientHeight;
+    var s = 48 + Math.floor(Math.random() * 16);
+    var hw = s * 0.5;
+    var hh = s * 0.5;
+    var x = hw + Math.random() * Math.max(0, vw - s);
+    var y = hh + Math.random() * Math.max(0, vh * 0.45 - s);
+    engine.addEntity(new Cat({ width: s, height: s, x: x, y: y }));
 });
 
 mouseSpritesheet.load().then(function () {
