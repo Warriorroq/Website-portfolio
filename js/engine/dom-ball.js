@@ -1,11 +1,11 @@
-(function (global) {
-    'use strict';
+'use strict';
 
-    function clamp(v, a, b) {
-        return v < a ? a : v > b ? b : v;
-    }
+function clamp(v, a, b) {
+    return v < a ? a : v > b ? b : v;
+}
 
-    function DomBall(opts) {
+class DomBall {
+    constructor(opts) {
         opts = opts || {};
         this.radius = opts.radius != null ? opts.radius : 26;
         var vw = document.documentElement.clientWidth;
@@ -28,33 +28,33 @@
         this._engine = null;
     }
 
-    DomBall.prototype.collisionSkip = function () {
+    collisionSkip() {
         return this._dragging;
-    };
+    }
 
-    DomBall.prototype._syncStyle = function () {
+    _syncStyle() {
         if (!this.el) return;
         var d = this.radius * 2;
         this.el.style.width = d + 'px';
         this.el.style.height = d + 'px';
         this.el.style.left = this.x - this.radius + 'px';
         this.el.style.top = this.y - this.radius + 'px';
-    };
+    }
 
-    DomBall.prototype._clampToViewport = function () {
+    _clampToViewport() {
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
         var r = this.radius;
         this.x = clamp(this.x, r, vw - r);
         this.y = clamp(this.y, r, vh - r);
-    };
+    }
 
-    DomBall.prototype._onResize = function () {
+    _onResize() {
         this._clampToViewport();
         this._syncStyle();
-    };
+    }
 
-    DomBall.prototype._onPointerDown = function (e) {
+    _onPointerDown(e) {
         if (e.button !== 0 && e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
         e.preventDefault();
         this._dragging = true;
@@ -69,9 +69,9 @@
         this._clampToViewport();
         this.el.style.cursor = 'grabbing';
         this.el.setPointerCapture(e.pointerId);
-    };
+    }
 
-    DomBall.prototype._onPointerMove = function (e) {
+    _onPointerMove(e) {
         if (!this._dragging || e.pointerId !== this._ptrId) return;
         e.preventDefault();
         var now = performance.now();
@@ -88,9 +88,9 @@
         this._clampToViewport();
         this.vx = dx / dt;
         this.vy = dy / dt;
-    };
+    }
 
-    DomBall.prototype._onPointerUp = function (e) {
+    _onPointerUp(e) {
         if (e.pointerId !== this._ptrId) return;
         this._dragging = false;
         this._ptrId = null;
@@ -101,9 +101,9 @@
         var cap = 2200;
         this.vx = clamp(this.vx, -cap, cap);
         this.vy = clamp(this.vy, -cap, cap);
-    };
+    }
 
-    DomBall.prototype.onAdd = function (engine) {
+    onAdd(engine) {
         this._engine = engine || null;
         var el = document.createElement('div');
         el.className = 'dom-ball';
@@ -124,14 +124,14 @@
         el.addEventListener('pointercancel', this._boundPtrUp);
         window.addEventListener('resize', this._boundResize);
         if (this._engine && this._engine.collision) this._engine.collision.register(this);
-    };
+    }
 
-    DomBall.prototype.update = function () {
+    update() {
         if (!this.el) return;
         this._syncStyle();
-    };
+    }
 
-    DomBall.prototype.destroy = function () {
+    destroy() {
         window.removeEventListener('resize', this._boundResize);
         if (this._engine && this._engine.collision) this._engine.collision.unregister(this);
         this._engine = null;
@@ -143,7 +143,7 @@
             if (this.el.parentNode) this.el.parentNode.removeChild(this.el);
             this.el = null;
         }
-    };
+    }
+}
 
-    global.DomBall = DomBall;
-})(typeof window !== 'undefined' ? window : this);
+export { DomBall };

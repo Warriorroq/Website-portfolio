@@ -1,103 +1,116 @@
-(function (global) {
-    'use strict';
+'use strict';
 
-    function clamp(v, a, b) {
-        return v < a ? a : v > b ? b : v;
-    }
+function clamp(v, a, b) {
+    return v < a ? a : v > b ? b : v;
+}
 
-    var _nextBodyId = 1;
-    function bodyId(body) {
-        if (body._collisionBodyId == null) body._collisionBodyId = _nextBodyId++;
-        return body._collisionBodyId;
-    }
+var _nextBodyId = 1;
+function bodyId(body) {
+    if (body._collisionBodyId == null) body._collisionBodyId = _nextBodyId++;
+    return body._collisionBodyId;
+}
 
-    var _nextDomStaticId = 1;
-    var _domStaticIds = typeof WeakMap === 'function' ? new WeakMap() : null;
+var _nextDomStaticId = 1;
+var _domStaticIds = typeof WeakMap === 'function' ? new WeakMap() : null;
 
-    function domStaticId(el) {
-        if (!el) return _nextDomStaticId++;
-        if (_domStaticIds) {
-            var id = _domStaticIds.get(el);
-            if (id == null) {
-                id = _nextDomStaticId++;
-                _domStaticIds.set(el, id);
-            }
-            return id;
+function domStaticId(el) {
+    if (!el) return _nextDomStaticId++;
+    if (_domStaticIds) {
+        var id = _domStaticIds.get(el);
+        if (id == null) {
+            id = _nextDomStaticId++;
+            _domStaticIds.set(el, id);
         }
-        if (el._collisionStaticId == null) el._collisionStaticId = _nextDomStaticId++;
-        return el._collisionStaticId;
+        return id;
     }
+    if (el._collisionStaticId == null) el._collisionStaticId = _nextDomStaticId++;
+    return el._collisionStaticId;
+}
 
-    function pairKeyBodyBody(idA, idB) {
-        return idA < idB ? 'b' + idA + ':b' + idB : 'b' + idB + ':b' + idA;
+function pairKeyBodyBody(idA, idB) {
+    return idA < idB ? 'b' + idA + ':b' + idB : 'b' + idB + ':b' + idA;
+}
+
+function pairKeyBodyZone(bodyId, zoneId) {
+    return 'b' + bodyId + ':z' + zoneId;
+}
+
+function circleRectPenetration(cx, cy, rad, rx, ry, rw, rh) {
+    var nx = clamp(cx, rx, rx + rw);
+    var ny = clamp(cy, ry, ry + rh);
+    var dx = cx - nx;
+    var dy = cy - ny;
+    var d2 = dx * dx + dy * dy;
+    if (d2 >= rad * rad) return null;
+    var dist = Math.sqrt(d2);
+    var pen = rad - dist;
+    if (dist < 1e-6) {
+        var cx2 = rx + rw * 0.5;
+        var cy2 = ry + rh * 0.5;
+        dx = cx - cx2;
+        dy = cy - cy2;
+        var L = Math.sqrt(dx * dx + dy * dy) || 1;
+        dx /= L;
+        dy /= L;
+        return { nx: dx, ny: dy, pen: pen };
     }
+    return { nx: dx / dist, ny: dy / dist, pen: pen };
+}
 
-    function pairKeyBodyZone(bodyId, zoneId) {
-        return 'b' + bodyId + ':z' + zoneId;
-    }
+function circleCirclePenetration(ax, ay, ar, bx, by, br) {
+    var dx = bx - ax;
+    var dy = by - ay;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var minDist = ar + br;
+    if (dist >= minDist || dist < 1e-8) return null;
+    var pen = minDist - dist;
+    var nx = dx / dist;
+    var ny = dy / dist;
+    return { nx: -nx, ny: -ny, pen: pen };
+}
 
-    function circleRectPenetration(cx, cy, rad, rx, ry, rw, rh) {
-        var nx = clamp(cx, rx, rx + rw);
-        var ny = clamp(cy, ry, ry + rh);
-        var dx = cx - nx;
-        var dy = cy - ny;
-        var d2 = dx * dx + dy * dy;
-        if (d2 >= rad * rad) return null;
-        var dist = Math.sqrt(d2);
-        var pen = rad - dist;
-        if (dist < 1e-6) {
-            var cx2 = rx + rw * 0.5;
-            var cy2 = ry + rh * 0.5;
-            dx = cx - cx2;
-            dy = cy - cy2;
-            var L = Math.sqrt(dx * dx + dy * dy) || 1;
-            dx /= L;
-            dy /= L;
-            return { nx: dx, ny: dy, pen: pen };
+function rectRectOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
+    return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
+}
+
+function shapeFromEntity(ent) {
+    if (typeof ent.getCollisionShape === 'function') {
+        var s = ent.getCollisionShape();
+        if (!s || !s.type) return null;
+        if (s.type === 'circle') {
+            return {
+                type: 'circle',
+                cx: s.x != null ? s.x : ent.x,
+                cy: s.y != null ? s.y : ent.y,
+                r: s.r != null ? s.r : s.radius
+            };
         }
-        return { nx: dx / dist, ny: dy / dist, pen: pen };
-    }
-
-    function circleCirclePenetration(ax, ay, ar, bx, by, br) {
-        var dx = bx - ax;
-        var dy = by - ay;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        var minDist = ar + br;
-        if (dist >= minDist || dist < 1e-8) return null;
-        var pen = minDist - dist;
-        var nx = dx / dist;
-        var ny = dy / dist;
-        return { nx: -nx, ny: -ny, pen: pen };
-    }
-
-    function rectRectOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
-        return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
-    }
-
-    function shapeFromEntity(ent) {
-        if (typeof ent.getCollisionShape === 'function') {
-            var s = ent.getCollisionShape();
-            if (!s || !s.type) return null;
-            if (s.type === 'circle') {
-                return {
-                    type: 'circle',
-                    cx: s.x != null ? s.x : ent.x,
-                    cy: s.y != null ? s.y : ent.y,
-                    r: s.r != null ? s.r : s.radius
-                };
-            }
-            if (s.type === 'rect') {
-                return { type: 'rect', x: s.x, y: s.y, w: s.w, h: s.h };
-            }
-            return null;
-        }
-        if (ent.radius != null && ent.x != null && ent.y != null) {
-            return { type: 'circle', cx: ent.x, cy: ent.y, r: ent.radius };
+        if (s.type === 'rect') {
+            return { type: 'rect', x: s.x, y: s.y, w: s.w, h: s.h };
         }
         return null;
     }
+    if (ent.radius != null && ent.x != null && ent.y != null) {
+        return { type: 'circle', cx: ent.x, cy: ent.y, r: ent.radius };
+    }
+    return null;
+}
 
-    function CollisionSubsystem(engine, opts) {
+class CollisionZoneProxy {
+    constructor(element) {
+        this.collisionZone = true;
+        this.element = element;
+    }
+
+    getCollisionShape() {
+        if (!this.element || !this.element.getBoundingClientRect) return null;
+        var rr = this.element.getBoundingClientRect();
+        return { type: 'rect', x: rr.left, y: rr.top, w: rr.width, h: rr.height };
+    }
+}
+
+class CollisionSubsystem {
+    constructor(engine, opts) {
         opts = opts || {};
         this.engine = engine;
         this.gravity = opts.gravity != null ? opts.gravity : 1500;
@@ -107,20 +120,20 @@
         this._activeOverlapKeys = Object.create(null);
     }
 
-    CollisionSubsystem.prototype.register = function (body) {
+    register(body) {
         if (!body || this._bodies.indexOf(body) !== -1) return;
         this._bodies.push(body);
-    };
+    }
 
-    CollisionSubsystem.prototype.unregister = function (body) {
+    unregister(body) {
         if (!body) return;
         var i = this._bodies.indexOf(body);
         if (i !== -1) this._bodies.splice(i, 1);
         var bid = body._collisionBodyId;
         if (bid != null) this._purgePairsForBodyId(bid);
-    };
+    }
 
-    CollisionSubsystem.prototype._purgePairsForBodyId = function (bid) {
+    _purgePairsForBodyId(bid) {
         var keys = Object.keys(this._activeOverlapKeys);
         var tag = 'b' + bid;
         for (var i = 0; i < keys.length; i++) {
@@ -133,9 +146,9 @@
                 }
             }
         }
-    };
+    }
 
-    CollisionSubsystem.prototype._staticRectsFromZones = function () {
+    _staticRectsFromZones() {
         var engine = this.engine;
         if (!engine || !engine.zones) return [];
         var zones = engine.zones;
@@ -156,9 +169,9 @@
             });
         }
         return out;
-    };
+    }
 
-    CollisionSubsystem.prototype._overlap = function (sa, sb) {
+    _overlap(sa, sb) {
         if (sa.type === 'circle' && sb.type === 'circle') {
             var dx = sa.cx - sb.cx;
             var dy = sa.cy - sb.cy;
@@ -177,9 +190,9 @@
             return p2 != null;
         }
         return false;
-    };
+    }
 
-    CollisionSubsystem.prototype._emitNewOverlaps = function (pairsThisFrame) {
+    _emitNewOverlaps(pairsThisFrame) {
         var prev = this._activeOverlapKeys;
         var next = Object.create(null);
         for (var i = 0; i < pairsThisFrame.length; i++) {
@@ -195,9 +208,9 @@
             }
         }
         this._activeOverlapKeys = next;
-    };
+    }
 
-    CollisionSubsystem.prototype._integrateAndResolve = function (dt) {
+    _integrateAndResolve(dt) {
         var bodies = this._bodies;
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
@@ -332,9 +345,9 @@
             var entF = bodies[i];
             if (contactsPer[i]) entF.lastCollision = { dt: dt, contacts: contactsPer[i].slice() };
         }
-    };
+    }
 
-    CollisionSubsystem.prototype._overlapShapeWorld = function (ent, s) {
+    _overlapShapeWorld(ent, s) {
         if (!s) return null;
         if (s.type === 'circle') {
             return {
@@ -345,9 +358,9 @@
             };
         }
         return { type: 'rect', x: s.x, y: s.y, w: s.w, h: s.h };
-    };
+    }
 
-    CollisionSubsystem.prototype._collectOverlapPairs = function () {
+    _collectOverlapPairs() {
         var pairs = [];
         var bodies = this._bodies;
         var statics = this._staticRectsFromZones();
@@ -375,15 +388,7 @@
                 if (this._overlap(saW, sr)) {
                     var el = st.el;
                     if (!el._collisionZoneProxy) {
-                        el._collisionZoneProxy = {
-                            collisionZone: true,
-                            element: el,
-                            getCollisionShape: function () {
-                                if (!this.element || !this.element.getBoundingClientRect) return null;
-                                var rr = this.element.getBoundingClientRect();
-                                return { type: 'rect', x: rr.left, y: rr.top, w: rr.width, h: rr.height };
-                            }
-                        };
+                        el._collisionZoneProxy = new CollisionZoneProxy(el);
                     }
                     var zp = el._collisionZoneProxy;
                     pairs.push({ key: pairKeyBodyZone(idA, st.id), a: a, b: zp });
@@ -392,13 +397,13 @@
         }
 
         return pairs;
-    };
+    }
 
-    CollisionSubsystem.prototype.update = function (dt) {
+    update(dt) {
         this._integrateAndResolve(dt);
         var pairs = this._collectOverlapPairs();
         this._emitNewOverlaps(pairs);
-    };
+    }
+}
 
-    global.CollisionSubsystem = CollisionSubsystem;
-})(typeof window !== 'undefined' ? window : this);
+export { CollisionSubsystem };

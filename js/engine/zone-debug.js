@@ -1,9 +1,27 @@
-(function (global) {
-    'use strict';
+'use strict';
 
-    var NS = 'http://www.w3.org/2000/svg';
+var NS = 'http://www.w3.org/2000/svg';
 
-    function attach(engine, options) {
+class ZoneDebugHandle {
+    constructor(svg, scheduleRedraw, redraw) {
+        this._svg = svg;
+        this._scheduleRedraw = scheduleRedraw;
+        this._redraw = redraw;
+    }
+
+    destroy() {
+        window.removeEventListener('scroll', this._scheduleRedraw, true);
+        window.removeEventListener('resize', this._scheduleRedraw);
+        if (this._svg.parentNode) this._svg.parentNode.removeChild(this._svg);
+    }
+
+    redraw() {
+        this._redraw();
+    }
+}
+
+class ZoneDebugOverlay {
+    static attach(engine, options) {
         options = options || {};
         var radius = options.radius != null ? options.radius : 6;
         var stroke = options.stroke != null ? options.stroke : 'rgba(236, 72, 153, 0.95)';
@@ -89,15 +107,8 @@
         window.addEventListener('scroll', scheduleRedraw, true);
         window.addEventListener('resize', scheduleRedraw);
 
-        return {
-            destroy: function () {
-                window.removeEventListener('scroll', scheduleRedraw, true);
-                window.removeEventListener('resize', scheduleRedraw);
-                if (svg.parentNode) svg.parentNode.removeChild(svg);
-            },
-            redraw: redraw
-        };
+        return new ZoneDebugHandle(svg, scheduleRedraw, redraw);
     }
+}
 
-    global.ZoneDebugOverlay = { attach: attach };
-})(typeof window !== 'undefined' ? window : this);
+export { ZoneDebugOverlay };
