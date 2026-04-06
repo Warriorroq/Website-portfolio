@@ -124,6 +124,92 @@ function shapeFromEntity(ent) {
     return null;
 }
 
+function raycastCircle(ox, oy, ux, uy, cx, cy, r) {
+    var Lx = ox - cx;
+    var Ly = oy - cy;
+    var b = 2 * (Lx * ux + Ly * uy);
+    var c = Lx * Lx + Ly * Ly - r * r;
+    var disc = b * b - 4 * c;
+    if (disc < 0) return null;
+    var s = Math.sqrt(disc);
+    var t1 = (-b - s) * 0.5;
+    var t2 = (-b + s) * 0.5;
+    var eps = 1e-9;
+    var t;
+    if (t1 >= eps) t = t1;
+    else if (t2 >= eps) t = t2;
+    else return null;
+    var x = ox + ux * t;
+    var y = oy + uy * t;
+    var nx = (x - cx) / r;
+    var ny = (y - cy) / r;
+    return { t: t, x: x, y: y, nx: nx, ny: ny };
+}
+
+function raycastRect(ox, oy, ux, uy, x, y, w, h) {
+    var minX = x;
+    var minY = y;
+    var maxX = x + w;
+    var maxY = y + h;
+    var eps = 1e-9;
+    var inf = 1e30;
+
+    var txEnter;
+    var txExit;
+    if (Math.abs(ux) < eps) {
+        if (ox < minX || ox > maxX) return null;
+        txEnter = -inf;
+        txExit = inf;
+    } else {
+        var tx1 = (minX - ox) / ux;
+        var tx2 = (maxX - ox) / ux;
+        txEnter = tx1 < tx2 ? tx1 : tx2;
+        txExit = tx1 < tx2 ? tx2 : tx1;
+    }
+
+    var tyEnter;
+    var tyExit;
+    if (Math.abs(uy) < eps) {
+        if (oy < minY || oy > maxY) return null;
+        tyEnter = -inf;
+        tyExit = inf;
+    } else {
+        var ty1 = (minY - oy) / uy;
+        var ty2 = (maxY - oy) / uy;
+        tyEnter = ty1 < ty2 ? ty1 : ty2;
+        tyExit = ty1 < ty2 ? ty2 : ty1;
+    }
+
+    var tEnter = txEnter > tyEnter ? txEnter : tyEnter;
+    var tExit = txExit < tyExit ? txExit : tyExit;
+    if (tEnter > tExit + eps) return null;
+    if (tExit < -eps) return null;
+
+    var t;
+    if (tEnter >= eps) t = tEnter;
+    else if (tExit >= eps) t = tExit;
+    else return null;
+
+    var px = ox + ux * t;
+    var py = oy + uy * t;
+    var nx = 0;
+    var ny = 0;
+    if (Math.abs(px - minX) < 1e-5) {
+        nx = -1;
+        ny = 0;
+    } else if (Math.abs(px - maxX) < 1e-5) {
+        nx = 1;
+        ny = 0;
+    } else if (Math.abs(py - minY) < 1e-5) {
+        nx = 0;
+        ny = -1;
+    } else if (Math.abs(py - maxY) < 1e-5) {
+        nx = 0;
+        ny = 1;
+    }
+    return { t: t, x: px, y: py, nx: nx, ny: ny };
+}
+
 class CollisionZoneProxy {
     constructor(element) {
         this.collisionZone = true;
@@ -633,6 +719,77 @@ class CollisionSubsystem {
         }
 
         return pairs;
+    }
+
+    raycast(ox, oy, dirX, dirY, opts) {
+        opts = opts || {};
+        var maxDist = opts.maxDistance != null ? opts.maxDistance : Infinity;
+        var ignore = opts.ignore;
+        var includeBodies = opts.includeBodies !== false;
+        var includeStatics = opts.includeStatics !== false;
+
+        var len = Math.hypot(dirX, dirY);
+        if (len < 1e-12) return null;
+        var ux = dirX / len;
+        var uy = dirY / len;
+
+        var best = null;
+        var bestT = Infinity;
+        var tol = 1e-9;
+
+        function consider(hit, meta) {
+            if (!hit || hit.t < -tol || hit.t > maxDist + tol) return;
+            if (hit.t < bestT - tol) {
+                bestT = hit.t;
+                best = {
+                    t: hit.t,
+                    x: hit.x,
+                    y: hit.y,
+                    nx: hit.nx,
+                    ny: hit.ny,
+                    kind: meta.kind,
+                    entity: meta.entity,
+                    staticRect: meta.staticRect,
+                };
+            }
+        }
+
+        if (includeStatics) {
+            var statics = this._staticRectsFromZones();
+            for (var s = 0; s < statics.length; s++) {
+                var st = statics[s];
+                var hr = raycastRect(ox, oy, ux, uy, st.x, st.y, st.w, st.h);
+                consider(hr, { kind: 'static', staticRect: st, entity: undefined });
+            }
+        }
+
+        if (includeBodies) {
+            var bodies = this._bodies;
+            for (var i = 0; i < bodies.length; i++) {
+                var ent = bodies[i];
+                if (ignore != null && ent === ignore) continue;
+                if (typeof ent.collisionSkip === 'function' && ent.collisionSkip()) continue;
+                var sh = shapeFromEntity(ent);
+                if (!sh) continue;
+                var shW = this._overlapShapeWorld(ent, sh);
+                if (!shW) continue;
+                if (shW.type === 'circle') {
+                    var hc = raycastCircle(ox, oy, ux, uy, shW.cx, shW.cy, shW.r);
+                    consider(hc, { kind: 'body', entity: ent, staticRect: undefined });
+                } else if (shW.type === 'rect') {
+                    var hr2 = raycastRect(ox, oy, ux, uy, shW.x, shW.y, shW.w, shW.h);
+                    consider(hr2, { kind: 'body', entity: ent, staticRect: undefined });
+                }
+            }
+        }
+
+        return best;
+    }
+
+    raycastPoint(ox, oy, dirX, dirY, opts) {
+        var h = this.raycast(ox, oy, dirX, dirY, opts);
+        if (!h) return null;
+        return { x: h.x, y: h.y, t: h.t };
     }
 
     update(dt) {

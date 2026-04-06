@@ -4,6 +4,7 @@ import { Engine } from './engine/engine.js';
 import { Mouse } from './engine/entities/mouse.js';
 import { Ball } from './engine/entities/ball.js';
 import { ZoneDebugOverlay } from './engine/debug/zone-debug.js';
+import { RaycastDebugOverlay } from './engine/debug/raycast-debug.js';
 import { Spritesheet } from './engine/animations/spritesheet.js';
 import { AnimationClip, WrapMode } from './engine/animations/animation-clip.js';
 import { Animator } from './engine/animations/animator.js';
@@ -30,8 +31,27 @@ var engine = new Engine({
 
 ZoneDebugOverlay.attach(engine, { edgeMidpoints: true });
 
+/*var rayDebugPtr = {
+    x: document.documentElement.clientWidth * 0.5,
+    y: document.documentElement.clientHeight * 0.5,
+};
+window.addEventListener(
+    'pointermove',
+    function (e) {
+        rayDebugPtr.x = e.clientX;
+        rayDebugPtr.y = e.clientY;
+    },
+    { passive: true }
+);
+RaycastDebugOverlay.attach(engine, {
+    rayCount: 60,
+    getOrigin: function () {
+        return rayDebugPtr;
+    },
+});*/
+
 window.addEventListener('keydown', function (e) {
-    if (e.code !== 'Space') return;
+    if (e.code !== 'KeyM') return;
     var t = e.target;
     if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
     e.preventDefault();
