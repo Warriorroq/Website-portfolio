@@ -159,7 +159,10 @@ class Mouse {
     update(dt) {
         if (!this.el) return;
         this._syncStyle();
-        if (this.animator) this.animator.update(dt);
+        if (this.animator) {
+            if (Math.abs(this.vx) >= 40) this.animator.flipByX = this.vx > 0;
+            this.animator.update(dt);
+        }
     }
 
     destroy() {

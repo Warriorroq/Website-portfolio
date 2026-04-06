@@ -35,11 +35,15 @@ class Animator {
         this.clip = opts.clip || null;
         this.el = opts.el || null;
         this.time = 0;
+        this.flipByX = opts.flipByX === true;
     }
 
     attach(el) {
         this.el = el || null;
-        if (this.el) this.el.style.backgroundRepeat = 'no-repeat';
+        if (this.el) {
+            this.el.style.backgroundRepeat = 'no-repeat';
+            this.el.style.transformOrigin = '50% 50%';
+        }
     }
 
     reset() {
@@ -78,6 +82,7 @@ class Animator {
         this.el.style.backgroundImage = 'url(' + JSON.stringify(sheet.src) + ')';
         this.el.style.backgroundSize = bw + 'px ' + bh + 'px';
         this.el.style.backgroundPosition = px + 'px ' + py + 'px';
+        this.el.style.transform = this.flipByX ? 'scaleX(-1)' : '';
     }
 }
 
