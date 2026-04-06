@@ -73,7 +73,6 @@ function rectRectOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
     return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
 }
 
-/** Minimum translation to separate the first AABB from the second; normal points the direction the first box's center should move. */
 function rectRectMinimumTranslation(ax, ay, aw, ah, bx, by, bw, bh) {
     var overlapX = Math.min(ax + aw, bx + bw) - Math.max(ax, bx);
     var overlapY = Math.min(ay + ah, by + bh) - Math.max(ay, by);
@@ -82,20 +81,46 @@ function rectRectMinimumTranslation(ax, ay, aw, ah, bx, by, bw, bh) {
     var cyA = ay + ah * 0.5;
     var cxB = bx + bw * 0.5;
     var cyB = by + bh * 0.5;
-    if (overlapX < overlapY) {
-        var nx = cxA < cxB ? -1 : 1;
-        return { nx: nx, ny: 0, pen: overlapX };
+    var eps = 0.5;
+    var nx;
+    var ny;
+    var pen;
+    if (overlapX < overlapY - eps) {
+        nx = cxA < cxB ? -1 : 1;
+        ny = 0;
+        pen = overlapX;
+    } else if (overlapY < overlapX - eps) {
+        nx = 0;
+        ny = cyA < cyB ? -1 : 1;
+        pen = overlapY;
+    } else {
+        var dcx = Math.abs(cxA - cxB);
+        var dcy = Math.abs(cyA - cyB);
+        if (dcy >= dcx) {
+            nx = 0;
+            ny = cyA < cyB ? -1 : 1;
+            pen = overlapY;
+        } else {
+            nx = cxA < cxB ? -1 : 1;
+            ny = 0;
+            pen = overlapX;
+        }
     }
-    var ny = cyA < cyB ? -1 : 1;
-    return { nx: 0, ny: ny, pen: overlapY };
+    return { nx: nx, ny: ny, pen: pen };
 }
 
-function resolveVelocityAlongNormal(e, nx, ny, rest) {
+function resolveVelocityAlongNormal(e, nx, ny, rest, velThreshold) {
     var vn = (e.vx || 0) * nx + (e.vy || 0) * ny;
     if (vn < 0) {
-        e.vx = (e.vx || 0) - (1 + rest) * vn * nx;
-        e.vy = (e.vy || 0) - (1 + rest) * vn * ny;
+        var r = rest;
+        if (velThreshold != null && velThreshold > 0 && Math.abs(vn) < velThreshold) r = 0;
+        e.vx = (e.vx || 0) - (1 + r) * vn * nx;
+        e.vy = (e.vy || 0) - (1 + r) * vn * ny;
     }
+}
+
+function horizontalOverlap1D(ax, aw, bx, bw) {
+    return Math.min(ax + aw, bx + bw) - Math.max(ax, bx);
 }
 
 function shapeFromEntity(ent) {
@@ -140,9 +165,87 @@ class CollisionSubsystem {
         this.engine = engine;
         this.gravity = opts.gravity != null ? opts.gravity : 1500;
         this.restitution = opts.restitution != null ? opts.restitution : 0.72;
-        this.bodyResolvePasses = opts.bodyResolvePasses != null ? opts.bodyResolvePasses : opts.circleResolvePasses != null ? opts.circleResolvePasses : 4;
+        this.restitutionVelocityThreshold =
+            opts.restitutionVelocityThreshold != null ? opts.restitutionVelocityThreshold : 120;
+        this.pairRestitutionVelocityThreshold =
+            opts.pairRestitutionVelocityThreshold != null ? opts.pairRestitutionVelocityThreshold : 35;
+        this.sleepVelocityMax =
+            opts.sleepVelocityMax != null ? opts.sleepVelocityMax : 72;
+        this.bodyResolvePasses = opts.bodyResolvePasses != null ? opts.bodyResolvePasses : opts.circleResolvePasses != null ? opts.circleResolvePasses : 10;
         this._bodies = [];
         this._activeOverlapKeys = Object.create(null);
+    }
+
+    _applySleepingSupport(statics, bodies) {
+        var n = bodies.length;
+        if (n === 0) return;
+        var grounded = new Array(n);
+        var i;
+        var j;
+        var pass;
+        var slack = 8;
+        var sleepAbs = this.sleepVelocityMax > 0 ? this.sleepVelocityMax : 72;
+
+        function rectGeom(ent) {
+            var sh = shapeFromEntity(ent);
+            if (!sh || sh.type !== 'rect') return null;
+            var hw = sh.w * 0.5;
+            var hh = sh.h * 0.5;
+            return {
+                ax: ent.x - hw,
+                ay: ent.y - hh,
+                w: sh.w,
+                h: sh.h,
+                top: ent.y - hh,
+                bot: ent.y + hh,
+            };
+        }
+
+        for (i = 0; i < n; i++) grounded[i] = false;
+
+        for (i = 0; i < n; i++) {
+            var entS = bodies[i];
+            if (typeof entS.collisionSkip === 'function' && entS.collisionSkip()) continue;
+            var gS = rectGeom(entS);
+            if (!gS) continue;
+            if (Math.abs(entS.vy || 0) > sleepAbs) continue;
+            var sidx;
+            for (sidx = 0; sidx < statics.length; sidx++) {
+                var st = statics[sidx];
+                if (horizontalOverlap1D(gS.ax, gS.w, st.x, st.w) < 0.5) continue;
+                if (gS.bot >= st.y - 2 && gS.bot <= st.y + slack) {
+                    grounded[i] = true;
+                    entS.vy = 0;
+                    break;
+                }
+            }
+        }
+
+        for (pass = 0; pass < n; pass++) {
+            var changed = false;
+            for (i = 0; i < n; i++) {
+                if (grounded[i]) continue;
+                var entA = bodies[i];
+                if (typeof entA.collisionSkip === 'function' && entA.collisionSkip()) continue;
+                var gA = rectGeom(entA);
+                if (!gA) continue;
+                if (Math.abs(entA.vy || 0) > sleepAbs) continue;
+                for (j = 0; j < n; j++) {
+                    if (!grounded[j]) continue;
+                    var entB = bodies[j];
+                    var gB = rectGeom(entB);
+                    if (!gB) continue;
+                    if (entA.y >= entB.y) continue;
+                    if (horizontalOverlap1D(gA.ax, gA.w, gB.ax, gB.w) < 0.5) continue;
+                    if (gA.bot < gB.top - 2 || gA.bot > gB.top + slack) continue;
+                    grounded[i] = true;
+                    entA.vy = 0;
+                    changed = true;
+                    break;
+                }
+            }
+            if (!changed) break;
+        }
     }
 
     register(body) {
@@ -240,6 +343,8 @@ class CollisionSubsystem {
         var vw = document.documentElement.clientWidth;
         var vh = document.documentElement.clientHeight;
         var rest = this.restitution;
+        var velTh = this.restitutionVelocityThreshold;
+        var pairVelTh = this.pairRestitutionVelocityThreshold;
         var statics = this._staticRectsFromZones();
         var contactsPer = [];
 
@@ -293,7 +398,7 @@ class CollisionSubsystem {
                     if (!pen) continue;
                     e.x += pen.nx * pen.pen;
                     e.y += pen.ny * pen.pen;
-                    resolveVelocityAlongNormal(e, pen.nx, pen.ny, rest);
+                    resolveVelocityAlongNormal(e, pen.nx, pen.ny, rest, velTh);
                     buf.push({ kind: 'static', rect: box });
                 }
             } else {
@@ -325,7 +430,7 @@ class CollisionSubsystem {
                     if (!sep) continue;
                     e.x += sep.nx * sep.pen;
                     e.y += sep.ny * sep.pen;
-                    resolveVelocityAlongNormal(e, sep.nx, sep.ny, rest);
+                    resolveVelocityAlongNormal(e, sep.nx, sep.ny, rest, velTh);
                     buf.push({ kind: 'static', rect: box2 });
                 }
             }
@@ -333,9 +438,9 @@ class CollisionSubsystem {
 
         var pairPasses = this.bodyResolvePasses;
         if (pairPasses < 1) pairPasses = 1;
+        var pairImpulsed = Object.create(null);
         var pass;
         for (pass = 0; pass < pairPasses; pass++) {
-            var applyImpulse = pass === pairPasses - 1;
             for (i = 0; i < bodies.length; i++) {
                 var eA = bodies[i];
                 if (!contactsPer[i]) continue;
@@ -357,10 +462,6 @@ class CollisionSubsystem {
                         if (!pen2) continue;
                         bnx = pen2.nx;
                         bny = pen2.ny;
-                        eA.x += pen2.nx * pen2.pen * 0.5;
-                        eA.y += pen2.ny * pen2.pen * 0.5;
-                        eB.x -= pen2.nx * pen2.pen * 0.5;
-                        eB.y -= pen2.ny * pen2.pen * 0.5;
                     } else if (shA.type === 'rect' && shB.type === 'rect') {
                         pen2 = rectRectMinimumTranslation(
                             eA.x - shA.w * 0.5,
@@ -375,10 +476,6 @@ class CollisionSubsystem {
                         if (!pen2) continue;
                         bnx = pen2.nx;
                         bny = pen2.ny;
-                        eA.x += pen2.nx * pen2.pen * 0.5;
-                        eA.y += pen2.ny * pen2.pen * 0.5;
-                        eB.x -= pen2.nx * pen2.pen * 0.5;
-                        eB.y -= pen2.ny * pen2.pen * 0.5;
                     } else if (shA.type === 'circle' && shB.type === 'rect') {
                         var rbx = eB.x - shB.w * 0.5;
                         var rby = eB.y - shB.h * 0.5;
@@ -386,10 +483,6 @@ class CollisionSubsystem {
                         if (!pen2) continue;
                         bnx = pen2.nx;
                         bny = pen2.ny;
-                        eA.x += pen2.nx * pen2.pen * 0.5;
-                        eA.y += pen2.ny * pen2.pen * 0.5;
-                        eB.x -= pen2.nx * pen2.pen * 0.5;
-                        eB.y -= pen2.ny * pen2.pen * 0.5;
                     } else if (shA.type === 'rect' && shB.type === 'circle') {
                         var rax = eA.x - shA.w * 0.5;
                         var ray = eA.y - shA.h * 0.5;
@@ -397,27 +490,49 @@ class CollisionSubsystem {
                         if (!pen2) continue;
                         bnx = pen2.nx;
                         bny = pen2.ny;
-                        eB.x += pen2.nx * pen2.pen * 0.5;
-                        eB.y += pen2.ny * pen2.pen * 0.5;
-                        eA.x -= pen2.nx * pen2.pen * 0.5;
-                        eA.y -= pen2.ny * pen2.pen * 0.5;
                     } else {
                         continue;
                     }
 
-                    if (applyImpulse) {
+                    var pkey = i + ',' + j;
+                    if (!pairImpulsed[pkey]) {
                         var relvx = (eA.vx || 0) - (eB.vx || 0);
                         var relvy = (eA.vy || 0) - (eB.vy || 0);
                         var reln = relvx * bnx + relvy * bny;
                         if (reln < 0) {
-                            var imp = -(1 + rest) * reln * 0.5;
+                            pairImpulsed[pkey] = true;
+                            var rEff = rest;
+                            if (pairVelTh > 0 && Math.abs(reln) < pairVelTh) rEff = 0;
+                            var imp = -(1 + rEff) * reln * 0.5;
                             eA.vx = (eA.vx || 0) + imp * bnx;
                             eA.vy = (eA.vy || 0) + imp * bny;
                             eB.vx = (eB.vx || 0) - imp * bnx;
                             eB.vy = (eB.vy || 0) - imp * bny;
+                            contactsPer[i].push({ kind: 'body', other: eB });
+                            contactsPer[j].push({ kind: 'body', other: eA });
                         }
-                        contactsPer[i].push({ kind: 'body', other: eB });
-                        contactsPer[j].push({ kind: 'body', other: eA });
+                    }
+
+                    if (shA.type === 'circle' && shB.type === 'circle') {
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'rect' && shB.type === 'rect') {
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'circle' && shB.type === 'rect') {
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'rect' && shB.type === 'circle') {
+                        eB.x += pen2.nx * pen2.pen * 0.5;
+                        eB.y += pen2.ny * pen2.pen * 0.5;
+                        eA.x -= pen2.nx * pen2.pen * 0.5;
+                        eA.y -= pen2.ny * pen2.pen * 0.5;
                     }
                 }
             }
@@ -461,6 +576,8 @@ class CollisionSubsystem {
                 }
             }
         }
+
+        this._applySleepingSupport(statics, bodies);
 
         for (i = 0; i < bodies.length; i++) {
             var entF = bodies[i];
