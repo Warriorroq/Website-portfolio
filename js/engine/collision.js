@@ -73,6 +73,31 @@ function rectRectOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
     return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
 }
 
+/** Minimum translation to separate the first AABB from the second; normal points the direction the first box's center should move. */
+function rectRectMinimumTranslation(ax, ay, aw, ah, bx, by, bw, bh) {
+    var overlapX = Math.min(ax + aw, bx + bw) - Math.max(ax, bx);
+    var overlapY = Math.min(ay + ah, by + bh) - Math.max(ay, by);
+    if (overlapX <= 0 || overlapY <= 0) return null;
+    var cxA = ax + aw * 0.5;
+    var cyA = ay + ah * 0.5;
+    var cxB = bx + bw * 0.5;
+    var cyB = by + bh * 0.5;
+    if (overlapX < overlapY) {
+        var nx = cxA < cxB ? -1 : 1;
+        return { nx: nx, ny: 0, pen: overlapX };
+    }
+    var ny = cyA < cyB ? -1 : 1;
+    return { nx: 0, ny: ny, pen: overlapY };
+}
+
+function resolveVelocityAlongNormal(e, nx, ny, rest) {
+    var vn = (e.vx || 0) * nx + (e.vy || 0) * ny;
+    if (vn < 0) {
+        e.vx = (e.vx || 0) - (1 + rest) * vn * nx;
+        e.vy = (e.vy || 0) - (1 + rest) * vn * ny;
+    }
+}
+
 function shapeFromEntity(ent) {
     if (typeof ent.getCollisionShape === 'function') {
         var s = ent.getCollisionShape();
@@ -115,7 +140,7 @@ class CollisionSubsystem {
         this.engine = engine;
         this.gravity = opts.gravity != null ? opts.gravity : 1500;
         this.restitution = opts.restitution != null ? opts.restitution : 0.72;
-        this.circleResolvePasses = opts.circleResolvePasses != null ? opts.circleResolvePasses : 4;
+        this.bodyResolvePasses = opts.bodyResolvePasses != null ? opts.bodyResolvePasses : opts.circleResolvePasses != null ? opts.circleResolvePasses : 4;
         this._bodies = [];
         this._activeOverlapKeys = Object.create(null);
     }
@@ -227,7 +252,7 @@ class CollisionSubsystem {
                 continue;
             }
             var sh = shapeFromEntity(ent);
-            if (!sh || sh.type !== 'circle') continue;
+            if (!sh || (sh.type !== 'circle' && sh.type !== 'rect')) continue;
 
             ent.vy = (ent.vy || 0) + this.gravity * dt;
             ent.x = ent.x + (ent.vx || 0) * dt;
@@ -240,43 +265,73 @@ class CollisionSubsystem {
             if (!buf) continue;
             var e = bodies[i];
             var shW = shapeFromEntity(e);
-            var r = shW.r;
+            if (!shW || (shW.type !== 'circle' && shW.type !== 'rect')) continue;
 
-            if (e.x < r) {
-                e.x = r;
-                if ((e.vx || 0) < 0) e.vx = -(e.vx) * rest;
-                buf.push({ kind: 'viewport', edge: 'left' });
-            } else if (e.x > vw - r) {
-                e.x = vw - r;
-                if ((e.vx || 0) > 0) e.vx = -(e.vx) * rest;
-                buf.push({ kind: 'viewport', edge: 'right' });
-            }
-            if (e.y < r) {
-                e.y = r;
-                if ((e.vy || 0) < 0) e.vy = -(e.vy) * rest;
-                buf.push({ kind: 'viewport', edge: 'top' });
-            } else if (e.y > vh - r) {
-                e.y = vh - r;
-                if ((e.vy || 0) > 0) e.vy = -(e.vy) * rest;
-                buf.push({ kind: 'viewport', edge: 'bottom' });
-            }
-
-            for (var s = 0; s < statics.length; s++) {
-                var box = statics[s];
-                var pen = circleRectPenetration(e.x, e.y, r, box.x, box.y, box.w, box.h);
-                if (!pen) continue;
-                e.x += pen.nx * pen.pen;
-                e.y += pen.ny * pen.pen;
-                var vn = (e.vx || 0) * pen.nx + (e.vy || 0) * pen.ny;
-                if (vn < 0) {
-                    e.vx = (e.vx || 0) - (1 + rest) * vn * pen.nx;
-                    e.vy = (e.vy || 0) - (1 + rest) * vn * pen.ny;
+            if (shW.type === 'circle') {
+                var r = shW.r;
+                if (e.x < r) {
+                    e.x = r;
+                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * rest;
+                    buf.push({ kind: 'viewport', edge: 'left' });
+                } else if (e.x > vw - r) {
+                    e.x = vw - r;
+                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * rest;
+                    buf.push({ kind: 'viewport', edge: 'right' });
                 }
-                buf.push({ kind: 'static', rect: box });
+                if (e.y < r) {
+                    e.y = r;
+                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * rest;
+                    buf.push({ kind: 'viewport', edge: 'top' });
+                } else if (e.y > vh - r) {
+                    e.y = vh - r;
+                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * rest;
+                    buf.push({ kind: 'viewport', edge: 'bottom' });
+                }
+                for (var s = 0; s < statics.length; s++) {
+                    var box = statics[s];
+                    var pen = circleRectPenetration(e.x, e.y, r, box.x, box.y, box.w, box.h);
+                    if (!pen) continue;
+                    e.x += pen.nx * pen.pen;
+                    e.y += pen.ny * pen.pen;
+                    resolveVelocityAlongNormal(e, pen.nx, pen.ny, rest);
+                    buf.push({ kind: 'static', rect: box });
+                }
+            } else {
+                var hw = shW.w * 0.5;
+                var hh = shW.h * 0.5;
+                if (e.x - hw < 0) {
+                    e.x = hw;
+                    if ((e.vx || 0) < 0) e.vx = -(e.vx) * rest;
+                    buf.push({ kind: 'viewport', edge: 'left' });
+                } else if (e.x + hw > vw) {
+                    e.x = vw - hw;
+                    if ((e.vx || 0) > 0) e.vx = -(e.vx) * rest;
+                    buf.push({ kind: 'viewport', edge: 'right' });
+                }
+                if (e.y - hh < 0) {
+                    e.y = hh;
+                    if ((e.vy || 0) < 0) e.vy = -(e.vy) * rest;
+                    buf.push({ kind: 'viewport', edge: 'top' });
+                } else if (e.y + hh > vh) {
+                    e.y = vh - hh;
+                    if ((e.vy || 0) > 0) e.vy = -(e.vy) * rest;
+                    buf.push({ kind: 'viewport', edge: 'bottom' });
+                }
+                for (var s2 = 0; s2 < statics.length; s2++) {
+                    var box2 = statics[s2];
+                    var ax = e.x - hw;
+                    var ay = e.y - hh;
+                    var sep = rectRectMinimumTranslation(ax, ay, shW.w, shW.h, box2.x, box2.y, box2.w, box2.h);
+                    if (!sep) continue;
+                    e.x += sep.nx * sep.pen;
+                    e.y += sep.ny * sep.pen;
+                    resolveVelocityAlongNormal(e, sep.nx, sep.ny, rest);
+                    buf.push({ kind: 'static', rect: box2 });
+                }
             }
         }
 
-        var pairPasses = this.circleResolvePasses;
+        var pairPasses = this.bodyResolvePasses;
         if (pairPasses < 1) pairPasses = 1;
         var pass;
         for (pass = 0; pass < pairPasses; pass++) {
@@ -285,34 +340,81 @@ class CollisionSubsystem {
                 var eA = bodies[i];
                 if (!contactsPer[i]) continue;
                 var shA = shapeFromEntity(eA);
-                if (!shA || shA.type !== 'circle') continue;
-                var rA = shA.r;
+                if (!shA || (shA.type !== 'circle' && shA.type !== 'rect')) continue;
                 var j;
                 for (j = i + 1; j < bodies.length; j++) {
                     if (!contactsPer[j]) continue;
                     var eB = bodies[j];
                     if (typeof eB.collisionSkip === 'function' && eB.collisionSkip()) continue;
                     var shB = shapeFromEntity(eB);
-                    if (!shB || shB.type !== 'circle') continue;
-                    var rB = shB.r;
-                    var pen2 = circleCirclePenetration(eA.x, eA.y, rA, eB.x, eB.y, rB);
-                    if (!pen2) continue;
-                    eA.x += pen2.nx * pen2.pen * 0.5;
-                    eA.y += pen2.ny * pen2.pen * 0.5;
-                    eB.x -= pen2.nx * pen2.pen * 0.5;
-                    eB.y -= pen2.ny * pen2.pen * 0.5;
+                    if (!shB || (shB.type !== 'circle' && shB.type !== 'rect')) continue;
+
+                    var pen2 = null;
+                    var bnx;
+                    var bny;
+                    if (shA.type === 'circle' && shB.type === 'circle') {
+                        pen2 = circleCirclePenetration(eA.x, eA.y, shA.r, eB.x, eB.y, shB.r);
+                        if (!pen2) continue;
+                        bnx = pen2.nx;
+                        bny = pen2.ny;
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'rect' && shB.type === 'rect') {
+                        pen2 = rectRectMinimumTranslation(
+                            eA.x - shA.w * 0.5,
+                            eA.y - shA.h * 0.5,
+                            shA.w,
+                            shA.h,
+                            eB.x - shB.w * 0.5,
+                            eB.y - shB.h * 0.5,
+                            shB.w,
+                            shB.h
+                        );
+                        if (!pen2) continue;
+                        bnx = pen2.nx;
+                        bny = pen2.ny;
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'circle' && shB.type === 'rect') {
+                        var rbx = eB.x - shB.w * 0.5;
+                        var rby = eB.y - shB.h * 0.5;
+                        pen2 = circleRectPenetration(eA.x, eA.y, shA.r, rbx, rby, shB.w, shB.h);
+                        if (!pen2) continue;
+                        bnx = pen2.nx;
+                        bny = pen2.ny;
+                        eA.x += pen2.nx * pen2.pen * 0.5;
+                        eA.y += pen2.ny * pen2.pen * 0.5;
+                        eB.x -= pen2.nx * pen2.pen * 0.5;
+                        eB.y -= pen2.ny * pen2.pen * 0.5;
+                    } else if (shA.type === 'rect' && shB.type === 'circle') {
+                        var rax = eA.x - shA.w * 0.5;
+                        var ray = eA.y - shA.h * 0.5;
+                        pen2 = circleRectPenetration(eB.x, eB.y, shB.r, rax, ray, shA.w, shA.h);
+                        if (!pen2) continue;
+                        bnx = pen2.nx;
+                        bny = pen2.ny;
+                        eB.x += pen2.nx * pen2.pen * 0.5;
+                        eB.y += pen2.ny * pen2.pen * 0.5;
+                        eA.x -= pen2.nx * pen2.pen * 0.5;
+                        eA.y -= pen2.ny * pen2.pen * 0.5;
+                    } else {
+                        continue;
+                    }
+
                     if (applyImpulse) {
-                        var vnx = pen2.nx;
-                        var vny = pen2.ny;
                         var relvx = (eA.vx || 0) - (eB.vx || 0);
                         var relvy = (eA.vy || 0) - (eB.vy || 0);
-                        var reln = relvx * vnx + relvy * vny;
+                        var reln = relvx * bnx + relvy * bny;
                         if (reln < 0) {
                             var imp = -(1 + rest) * reln * 0.5;
-                            eA.vx = (eA.vx || 0) + imp * vnx;
-                            eA.vy = (eA.vy || 0) + imp * vny;
-                            eB.vx = (eB.vx || 0) - imp * vnx;
-                            eB.vy = (eB.vy || 0) - imp * vny;
+                            eA.vx = (eA.vx || 0) + imp * bnx;
+                            eA.vy = (eA.vy || 0) + imp * bny;
+                            eB.vx = (eB.vx || 0) - imp * bnx;
+                            eB.vy = (eB.vy || 0) - imp * bny;
                         }
                         contactsPer[i].push({ kind: 'body', other: eB });
                         contactsPer[j].push({ kind: 'body', other: eA });
@@ -326,18 +428,37 @@ class CollisionSubsystem {
             if (!bufP) continue;
             var eP = bodies[i];
             var shP = shapeFromEntity(eP);
-            if (!shP || shP.type !== 'circle') continue;
-            var rP = shP.r;
-            if (eP.x < rP) eP.x = rP;
-            else if (eP.x > vw - rP) eP.x = vw - rP;
-            if (eP.y < rP) eP.y = rP;
-            else if (eP.y > vh - rP) eP.y = vh - rP;
-            for (var sp = 0; sp < statics.length; sp++) {
-                var boxP = statics[sp];
-                var penP = circleRectPenetration(eP.x, eP.y, rP, boxP.x, boxP.y, boxP.w, boxP.h);
-                if (!penP) continue;
-                eP.x += penP.nx * penP.pen;
-                eP.y += penP.ny * penP.pen;
+            if (!shP || (shP.type !== 'circle' && shP.type !== 'rect')) continue;
+
+            if (shP.type === 'circle') {
+                var rP = shP.r;
+                if (eP.x < rP) eP.x = rP;
+                else if (eP.x > vw - rP) eP.x = vw - rP;
+                if (eP.y < rP) eP.y = rP;
+                else if (eP.y > vh - rP) eP.y = vh - rP;
+                for (var sp = 0; sp < statics.length; sp++) {
+                    var boxP = statics[sp];
+                    var penP = circleRectPenetration(eP.x, eP.y, rP, boxP.x, boxP.y, boxP.w, boxP.h);
+                    if (!penP) continue;
+                    eP.x += penP.nx * penP.pen;
+                    eP.y += penP.ny * penP.pen;
+                }
+            } else {
+                var hwP = shP.w * 0.5;
+                var hhP = shP.h * 0.5;
+                if (eP.x - hwP < 0) eP.x = hwP;
+                else if (eP.x + hwP > vw) eP.x = vw - hwP;
+                if (eP.y - hhP < 0) eP.y = hhP;
+                else if (eP.y + hhP > vh) eP.y = vh - hhP;
+                for (var sp2 = 0; sp2 < statics.length; sp2++) {
+                    var boxP2 = statics[sp2];
+                    var axP = eP.x - hwP;
+                    var ayP = eP.y - hhP;
+                    var penR = rectRectMinimumTranslation(axP, ayP, shP.w, shP.h, boxP2.x, boxP2.y, boxP2.w, boxP2.h);
+                    if (!penR) continue;
+                    eP.x += penR.nx * penR.pen;
+                    eP.y += penR.ny * penR.pen;
+                }
             }
         }
 
