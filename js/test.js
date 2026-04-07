@@ -39,11 +39,11 @@ CollisionBroadphaseDebugOverlay.attach(engine, {
     maxCellsDrawn: 400,
 });
 
-/*var rayDebugPtr = {
+var rayDebugPtr = {
     x: document.documentElement.clientWidth * 0.5,
     y: document.documentElement.clientHeight * 0.5,
 };
-window.addEventListener(
+/*window.addEventListener(
     'pointermove',
     function (e) {
         rayDebugPtr.x = e.clientX;

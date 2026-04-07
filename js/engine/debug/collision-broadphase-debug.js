@@ -11,7 +11,6 @@ class CollisionBroadphaseDebugHandle {
         this._opts.raf = 0;
         if (this._opts.gridWrap && this._opts.gridWrap.parentNode) this._opts.gridWrap.parentNode.removeChild(this._opts.gridWrap);
         this._opts.gridWrap = null;
-        // Don’t remove existing HUD element if provided by page.
         if (this._opts.createdHud && this._opts.hudEl && this._opts.hudEl.parentNode) {
             this._opts.hudEl.parentNode.removeChild(this._opts.hudEl);
         }

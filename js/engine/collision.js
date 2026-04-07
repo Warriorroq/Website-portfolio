@@ -244,18 +244,16 @@ function broadphasePairsGrid(bodies, activeMask, cellSize, scratch) {
     var grid = scratch.grid || Object.create(null);
     var keys = scratch.keys || [];
     var pairs = scratch.pairs || [];
-    var seen = scratch.seen || Object.create(null);
     var stats = scratch.stats || {};
     scratch.grid = grid;
     scratch.keys = keys;
     scratch.pairs = pairs;
-    scratch.seen = seen;
     scratch.stats = stats;
+    var seen = (scratch.seen = Object.create(null));
 
     for (var k = 0; k < keys.length; k++) delete grid[keys[k]];
     keys.length = 0;
     pairs.length = 0;
-    for (var sk in seen) delete seen[sk];
 
     if (!cellSize || cellSize <= 0) cellSize = 128;
     var inv = 1 / cellSize;
@@ -636,18 +634,19 @@ class CollisionSubsystem {
         if (pairPasses < 1) pairPasses = 1;
         var pairImpulsed = Object.create(null);
         var pass;
+        var candidatePairs = broadphasePairsGrid(bodies, contactsPer, this.broadphaseCellSize, this._broadphaseScratch);
+        this.lastBroadphase = {
+            phase: 'resolve',
+            cellSize: this._broadphaseScratch.stats.cellSize,
+            cellsUsed: this._broadphaseScratch.stats.cellsUsed,
+            bodiesInserted: this._broadphaseScratch.stats.bodiesInserted,
+            inserts: this._broadphaseScratch.stats.inserts,
+            bucketsWithPairs: this._broadphaseScratch.stats.bucketsWithPairs,
+            maxBucketSize: this._broadphaseScratch.stats.maxBucketSize,
+            candidatePairs: this._broadphaseScratch.stats.candidatePairs,
+        };
+
         for (pass = 0; pass < pairPasses; pass++) {
-            var candidatePairs = broadphasePairsGrid(bodies, contactsPer, this.broadphaseCellSize, this._broadphaseScratch);
-            this.lastBroadphase = {
-                phase: 'resolve',
-                cellSize: this._broadphaseScratch.stats.cellSize,
-                cellsUsed: this._broadphaseScratch.stats.cellsUsed,
-                bodiesInserted: this._broadphaseScratch.stats.bodiesInserted,
-                inserts: this._broadphaseScratch.stats.inserts,
-                bucketsWithPairs: this._broadphaseScratch.stats.bucketsWithPairs,
-                maxBucketSize: this._broadphaseScratch.stats.maxBucketSize,
-                candidatePairs: this._broadphaseScratch.stats.candidatePairs,
-            };
             for (var cp = 0; cp < candidatePairs.length; cp++) {
                 var ij = candidatePairs[cp];
                 i = ij[0];
