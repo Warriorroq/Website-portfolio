@@ -26,6 +26,10 @@ class Ball {
         this._boundPtrMove = this._onPointerMove.bind(this);
         this._boundPtrUp = this._onPointerUp.bind(this);
         this._engine = null;
+
+        this._lastD = -1;
+        this._lastTx = NaN;
+        this._lastTy = NaN;
     }
 
     collisionSkip() {
@@ -39,10 +43,18 @@ class Ball {
     _syncStyle() {
         if (!this.el) return;
         var d = this.radius * 2;
-        this.el.style.width = d + 'px';
-        this.el.style.height = d + 'px';
-        this.el.style.left = this.x - this.radius + 'px';
-        this.el.style.top = this.y - this.radius + 'px';
+        if (d !== this._lastD) {
+            this.el.style.width = d + 'px';
+            this.el.style.height = d + 'px';
+            this._lastD = d;
+        }
+        var tx = this.x - this.radius;
+        var ty = this.y - this.radius;
+        if (tx !== this._lastTx || ty !== this._lastTy) {
+            this.el.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+            this._lastTx = tx;
+            this._lastTy = ty;
+        }
     }
 
     _clampToViewport() {
@@ -113,11 +125,11 @@ class Ball {
         el.className = 'dom-ball';
         el.setAttribute('role', 'presentation');
         el.style.cssText =
-            'position:fixed;z-index:99998;box-sizing:border-box;border-radius:50%;' +
+            'position:fixed;left:0;top:0;z-index:99998;box-sizing:border-box;border-radius:50%;' +
             'background:radial-gradient(circle at 32% 28%, #fff8f0, #ff9a6b 42%, #e85d2c);' +
             'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -5px 10px rgba(0,0,0,0.18);' +
             'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
-            'will-change:left,top';
+            'will-change:transform';
         document.body.appendChild(el);
         this.el = el;
         this._clampToViewport();

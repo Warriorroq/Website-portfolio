@@ -73,6 +73,14 @@ class Cat {
         var instances = createCatStateInstances(this);
         this._sm = new CatStateMachine(this, instances);
         this._sm.debug = opts.stateMachineDebug === true;
+
+        this._lastW = -1;
+        this._lastH = -1;
+        this._lastTx = NaN;
+        this._lastTy = NaN;
+        this._lastLabelTx = NaN;
+        this._lastLabelTy = NaN;
+        this._lastLabelW = -1;
     }
 
     get state() {
@@ -136,14 +144,33 @@ class Cat {
 
     _syncStyle() {
         if (!this.el) return;
-        this.el.style.width = this.w + 'px';
-        this.el.style.height = this.h + 'px';
-        this.el.style.left = this.x - this._halfW() + 'px';
-        this.el.style.top = this.y - this._halfH() + 'px';
+        if (this.w !== this._lastW) {
+            this.el.style.width = this.w + 'px';
+            this._lastW = this.w;
+        }
+        if (this.h !== this._lastH) {
+            this.el.style.height = this.h + 'px';
+            this._lastH = this.h;
+        }
+        var tx = this.x - this._halfW();
+        var ty = this.y - this._halfH();
+        if (tx !== this._lastTx || ty !== this._lastTy) {
+            this.el.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+            this._lastTx = tx;
+            this._lastTy = ty;
+        }
         if (this.stateLabelEl) {
-            this.stateLabelEl.style.left = this.x - this._halfW() + 'px';
-            this.stateLabelEl.style.top = this.y + this._halfH() + 4 + 'px';
-            this.stateLabelEl.style.width = this.w + 'px';
+            var ltx = this.x - this._halfW();
+            var lty = this.y + this._halfH() + 4;
+            if (ltx !== this._lastLabelTx || lty !== this._lastLabelTy) {
+                this.stateLabelEl.style.transform = 'translate3d(' + ltx + 'px,' + lty + 'px,0)';
+                this._lastLabelTx = ltx;
+                this._lastLabelTy = lty;
+            }
+            if (this.w !== this._lastLabelW) {
+                this.stateLabelEl.style.width = this.w + 'px';
+                this._lastLabelW = this.w;
+            }
         }
     }
 
@@ -365,9 +392,9 @@ class Cat {
         el.className = 'dom-cat';
         el.setAttribute('role', 'presentation');
         el.style.cssText =
-            'position:fixed;z-index:99997;box-sizing:border-box;display:flex;flex-direction:column;' +
+            'position:fixed;left:0;top:0;z-index:99997;box-sizing:border-box;display:flex;flex-direction:column;' +
             'overflow:visible;touch-action:none;user-select:none;-webkit-user-select:none;' +
-            'will-change:left,top;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.28))';
+            'will-change:transform;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.28))';
 
         var head = document.createElement('div');
         head.className = 'cat-head cat-head--idle';
@@ -398,10 +425,10 @@ class Cat {
         stateLab.className = 'dom-cat-state';
         stateLab.setAttribute('aria-hidden', 'true');
         stateLab.style.cssText =
-            'position:fixed;z-index:99996;box-sizing:border-box;margin:0;padding:0;' +
+            'position:fixed;left:0;top:0;z-index:99996;box-sizing:border-box;margin:0;padding:0;' +
             'font:600 10px/1.2 system-ui,Segoe UI,sans-serif;text-align:center;' +
             'color:rgba(25,20,15,0.72);text-shadow:0 0 3px #fff,0 0 6px #fff;' +
-            'pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+            'pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;will-change:transform';
 
         document.body.appendChild(el);
         document.body.appendChild(stateLab);

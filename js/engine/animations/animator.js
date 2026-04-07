@@ -36,6 +36,15 @@ class Animator {
         this.el = opts.el || null;
         this.time = 0;
         this.flipByX = opts.flipByX === true;
+        this.width = opts.width != null ? opts.width : 0;
+        this.height = opts.height != null ? opts.height : 0;
+
+        this._lastFrameIdx = -1;
+        this._lastSheetSrc = '';
+        this._lastBw = null;
+        this._lastBh = null;
+        this._lastPx = null;
+        this._lastPy = null;
     }
 
     attach(el) {
@@ -46,8 +55,14 @@ class Animator {
         }
     }
 
+    setSize(w, h) {
+        this.width = w != null ? w : 0;
+        this.height = h != null ? h : 0;
+    }
+
     reset() {
         this.time = 0;
+        this._lastFrameIdx = -1;
     }
 
     update(dt) {
@@ -61,6 +76,7 @@ class Animator {
         this.time += dt;
         var idx = clipFrameIndexAtTime(this.clip, this.time);
         if (idx < 0) return;
+        if (idx === this._lastFrameIdx) return;
 
         var sheetIdx = this.clip.getSheetFrameIndex(idx);
         if (sheetIdx < 0) return;
@@ -69,8 +85,8 @@ class Animator {
         if (rect.sw <= 0 || rect.sh <= 0) return;
 
         var img = sheet.image;
-        var ew = this.el.offsetWidth;
-        var eh = this.el.offsetHeight;
+        var ew = this.width || this.el.clientWidth;
+        var eh = this.height || this.el.clientHeight;
         if (ew <= 0 || eh <= 0) return;
 
         var s = Math.max(ew / rect.sw, eh / rect.sh);
@@ -79,10 +95,22 @@ class Animator {
         var px = -rect.sx * s;
         var py = -rect.sy * s;
 
-        this.el.style.backgroundImage = 'url(' + JSON.stringify(sheet.src) + ')';
-        this.el.style.backgroundSize = bw + 'px ' + bh + 'px';
-        this.el.style.backgroundPosition = px + 'px ' + py + 'px';
-        this.el.style.transform = this.flipByX ? 'scaleX(-1)' : '';
+        var src = sheet.src || '';
+        if (src !== this._lastSheetSrc) {
+            this.el.style.backgroundImage = 'url(' + JSON.stringify(src) + ')';
+            this._lastSheetSrc = src;
+        }
+        if (bw !== this._lastBw || bh !== this._lastBh) {
+            this.el.style.backgroundSize = bw + 'px ' + bh + 'px';
+            this._lastBw = bw;
+            this._lastBh = bh;
+        }
+        if (px !== this._lastPx || py !== this._lastPy) {
+            this.el.style.backgroundPosition = px + 'px ' + py + 'px';
+            this._lastPx = px;
+            this._lastPy = py;
+        }
+        this._lastFrameIdx = idx;
     }
 }
 

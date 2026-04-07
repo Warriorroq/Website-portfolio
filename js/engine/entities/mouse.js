@@ -28,6 +28,12 @@ class Mouse {
         this._boundPtrUp = this._onPointerUp.bind(this);
         this._engine = null;
         this.animator = opts.animator || null;
+
+        this._lastW = -1;
+        this._lastH = -1;
+        this._lastTx = NaN;
+        this._lastTy = NaN;
+        this._lastFlip = null;
     }
 
     collisionSkip() {
@@ -54,10 +60,24 @@ class Mouse {
 
     _syncStyle() {
         if (!this.el) return;
-        this.el.style.width = this.w + 'px';
-        this.el.style.height = this.h + 'px';
-        this.el.style.left = this.x - this._halfW() + 'px';
-        this.el.style.top = this.y - this._halfH() + 'px';
+        if (this.w !== this._lastW) {
+            this.el.style.width = this.w + 'px';
+            this._lastW = this.w;
+        }
+        if (this.h !== this._lastH) {
+            this.el.style.height = this.h + 'px';
+            this._lastH = this.h;
+        }
+        var tx = this.x - this._halfW();
+        var ty = this.y - this._halfH();
+        var flip = this.animator ? this.animator.flipByX === true : false;
+        if (tx !== this._lastTx || ty !== this._lastTy || flip !== this._lastFlip) {
+            this.el.style.transform =
+                'translate3d(' + tx + 'px,' + ty + 'px,0)' + (flip ? ' scaleX(-1)' : '');
+            this._lastTx = tx;
+            this._lastTy = ty;
+            this._lastFlip = flip;
+        }
     }
 
     _clampToViewport() {
@@ -130,18 +150,18 @@ class Mouse {
         el.setAttribute('role', 'presentation');
         if (this.animator) {
             el.style.cssText =
-                'position:fixed;z-index:99999;box-sizing:border-box;border-radius:2px;overflow:hidden;' +
+                'position:fixed;left:0;top:0;z-index:99999;box-sizing:border-box;border-radius:2px;overflow:hidden;' +
                 'background-color:transparent;' +
                 'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -6px 12px rgba(0,0,0,0.15);' +
                 'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
-                'will-change:left,top';
+                'will-change:transform';
         } else {
             el.style.cssText =
-                'position:fixed;z-index:99999;box-sizing:border-box;border-radius:2px;' +
+                'position:fixed;left:0;top:0;z-index:99999;box-sizing:border-box;border-radius:2px;' +
                 'background-color:transparent;' +
                 'box-shadow:0 4px 14px rgba(0,0,0,0.35),inset 0 -6px 12px rgba(0,0,0,0.15);' +
                 'touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;' +
-                'will-change:left,top';
+                'will-change:transform';
         }
         document.body.appendChild(el);
         this.el = el;
@@ -153,16 +173,20 @@ class Mouse {
         el.addEventListener('pointercancel', this._boundPtrUp);
         window.addEventListener('resize', this._boundResize);
         if (this._engine && this._engine.collision) this._engine.collision.register(this);
-        if (this.animator) this.animator.attach(this.el);
+        if (this.animator) {
+            this.animator.attach(this.el);
+            this.animator.setSize(this.w, this.h);
+        }
     }
 
     update(dt) {
         if (!this.el) return;
-        this._syncStyle();
         if (this.animator) {
             if (Math.abs(this.vx) >= 40) this.animator.flipByX = this.vx > 0;
+            this.animator.setSize(this.w, this.h);
             this.animator.update(dt);
         }
+        this._syncStyle();
     }
 
     destroy() {
