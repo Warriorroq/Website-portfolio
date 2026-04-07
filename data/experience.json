@@ -3,7 +3,7 @@
     {
       "company": "Roamer Games",
       "period": "Oct 2024 — Now",
-      "role": "Gameplay Unity Developer / Cloud Software Engineer · Berlin (Hybrid)",
+      "role": "Gameplay & Systems Unity Engineer / Cloud Software Engineer · Berlin (Hybrid)",
       "items": [
         "Shipped 4 mobile games (Moon Match, Bitcoin Bubble Merge, Bitcoin Bus Jam, BS - Neneko pop!)",
         "Live mobile projects with ongoing updates (Crypto Crawler, Boe Wings)",
@@ -22,15 +22,14 @@
       ]
     },
     {
-      "company": "Ukr-pravo",
+      "company": "EUROPRAVO LLC.",
       "period": "Jan 2021 — Sep 2023",
-      "role": "C# Developer / .NET Developer · Kiev (Hybrid)",
+      "role": "C# Developer / .NET Developer (Legal Firm) · Kiev (Hybrid)",
       "items": [
         "Developed and maintained internal case management and document systems",
         "Automated legal workflows (contracts, templates, reporting)",
         "Built and integrated databases for clients and case tracking",
         "Implemented secure data handling and access control",
-        "Developed web applications and client portals using C# / .NET",
         "Integrated third-party services and internal tools"
       ]
     },

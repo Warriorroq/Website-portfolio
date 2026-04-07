@@ -222,6 +222,114 @@ function raycastRect(ox, oy, ux, uy, x, y, w, h) {
     return { t: t, x: px, y: py, nx: nx, ny: ny };
 }
 
+function aabbFromWorldShape(sw) {
+    if (!sw) return null;
+    if (sw.type === 'circle') {
+        return { minX: sw.cx - sw.r, minY: sw.cy - sw.r, maxX: sw.cx + sw.r, maxY: sw.cy + sw.r };
+    }
+    if (sw.type === 'rect') {
+        return { minX: sw.x, minY: sw.y, maxX: sw.x + sw.w, maxY: sw.y + sw.h };
+    }
+    return null;
+}
+
+function clampInt(v, a, b) {
+    if (v < a) return a;
+    if (v > b) return b;
+    return v;
+}
+
+function broadphasePairsGrid(bodies, activeMask, cellSize, scratch) {
+    if (!scratch) scratch = {};
+    var grid = scratch.grid || Object.create(null);
+    var keys = scratch.keys || [];
+    var pairs = scratch.pairs || [];
+    var seen = scratch.seen || Object.create(null);
+    var stats = scratch.stats || {};
+    scratch.grid = grid;
+    scratch.keys = keys;
+    scratch.pairs = pairs;
+    scratch.seen = seen;
+    scratch.stats = stats;
+
+    for (var k = 0; k < keys.length; k++) delete grid[keys[k]];
+    keys.length = 0;
+    pairs.length = 0;
+    for (var sk in seen) delete seen[sk];
+
+    if (!cellSize || cellSize <= 0) cellSize = 128;
+    var inv = 1 / cellSize;
+
+    var inserts = 0;
+    var bodiesInserted = 0;
+    var bucketsWithPairs = 0;
+    var maxBucketSize = 0;
+
+    for (var i = 0; i < bodies.length; i++) {
+        if (activeMask && !activeMask[i]) continue;
+        var ent = bodies[i];
+        if (typeof ent.collisionSkip === 'function' && ent.collisionSkip()) continue;
+        var s = shapeFromEntity(ent);
+        if (!s) continue;
+        var sw = s.type === 'circle' ? { type: 'circle', cx: ent.x, cy: ent.y, r: s.r } : { type: 'rect', x: s.x, y: s.y, w: s.w, h: s.h };
+        var bb = aabbFromWorldShape(sw);
+        if (!bb) continue;
+
+        var minCellX = Math.floor(bb.minX * inv);
+        var maxCellX = Math.floor(bb.maxX * inv);
+        var minCellY = Math.floor(bb.minY * inv);
+        var maxCellY = Math.floor(bb.maxY * inv);
+
+        if (!isFinite(minCellX) || !isFinite(maxCellX) || !isFinite(minCellY) || !isFinite(maxCellY)) continue;
+        minCellX = clampInt(minCellX, -1048576, 1048576);
+        maxCellX = clampInt(maxCellX, -1048576, 1048576);
+        minCellY = clampInt(minCellY, -1048576, 1048576);
+        maxCellY = clampInt(maxCellY, -1048576, 1048576);
+
+        bodiesInserted++;
+        for (var cy = minCellY; cy <= maxCellY; cy++) {
+            for (var cx = minCellX; cx <= maxCellX; cx++) {
+                var key = cx + ',' + cy;
+                var cell = grid[key];
+                if (!cell) {
+                    cell = [];
+                    grid[key] = cell;
+                    keys.push(key);
+                }
+                cell.push(i);
+                inserts++;
+            }
+        }
+    }
+
+    for (var kk = 0; kk < keys.length; kk++) {
+        var list = grid[keys[kk]];
+        if (!list || list.length < 2) continue;
+        bucketsWithPairs++;
+        if (list.length > maxBucketSize) maxBucketSize = list.length;
+        for (var a = 0; a < list.length - 1; a++) {
+            var ia = list[a];
+            for (var b = a + 1; b < list.length; b++) {
+                var ib = list[b];
+                var p = ia < ib ? ia + ',' + ib : ib + ',' + ia;
+                if (seen[p]) continue;
+                seen[p] = true;
+                pairs.push(ia < ib ? [ia, ib] : [ib, ia]);
+            }
+        }
+    }
+
+    stats.cellSize = cellSize;
+    stats.cellsUsed = keys.length;
+    stats.bodiesInserted = bodiesInserted;
+    stats.inserts = inserts;
+    stats.bucketsWithPairs = bucketsWithPairs;
+    stats.maxBucketSize = maxBucketSize;
+    stats.candidatePairs = pairs.length;
+
+    return pairs;
+}
+
 class CollisionZoneProxy {
     constructor(element) {
         this.collisionZone = true;
@@ -248,8 +356,11 @@ class CollisionSubsystem {
         this.sleepVelocityMax =
             opts.sleepVelocityMax != null ? opts.sleepVelocityMax : 72;
         this.bodyResolvePasses = opts.bodyResolvePasses != null ? opts.bodyResolvePasses : opts.circleResolvePasses != null ? opts.circleResolvePasses : 10;
+        this.broadphaseCellSize = opts.broadphaseCellSize != null ? opts.broadphaseCellSize : 128;
         this._bodies = [];
         this._activeOverlapKeys = Object.create(null);
+        this._broadphaseScratch = {};
+        this.lastBroadphase = null;
     }
 
     _applySleepingSupport(statics, bodies) {
@@ -526,18 +637,30 @@ class CollisionSubsystem {
         var pairImpulsed = Object.create(null);
         var pass;
         for (pass = 0; pass < pairPasses; pass++) {
-            for (i = 0; i < bodies.length; i++) {
+            var candidatePairs = broadphasePairsGrid(bodies, contactsPer, this.broadphaseCellSize, this._broadphaseScratch);
+            this.lastBroadphase = {
+                phase: 'resolve',
+                cellSize: this._broadphaseScratch.stats.cellSize,
+                cellsUsed: this._broadphaseScratch.stats.cellsUsed,
+                bodiesInserted: this._broadphaseScratch.stats.bodiesInserted,
+                inserts: this._broadphaseScratch.stats.inserts,
+                bucketsWithPairs: this._broadphaseScratch.stats.bucketsWithPairs,
+                maxBucketSize: this._broadphaseScratch.stats.maxBucketSize,
+                candidatePairs: this._broadphaseScratch.stats.candidatePairs,
+            };
+            for (var cp = 0; cp < candidatePairs.length; cp++) {
+                var ij = candidatePairs[cp];
+                i = ij[0];
+                var j = ij[1];
+                if (!contactsPer[i] || !contactsPer[j]) continue;
                 var eA = bodies[i];
-                if (!contactsPer[i]) continue;
+                var eB = bodies[j];
+                if (typeof eA.collisionSkip === 'function' && eA.collisionSkip()) continue;
+                if (typeof eB.collisionSkip === 'function' && eB.collisionSkip()) continue;
                 var shA = shapeFromEntity(eA);
                 if (!shA || (shA.type !== 'circle' && shA.type !== 'rect')) continue;
-                var j;
-                for (j = i + 1; j < bodies.length; j++) {
-                    if (!contactsPer[j]) continue;
-                    var eB = bodies[j];
-                    if (typeof eB.collisionSkip === 'function' && eB.collisionSkip()) continue;
-                    var shB = shapeFromEntity(eB);
-                    if (!shB || (shB.type !== 'circle' && shB.type !== 'rect')) continue;
+                var shB = shapeFromEntity(eB);
+                if (!shB || (shB.type !== 'circle' && shB.type !== 'rect')) continue;
 
                     var pen2 = null;
                     var bnx;
@@ -639,7 +762,6 @@ class CollisionSubsystem {
                         eB.x -= pen2.nx * pen2.pen * 0.5;
                         eB.y -= pen2.ny * pen2.pen * 0.5;
                     }
-                }
             }
         }
 
@@ -708,34 +830,54 @@ class CollisionSubsystem {
         var pairs = [];
         var bodies = this._bodies;
         var statics = this._staticRectsFromZones();
-
-        for (var i = 0; i < bodies.length; i++) {
+        var candidatePairs = broadphasePairsGrid(bodies, null, this.broadphaseCellSize, this._broadphaseScratch);
+        this.lastBroadphase = {
+            phase: 'overlap',
+            cellSize: this._broadphaseScratch.stats.cellSize,
+            cellsUsed: this._broadphaseScratch.stats.cellsUsed,
+            bodiesInserted: this._broadphaseScratch.stats.bodiesInserted,
+            inserts: this._broadphaseScratch.stats.inserts,
+            bucketsWithPairs: this._broadphaseScratch.stats.bucketsWithPairs,
+            maxBucketSize: this._broadphaseScratch.stats.maxBucketSize,
+            candidatePairs: this._broadphaseScratch.stats.candidatePairs,
+        };
+        for (var cp = 0; cp < candidatePairs.length; cp++) {
+            var ij = candidatePairs[cp];
+            var i = ij[0];
+            var j = ij[1];
             var a = bodies[i];
+            var b = bodies[j];
+            if (!a || !b) continue;
+            if (typeof a.collisionSkip === 'function' && a.collisionSkip()) continue;
+            if (typeof b.collisionSkip === 'function' && b.collisionSkip()) continue;
             var sa = shapeFromEntity(a);
-            if (!sa) continue;
-            var idA = bodyId(a);
+            var sb = shapeFromEntity(b);
+            if (!sa || !sb) continue;
             var saW = this._overlapShapeWorld(a, sa);
-
-            for (var j = i + 1; j < bodies.length; j++) {
-                var b = bodies[j];
-                var sb = shapeFromEntity(b);
-                if (!sb) continue;
-                var sbW = this._overlapShapeWorld(b, sb);
-                if (this._overlap(saW, sbW)) {
-                    pairs.push({ key: pairKeyBodyBody(idA, bodyId(b)), a: a, b: b });
-                }
+            var sbW = this._overlapShapeWorld(b, sb);
+            if (this._overlap(saW, sbW)) {
+                pairs.push({ key: pairKeyBodyBody(bodyId(a), bodyId(b)), a: a, b: b });
             }
+        }
 
+        for (var i2 = 0; i2 < bodies.length; i2++) {
+            var a2 = bodies[i2];
+            if (!a2) continue;
+            if (typeof a2.collisionSkip === 'function' && a2.collisionSkip()) continue;
+            var sa2 = shapeFromEntity(a2);
+            if (!sa2) continue;
+            var idA2 = bodyId(a2);
+            var saW2 = this._overlapShapeWorld(a2, sa2);
             for (var s = 0; s < statics.length; s++) {
                 var st = statics[s];
                 var sr = { type: 'rect', x: st.x, y: st.y, w: st.w, h: st.h };
-                if (this._overlap(saW, sr)) {
+                if (this._overlap(saW2, sr)) {
                     var el = st.el;
                     if (!el._collisionZoneProxy) {
                         el._collisionZoneProxy = new CollisionZoneProxy(el);
                     }
                     var zp = el._collisionZoneProxy;
-                    pairs.push({ key: pairKeyBodyZone(idA, st.id), a: a, b: zp });
+                    pairs.push({ key: pairKeyBodyZone(idA2, st.id), a: a2, b: zp });
                 }
             }
         }
