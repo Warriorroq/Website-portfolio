@@ -65,9 +65,11 @@ const DEFAULT_FILTER = () => ({
 });
 
 const ui = {
-    projectsList: document.querySelector('[data-list="projects"]'),
-    petList: document.querySelector('[data-list="petProjects"]'),
-    filtersList: document.querySelector('[data-list="filters"]'),
+    sidebarList: document.querySelector('[data-ui="sidebar-list"]'),
+    sidebarSearch: document.querySelector('[data-ui="sidebar-search"]'),
+    sidebarAdd: document.querySelector('[data-ui="sidebar-add"]'),
+    sidebarTabs: Array.from(document.querySelectorAll('[data-tab]')),
+    sidebarCounts: Array.from(document.querySelectorAll('[data-count]')),
     panelTitle: document.querySelector('[data-ui="panel-title"]'),
     form: document.querySelector('[data-ui="form"]'),
     filterForm: document.querySelector('[data-ui="filter-form"]'),
@@ -85,6 +87,8 @@ const ui = {
 let state = { projects: [], petProjects: [] };
 let tagsState = { filters: [] };
 let selection = null; // { kind: 'projects'|'petProjects'|'filters', index: number }
+let sidebarTab = 'projects';
+let sidebarQuery = '';
 
 function setStatus(msg, isError = false) {
     if (!ui.status) return;
@@ -109,33 +113,76 @@ function setSelection(kind, index) {
 function renderList(el, kind, items, getTitle, getMeta) {
     if (!el) return;
     el.innerHTML = '';
-    (items || []).forEach((item, idx) => {
-        const active = selection && selection.kind === kind && selection.index === idx;
+    (items || []).forEach((row, idx) => {
+        const item = row && typeof row === 'object' && 'item' in row ? row.item : row;
+        const realIndex = row && typeof row === 'object' && 'idx' in row ? row.idx : idx;
+        const active = selection && selection.kind === kind && selection.index === realIndex;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'editor-item';
         btn.dataset.active = active ? 'true' : 'false';
         btn.innerHTML = `
-            <span class="editor-item-title">${escapeHtml(getTitle(item, idx))}</span>
-            <span class="editor-item-meta">${escapeHtml(getMeta(item, idx))}</span>
+            <span class="editor-item-title">${escapeHtml(getTitle(row, idx))}</span>
+            <span class="editor-item-meta">${escapeHtml(getMeta(row, idx))}</span>
         `;
-        btn.addEventListener('click', () => setSelection(kind, idx));
+        btn.addEventListener('click', () => setSelection(kind, realIndex));
         el.appendChild(btn);
     });
 }
 
+function getSidebarSource(kind) {
+    if (kind === 'filters') return tagsState.filters || [];
+    return state[kind] || [];
+}
+
+function getSidebarTitle(kind, item, idx) {
+    if (kind === 'filters') return item?.label || item?.tag || `Tag ${idx + 1}`;
+    return item?.title || `${kind === 'petProjects' ? 'Pet' : 'Project'} ${idx + 1}`;
+}
+
+function getSidebarMeta(kind, item) {
+    if (kind === 'filters') return item?.tag || '';
+    const n = (item?.tags || []).length;
+    return n ? `${n} tags` : '';
+}
+
+function matchesSidebarQuery(kind, item, q) {
+    if (!q) return true;
+    const query = q.toLowerCase();
+    if (kind === 'filters') {
+        return String(item?.tag || '').toLowerCase().includes(query) || String(item?.label || '').toLowerCase().includes(query);
+    }
+    const title = String(item?.title || '').toLowerCase();
+    const role = String(item?.role || '').toLowerCase();
+    const platform = String(item?.platform || '').toLowerCase();
+    const tags = (item?.tags || []).join(' ').toLowerCase();
+    return title.includes(query) || role.includes(query) || platform.includes(query) || tags.includes(query);
+}
+
 function renderSidebar() {
-    renderList(ui.projectsList, 'projects', state.projects,
-        (p, i) => p?.title || `Project ${i + 1}`,
-        (p) => (p?.tags || []).length ? `${(p.tags || []).length} tags` : ''
-    );
-    renderList(ui.petList, 'petProjects', state.petProjects,
-        (p, i) => p?.title || `Pet ${i + 1}`,
-        (p) => (p?.tags || []).length ? `${(p.tags || []).length} tags` : ''
-    );
-    renderList(ui.filtersList, 'filters', tagsState.filters,
-        (f) => f?.label || f?.tag || 'Filter',
-        (f) => f?.tag || ''
+    ui.sidebarTabs?.forEach(btn => {
+        const tab = btn.getAttribute('data-tab');
+        btn.setAttribute('aria-selected', tab === sidebarTab ? 'true' : 'false');
+    });
+
+    ui.sidebarCounts?.forEach(el => {
+        const kind = el.getAttribute('data-count');
+        if (!kind) return;
+        el.textContent = String(getSidebarSource(kind).length);
+    });
+
+    const list = getSidebarSource(sidebarTab);
+    const filtered = (list || []).map((item, idx) => ({ item, idx }))
+        .filter(x => matchesSidebarQuery(sidebarTab, x.item, sidebarQuery));
+
+    const addAction = sidebarTab === 'projects'
+        ? 'add-project'
+        : (sidebarTab === 'petProjects' ? 'add-pet' : 'add-filter');
+    if (ui.sidebarAdd) ui.sidebarAdd.setAttribute('data-action', addAction);
+
+    renderList(ui.sidebarList, sidebarTab, filtered,
+        (x) => getSidebarTitle(sidebarTab, x.item, x.idx),
+        (x) => getSidebarMeta(sidebarTab, x.item)
     );
 }
 
@@ -366,6 +413,22 @@ function renderPanel() {
     syncRawFromModel();
 }
 
+function initSidebarUx() {
+    ui.sidebarTabs?.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.getAttribute('data-tab');
+            if (!tab) return;
+            sidebarTab = tab;
+            sidebarQuery = ui.sidebarSearch?.value || '';
+            renderSidebar();
+        });
+    });
+    ui.sidebarSearch?.addEventListener('input', () => {
+        sidebarQuery = ui.sidebarSearch.value || '';
+        renderSidebar();
+    });
+}
+
 function attachFormListeners() {
     const onAnyChange = () => {
         syncModelFromForm();
@@ -471,6 +534,7 @@ document.addEventListener('click', (e) => {
 });
 
 attachFormListeners();
+initSidebarUx();
 load().catch(err => {
     console.error(err);
     setStatus('Failed to load projects.json. See console.', true);

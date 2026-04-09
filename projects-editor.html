@@ -28,26 +28,19 @@
 
     <main class="editor-layout">
         <aside class="editor-sidebar">
-            <div class="editor-sidebar-section">
-                <div class="editor-sidebar-head">
-                    <h2>Projects</h2>
-                    <button type="button" class="editor-mini-btn" data-action="add-project">+ Add</button>
-                </div>
-                <div class="editor-list" data-list="projects"></div>
+            <div class="editor-sidebar-tabs" role="tablist" aria-label="Editor sections">
+                <button type="button" class="editor-tab" role="tab" data-tab="projects" aria-selected="true">Projects <span class="editor-tab-count" data-count="projects">0</span></button>
+                <button type="button" class="editor-tab" role="tab" data-tab="petProjects" aria-selected="false">Pet <span class="editor-tab-count" data-count="petProjects">0</span></button>
+                <button type="button" class="editor-tab" role="tab" data-tab="filters" aria-selected="false">Tags <span class="editor-tab-count" data-count="filters">0</span></button>
             </div>
-            <div class="editor-sidebar-section">
-                <div class="editor-sidebar-head">
-                    <h2>Pet projects</h2>
-                    <button type="button" class="editor-mini-btn" data-action="add-pet">+ Add</button>
-                </div>
-                <div class="editor-list" data-list="petProjects"></div>
+
+            <div class="editor-sidebar-toolbar">
+                <input class="editor-sidebar-search" type="text" placeholder="Search…" data-ui="sidebar-search" />
+                <button type="button" class="editor-mini-btn editor-mini-btn-accent" data-ui="sidebar-add" data-action="add-project">+ Add</button>
             </div>
-            <div class="editor-sidebar-section">
-                <div class="editor-sidebar-head">
-                    <h2>Tag filters</h2>
-                    <button type="button" class="editor-mini-btn" data-action="add-filter">+ Add</button>
-                </div>
-                <div class="editor-list" data-list="filters"></div>
+
+            <div class="editor-sidebar-scroll">
+                <div class="editor-list" data-ui="sidebar-list"></div>
             </div>
         </aside>
 
