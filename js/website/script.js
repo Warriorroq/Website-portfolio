@@ -477,14 +477,15 @@ async function loadData() {
     if (!projectsRow && !experienceList && !skillsGrid) return;
 
     try {
-        const [projectsData, experienceData, skillsData] = await Promise.all([
+        const [projectsData, tagsData, experienceData, skillsData] = await Promise.all([
             fetchJson('data/projects.json'),
+            fetchJson('data/tags.json'),
             fetchJson('data/experience.json'),
             fetchJson('data/skills.json')
         ]);
         const projects = projectsData.projects || [];
         const petProjects = projectsData.petProjects || [];
-        const filters = projectsData.filters || [];
+        const filters = tagsData.filters || [];
         const experience = experienceData.experience || [];
         const skills = skillsData.skills || [];
 

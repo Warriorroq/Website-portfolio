@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects JSON Constructor</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/projects-editor.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="editor-body">
+    <header class="editor-topbar">
+        <div class="editor-topbar-left">
+            <a class="editor-brand" href="index.html">&larr; Back</a>
+            <div class="editor-title">
+                <h1>Projects JSON Constructor</h1>
+                <p>Modify `data/projects.json` and download the result.</p>
+            </div>
+        </div>
+        <div class="editor-topbar-actions">
+            <button type="button" class="editor-btn" data-action="load">Reload</button>
+            <button type="button" class="editor-btn" data-action="download-projects">Download projects.json</button>
+            <button type="button" class="editor-btn editor-btn-primary" data-action="download-tags">Download tags.json</button>
+        </div>
+    </header>
+
+    <main class="editor-layout">
+        <aside class="editor-sidebar">
+            <div class="editor-sidebar-section">
+                <div class="editor-sidebar-head">
+                    <h2>Projects</h2>
+                    <button type="button" class="editor-mini-btn" data-action="add-project">+ Add</button>
+                </div>
+                <div class="editor-list" data-list="projects"></div>
+            </div>
+            <div class="editor-sidebar-section">
+                <div class="editor-sidebar-head">
+                    <h2>Pet projects</h2>
+                    <button type="button" class="editor-mini-btn" data-action="add-pet">+ Add</button>
+                </div>
+                <div class="editor-list" data-list="petProjects"></div>
+            </div>
+            <div class="editor-sidebar-section">
+                <div class="editor-sidebar-head">
+                    <h2>Tag filters</h2>
+                    <button type="button" class="editor-mini-btn" data-action="add-filter">+ Add</button>
+                </div>
+                <div class="editor-list" data-list="filters"></div>
+            </div>
+        </aside>
+
+        <section class="editor-panel">
+            <div class="editor-panel-inner">
+                <div class="editor-panel-head">
+                    <h2 data-ui="panel-title">Select an item</h2>
+                    <div class="editor-panel-actions">
+                        <button type="button" class="editor-btn" data-action="duplicate" disabled>Duplicate</button>
+                        <button type="button" class="editor-btn editor-btn-danger" data-action="delete" disabled>Delete</button>
+                    </div>
+                </div>
+
+                <div class="editor-grid">
+                    <div class="editor-card">
+                        <h3>Constructor</h3>
+
+                        <div class="editor-form" data-ui="form" hidden>
+                            <div class="editor-row">
+                                <label class="editor-label">Title</label>
+                                <input class="editor-input" type="text" data-field="title" />
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Role</label>
+                                <input class="editor-input" type="text" data-field="role" />
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Platform</label>
+                                <input class="editor-input" type="text" data-field="platform" />
+                            </div>
+
+                            <div class="editor-row">
+                                <label class="editor-label">Tags</label>
+                                <div class="editor-tags" data-ui="tags">
+                                    <div class="editor-tags-selected" data-ui="tags-selected"></div>
+                                    <input class="editor-tags-input" type="text" placeholder="Type to search tags…" data-ui="tags-input" />
+                                    <div class="editor-tags-dropdown" data-ui="tags-dropdown" hidden></div>
+                                </div>
+                            </div>
+
+                            <div class="editor-row">
+                                <label class="editor-label">Tech (one per line)</label>
+                                <textarea class="editor-textarea" rows="4" data-field="tech_lines"></textarea>
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Achievements (one per line)</label>
+                                <textarea class="editor-textarea" rows="6" data-field="achievements_lines"></textarea>
+                            </div>
+
+                            <div class="editor-row">
+                                <label class="editor-label">Slides JSON (array)</label>
+                                <textarea class="editor-textarea editor-mono" rows="8" data-field="slides_json"></textarea>
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Links JSON (array)</label>
+                                <textarea class="editor-textarea editor-mono" rows="6" data-field="links_json"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="editor-form" data-ui="filter-form" hidden>
+                            <div class="editor-row">
+                                <label class="editor-label">Tag</label>
+                                <input class="editor-input editor-mono" type="text" data-field="tag" />
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Label</label>
+                                <input class="editor-input" type="text" data-field="label" />
+                            </div>
+                            <div class="editor-row">
+                                <label class="editor-label">Primary</label>
+                                <label class="editor-checkbox">
+                                    <input type="checkbox" data-field="primary" />
+                                    show in main row
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="editor-card">
+                        <h3>Raw JSON</h3>
+                        <p class="editor-hint">Advanced: edit JSON directly for the selected item.</p>
+                        <textarea class="editor-textarea editor-mono" rows="28" data-ui="raw" placeholder="Select an item to edit…" disabled></textarea>
+                        <div class="editor-raw-actions">
+                            <button type="button" class="editor-btn" data-action="apply-raw" disabled>Apply raw JSON</button>
+                            <button type="button" class="editor-btn" data-action="format-raw" disabled>Format</button>
+                        </div>
+                        <div class="editor-status" data-ui="status"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/website/projects-editor.js"></script>
+</body>
+</html>
+
