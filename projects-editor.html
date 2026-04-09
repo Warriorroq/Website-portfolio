@@ -55,10 +55,10 @@
                 </div>
 
                 <div class="editor-grid">
-                    <div class="editor-card">
-                        <h3>Constructor</h3>
+                    <div class="editor-card" data-ui="project-panel" hidden>
+                        <h3>Project <span class="editor-badge muted" data-ui="project-badge">projects.json</span></h3>
 
-                        <div class="editor-form" data-ui="form" hidden>
+                        <div class="editor-form" data-ui="form">
                             <div class="editor-row">
                                 <label class="editor-label">Title</label>
                                 <input class="editor-input" type="text" data-field="title" />
@@ -73,10 +73,11 @@
                             </div>
 
                             <div class="editor-row">
-                                <label class="editor-label">Tags</label>
+                                <label class="editor-label">Tags on project</label>
+                                <p class="editor-hint editor-hint-tight">Pick from the catalog only. New tags are created under <strong>Tags</strong> in the sidebar → download <code>tags.json</code>.</p>
                                 <div class="editor-tags" data-ui="tags">
                                     <div class="editor-tags-selected" data-ui="tags-selected"></div>
-                                    <input class="editor-tags-input" type="text" placeholder="Type to search tags…" data-ui="tags-input" />
+                                    <input class="editor-tags-input" type="text" placeholder="Search catalog…" data-ui="tags-input" autocomplete="off" />
                                     <div class="editor-tags-dropdown" data-ui="tags-dropdown" hidden></div>
                                 </div>
                             </div>
@@ -90,20 +91,33 @@
                                 <textarea class="editor-textarea" rows="6" data-field="achievements_lines"></textarea>
                             </div>
 
-                            <div class="editor-row">
-                                <label class="editor-label">Slides JSON (array)</label>
-                                <textarea class="editor-textarea editor-mono" rows="8" data-field="slides_json"></textarea>
+                            <div class="editor-row editor-row-stack">
+                                <div class="editor-subsection-head">
+                                    <label class="editor-label editor-label-inline">Slides</label>
+                                    <button type="button" class="editor-mini-btn" data-action="slide-add">+ Add slide</button>
+                                </div>
+                                <p class="editor-hint editor-hint-tight">Image URL, video file, or YouTube/Vimeo link. <code class="editor-code">type</code> overrides auto-detection.</p>
+                                <div class="editor-item-list" data-ui="slides-list"></div>
                             </div>
-                            <div class="editor-row">
-                                <label class="editor-label">Links JSON (array)</label>
-                                <textarea class="editor-textarea editor-mono" rows="6" data-field="links_json"></textarea>
+
+                            <div class="editor-row editor-row-stack">
+                                <div class="editor-subsection-head">
+                                    <label class="editor-label editor-label-inline">Links</label>
+                                    <button type="button" class="editor-mini-btn" data-action="link-add">+ Add link</button>
+                                </div>
+                                <div class="editor-item-list" data-ui="links-list"></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="editor-form" data-ui="filter-form" hidden>
+                    <div class="editor-card" data-ui="tag-panel" hidden>
+                        <h3>Tag definition <span class="editor-badge">tags.json</span></h3>
+                        <p class="editor-hint">Slug (<code class="editor-code">tag</code>) and display name (<code class="editor-code">label</code>) live here. The site search uses this list.</p>
+
+                        <div class="editor-form" data-ui="filter-form">
                             <div class="editor-row">
-                                <label class="editor-label">Tag</label>
-                                <input class="editor-input editor-mono" type="text" data-field="tag" />
+                                <label class="editor-label">Tag (slug)</label>
+                                <input class="editor-input editor-mono" type="text" data-field="tag" spellcheck="false" />
                             </div>
                             <div class="editor-row">
                                 <label class="editor-label">Label</label>
@@ -113,7 +127,7 @@
                                 <label class="editor-label">Primary</label>
                                 <label class="editor-checkbox">
                                     <input type="checkbox" data-field="primary" />
-                                    show in main row
+                                    show in main row (homepage filter)
                                 </label>
                             </div>
                         </div>

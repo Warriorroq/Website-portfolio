@@ -58,6 +58,105 @@ const DEFAULT_PROJECT = () => ({
     links: []
 });
 
+function slideRowValues(s) {
+    const raw = s || {};
+    const url = String(raw.url || raw.src || '').trim();
+    const type = String(raw.type || '').trim();
+    return { label: String(raw.label || '').trim(), url, type };
+}
+
+function normalizeSlideFromRow(row) {
+    const label = row.querySelector('[data-slide-part="label"]')?.value?.trim() ?? '';
+    const url = row.querySelector('[data-slide-part="url"]')?.value?.trim() ?? '';
+    const type = row.querySelector('[data-slide-part="type"]')?.value?.trim() ?? '';
+    const o = {};
+    if (label) o.label = label;
+    if (url) o.url = url;
+    if (type) o.type = type;
+    return o;
+}
+
+function normalizeLinkFromRow(row) {
+    const label = row.querySelector('[data-link-part="label"]')?.value?.trim() ?? '';
+    const url = row.querySelector('[data-link-part="url"]')?.value?.trim() ?? '';
+    const o = {};
+    if (label) o.label = label;
+    if (url) o.url = url;
+    return o;
+}
+
+function readSlidesLinksFromDom(item) {
+    if (!item) return;
+    const sw = ui.form?.querySelector('[data-ui="slides-list"]');
+    const lw = ui.form?.querySelector('[data-ui="links-list"]');
+    if (sw) {
+        item.slides = Array.from(sw.querySelectorAll('.editor-slide-row'))
+            .map(row => normalizeSlideFromRow(row))
+            .filter(s => s.label || s.url || s.type);
+    }
+    if (lw) {
+        item.links = Array.from(lw.querySelectorAll('.editor-link-row'))
+            .map(row => normalizeLinkFromRow(row))
+            .filter(l => l.label || l.url);
+    }
+}
+
+function slideRowHtml(s, i, n) {
+    const { label, url, type } = slideRowValues(s);
+    return `
+        <div class="editor-slide-row" data-slide-index="${i}">
+            <div class="editor-slide-fields">
+                <input type="text" class="editor-input" placeholder="Label" data-slide-part="label" value="${escapeHtml(label)}" />
+                <input type="text" class="editor-input editor-mono" placeholder="https://… or images/…" data-slide-part="url" value="${escapeHtml(url)}" spellcheck="false" />
+                <select class="editor-input editor-select" data-slide-part="type" title="Media type">
+                    <option value=""${!type ? ' selected' : ''}>Auto</option>
+                    <option value="youtube"${type === 'youtube' ? ' selected' : ''}>YouTube</option>
+                    <option value="yt"${type === 'yt' ? ' selected' : ''}>YouTube (yt)</option>
+                    <option value="vimeo"${type === 'vimeo' ? ' selected' : ''}>Vimeo</option>
+                    <option value="video"${type === 'video' ? ' selected' : ''}>Video file</option>
+                </select>
+            </div>
+            <div class="editor-row-actions">
+                <button type="button" class="editor-icon-btn" data-action="slide-up" data-index="${i}"${i === 0 ? ' disabled' : ''} title="Move up">↑</button>
+                <button type="button" class="editor-icon-btn" data-action="slide-down" data-index="${i}"${i >= n - 1 ? ' disabled' : ''} title="Move down">↓</button>
+                <button type="button" class="editor-icon-btn" data-action="slide-remove" data-index="${i}" title="Remove">×</button>
+            </div>
+        </div>
+    `;
+}
+
+function linkRowHtml(l, i, n) {
+    const label = String(l?.label || '').trim();
+    const url = String(l?.url || '').trim();
+    return `
+        <div class="editor-link-row" data-link-index="${i}">
+            <div class="editor-link-fields">
+                <input type="text" class="editor-input" placeholder="Label" data-link-part="label" value="${escapeHtml(label)}" />
+                <input type="text" class="editor-input editor-mono" placeholder="https://…" data-link-part="url" value="${escapeHtml(url)}" spellcheck="false" />
+            </div>
+            <div class="editor-row-actions">
+                <button type="button" class="editor-icon-btn" data-action="link-up" data-index="${i}"${i === 0 ? ' disabled' : ''} title="Move up">↑</button>
+                <button type="button" class="editor-icon-btn" data-action="link-down" data-index="${i}"${i >= n - 1 ? ' disabled' : ''} title="Move down">↓</button>
+                <button type="button" class="editor-icon-btn" data-action="link-remove" data-index="${i}" title="Remove">×</button>
+            </div>
+        </div>
+    `;
+}
+
+function renderSlidesLinksUI(item) {
+    const sw = ui.form?.querySelector('[data-ui="slides-list"]');
+    const lw = ui.form?.querySelector('[data-ui="links-list"]');
+    if (!sw || !lw || !item) return;
+    const slides = Array.isArray(item.slides) ? item.slides : [];
+    const links = Array.isArray(item.links) ? item.links : [];
+    sw.innerHTML = slides.length
+        ? slides.map((s, i) => slideRowHtml(s, i, slides.length)).join('')
+        : '<div class="editor-list-empty">No slides yet — add one.</div>';
+    lw.innerHTML = links.length
+        ? links.map((l, i) => linkRowHtml(l, i, links.length)).join('')
+        : '<div class="editor-list-empty">No links yet — add one.</div>';
+}
+
 const DEFAULT_FILTER = () => ({
     tag: 'new-tag',
     label: 'New Tag',
@@ -70,6 +169,9 @@ const ui = {
     sidebarAdd: document.querySelector('[data-ui="sidebar-add"]'),
     sidebarTabs: Array.from(document.querySelectorAll('[data-tab]')),
     sidebarCounts: Array.from(document.querySelectorAll('[data-count]')),
+    projectPanel: document.querySelector('[data-ui="project-panel"]'),
+    tagPanel: document.querySelector('[data-ui="tag-panel"]'),
+    projectBadge: document.querySelector('[data-ui="project-badge"]'),
     panelTitle: document.querySelector('[data-ui="panel-title"]'),
     form: document.querySelector('[data-ui="form"]'),
     filterForm: document.querySelector('[data-ui="filter-form"]'),
@@ -211,12 +313,20 @@ function readField(name) {
     return el.value;
 }
 
-function allKnownTags() {
-    const fromFilters = (tagsState.filters || []).map(f => f?.tag).filter(Boolean);
-    const fromProjects = []
-        .concat(...(state.projects || []).map(p => p?.tags || []))
-        .concat(...(state.petProjects || []).map(p => p?.tags || []));
-    return uniq([...fromFilters, ...fromProjects]).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+/** Catalog entries for the site (tags.json). Excludes pseudo-tag "all". */
+function tagCatalogEntries() {
+    return (tagsState.filters || [])
+        .map(f => ({ tag: String(f?.tag || '').trim(), label: String(f?.label || f?.tag || '').trim() }))
+        .filter(x => x.tag && x.tag !== 'all');
+}
+
+function catalogTagSet() {
+    return new Set(tagCatalogEntries().map(x => x.tag));
+}
+
+function labelForCatalogTag(tag) {
+    const e = tagCatalogEntries().find(x => x.tag === tag);
+    return e?.label || tag;
 }
 
 function renderTagsWidget(tags) {
@@ -226,21 +336,36 @@ function renderTagsWidget(tags) {
     const dropdown = ui.form?.querySelector('[data-ui="tags-dropdown"]');
     if (!wrap || !selectedEl || !input || !dropdown) return;
 
-    const selected = new Set((tags || []).map(t => String(t || '').trim()).filter(Boolean));
-    const known = allKnownTags();
+    if (wrap._tagsAbort) wrap._tagsAbort.abort();
+    const ac = new AbortController();
+    wrap._tagsAbort = ac;
+
+    const catalog = catalogTagSet();
+    const assigned = (tags || []).map(t => String(t || '').trim()).filter(Boolean);
+    const selected = new Set(assigned.filter(t => catalog.has(t)));
+    let orphans = assigned.filter(t => !catalog.has(t));
 
     function renderSelected() {
-        selectedEl.innerHTML = Array.from(selected).map(tag => `
-            <button type="button" class="editor-tag-pill" data-tag-pill="${escapeHtml(tag)}">
+        const orphanHtml = orphans.map(tag => `
+            <button type="button" class="editor-tag-pill editor-tag-pill-orphan" data-tag-pill="${escapeHtml(tag)}" title="Not in tags.json — add this slug under Tags, or remove">
                 <span>${escapeHtml(tag)}</span>
                 <span class="editor-tag-pill-x" aria-hidden="true">×</span>
             </button>
         `).join('');
+        const normalHtml = Array.from(selected).map(tag => `
+            <button type="button" class="editor-tag-pill" data-tag-pill="${escapeHtml(tag)}" title="${escapeHtml(labelForCatalogTag(tag))}">
+                <span>${escapeHtml(tag)}</span>
+                <span class="editor-tag-pill-x" aria-hidden="true">×</span>
+            </button>
+        `).join('');
+        selectedEl.innerHTML = orphanHtml + normalHtml;
         selectedEl.querySelectorAll('[data-tag-pill]').forEach(btn => {
             btn.addEventListener('click', () => {
                 const tag = btn.getAttribute('data-tag-pill');
                 if (!tag) return;
                 selected.delete(tag);
+                const oi = orphans.indexOf(tag);
+                if (oi >= 0) orphans.splice(oi, 1);
                 applyToModel();
                 renderSelected();
                 filterOptions(input.value);
@@ -249,10 +374,11 @@ function renderTagsWidget(tags) {
     }
 
     function buildOptions() {
-        dropdown.innerHTML = known.map(tag => `
-            <button type="button" class="editor-tag-option" data-tag-opt="${escapeHtml(tag)}">
-                <span>${escapeHtml(tag)}</span>
-                <span style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.82rem;">tag</span>
+        const rows = tagCatalogEntries();
+        dropdown.innerHTML = rows.map(({ tag: t, label }) => `
+            <button type="button" class="editor-tag-option" data-tag-opt="${escapeHtml(t)}" data-tag-label="${escapeHtml(label)}">
+                <span>${escapeHtml(label)}</span>
+                <span class="editor-tag-option-slug">${escapeHtml(t)}</span>
             </button>
         `).join('');
         dropdown.querySelectorAll('[data-tag-opt]').forEach(btn => {
@@ -277,19 +403,20 @@ function renderTagsWidget(tags) {
         let any = false;
         dropdown.querySelectorAll('[data-tag-opt]').forEach(btn => {
             const tag = btn.getAttribute('data-tag-opt') || '';
+            const label = (btn.getAttribute('data-tag-label') || '').toLowerCase();
             const isSelected = selected.has(tag);
-            const matches = !query || tag.toLowerCase().includes(query);
+            const matches = !query || tag.toLowerCase().includes(query) || label.includes(query);
             const show = matches && !isSelected;
             btn.hidden = !show;
             if (show) any = true;
         });
-        dropdown.hidden = !any && !query;
+        dropdown.hidden = !any;
     }
 
     function applyToModel() {
         const item = getSelectedItem();
         if (!item) return;
-        item.tags = Array.from(selected);
+        item.tags = uniq([...orphans, ...selected]);
         renderSidebar();
         syncRawFromModel();
     }
@@ -298,27 +425,19 @@ function renderTagsWidget(tags) {
     renderSelected();
     filterOptions('');
 
-    input.addEventListener('focus', () => { open(); filterOptions(input.value); });
-    input.addEventListener('input', () => { open(); filterOptions(input.value); });
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { close(); input.blur(); }
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const v = input.value.trim();
-            if (v) {
-                selected.add(v);
-                input.value = '';
-                applyToModel();
-                renderSelected();
-                filterOptions('');
-            }
-        }
-    });
-
-    document.addEventListener('click', (e) => {
+    const onDocClick = (e) => {
         if (wrap.contains(e.target)) return;
         close();
-    });
+    };
+
+    input.addEventListener('focus', () => { open(); filterOptions(input.value); }, { signal: ac.signal });
+    input.addEventListener('input', () => { open(); filterOptions(input.value); }, { signal: ac.signal });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { close(); input.blur(); }
+        if (e.key === 'Enter') e.preventDefault();
+    }, { signal: ac.signal });
+
+    document.addEventListener('click', onDocClick, { signal: ac.signal });
 }
 
 function syncFormFromModel() {
@@ -326,23 +445,18 @@ function syncFormFromModel() {
     if (!item) return;
 
     if (selection.kind === 'filters') {
-        ui.form.hidden = true;
-        ui.filterForm.hidden = false;
         fillField('tag', item.tag || '');
         fillField('label', item.label || '');
         fillField('primary', !!item.primary);
         return;
     }
 
-    ui.filterForm.hidden = true;
-    ui.form.hidden = false;
     fillField('title', item.title || '');
     fillField('role', item.role || '');
     fillField('platform', item.platform || '');
     fillField('tech_lines', arrayToLines(item.tech || []));
     fillField('achievements_lines', arrayToLines(item.achievements || []));
-    fillField('slides_json', JSON.stringify(item.slides || [], null, 2));
-    fillField('links_json', JSON.stringify(item.links || [], null, 2));
+    renderSlidesLinksUI(item);
     renderTagsWidget(item.tags || []);
 }
 
@@ -362,11 +476,7 @@ function syncModelFromForm() {
     item.platform = readField('platform') || '';
     item.tech = linesToArray(readField('tech_lines'));
     item.achievements = linesToArray(readField('achievements_lines'));
-
-    const slidesRes = safeJsonParse(readField('slides_json') || '[]');
-    if (slidesRes.ok && Array.isArray(slidesRes.value)) item.slides = slidesRes.value;
-    const linksRes = safeJsonParse(readField('links_json') || '[]');
-    if (linksRes.ok && Array.isArray(linksRes.value)) item.links = linksRes.value;
+    readSlidesLinksFromDom(item);
 }
 
 function syncRawFromModel() {
@@ -395,16 +505,23 @@ function renderPanel() {
     if (!selection) {
         ui.panelTitle.textContent = 'Select an item';
         setButtonsEnabled(false);
-        ui.form.hidden = true;
-        ui.filterForm.hidden = true;
+        if (ui.projectPanel) ui.projectPanel.hidden = true;
+        if (ui.tagPanel) ui.tagPanel.hidden = true;
         ui.raw.value = '';
         ui.raw.placeholder = 'Select an item to edit…';
         return;
     }
 
     const item = getSelectedItem();
-    const title = selection.kind === 'filters'
-        ? `Filter: ${item?.tag || ''}`
+    const isTag = selection.kind === 'filters';
+    if (ui.projectPanel) ui.projectPanel.hidden = isTag;
+    if (ui.tagPanel) ui.tagPanel.hidden = !isTag;
+    if (ui.projectBadge) {
+        ui.projectBadge.textContent = selection.kind === 'petProjects' ? 'projects.json · pet' : 'projects.json';
+    }
+
+    const title = isTag
+        ? `Tag: ${item?.tag || ''}`
         : `${selection.kind === 'petProjects' ? 'Pet project' : 'Project'}: ${item?.title || ''}`;
     ui.panelTitle.textContent = title;
 
@@ -420,7 +537,9 @@ function initSidebarUx() {
             if (!tab) return;
             sidebarTab = tab;
             sidebarQuery = ui.sidebarSearch?.value || '';
+            selection = null;
             renderSidebar();
+            renderPanel();
         });
     });
     ui.sidebarSearch?.addEventListener('input', () => {
@@ -435,9 +554,24 @@ function attachFormListeners() {
         renderSidebar();
         syncRawFromModel();
     };
-    document.querySelectorAll('[data-ui="form"] [data-field], [data-ui="filter-form"] [data-field]').forEach(el => {
+    document.querySelectorAll('[data-ui="project-panel"] [data-field], [data-ui="tag-panel"] [data-field]').forEach(el => {
         el.addEventListener('input', onAnyChange);
         el.addEventListener('change', onAnyChange);
+    });
+    const onSlidesLinksInput = () => {
+        if (!selection || selection.kind === 'filters') return;
+        const item = getSelectedItem();
+        if (!item) return;
+        readSlidesLinksFromDom(item);
+        syncRawFromModel();
+    };
+    ui.form?.addEventListener('input', (e) => {
+        if (!e.target.closest('[data-slide-part], [data-link-part]')) return;
+        onSlidesLinksInput();
+    });
+    ui.form?.addEventListener('change', (e) => {
+        if (!e.target.closest('[data-slide-part], [data-link-part]')) return;
+        onSlidesLinksInput();
     });
 }
 
@@ -516,6 +650,95 @@ document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
     const act = btn.getAttribute('data-action');
+
+    const item = getSelectedItem();
+    const isProject = item && selection && selection.kind !== 'filters';
+
+    if (act === 'slide-add' && isProject) {
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.slides)) item.slides = [];
+        item.slides.push({ label: `Slide ${item.slides.length + 1}`, url: '' });
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'slide-remove' && isProject) {
+        const idx = Number(btn.dataset.index);
+        if (Number.isNaN(idx)) return;
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.slides)) item.slides = [];
+        item.slides.splice(idx, 1);
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'slide-up' && isProject) {
+        const idx = Number(btn.dataset.index);
+        if (Number.isNaN(idx) || idx < 1) return;
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.slides)) item.slides = [];
+        const a = item.slides[idx - 1];
+        item.slides[idx - 1] = item.slides[idx];
+        item.slides[idx] = a;
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'slide-down' && isProject) {
+        const idx = Number(btn.dataset.index);
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.slides)) item.slides = [];
+        if (Number.isNaN(idx) || idx >= item.slides.length - 1) return;
+        const a = item.slides[idx + 1];
+        item.slides[idx + 1] = item.slides[idx];
+        item.slides[idx] = a;
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'link-add' && isProject) {
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.links)) item.links = [];
+        item.links.push({ label: 'Link', url: '' });
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'link-remove' && isProject) {
+        const idx = Number(btn.dataset.index);
+        if (Number.isNaN(idx)) return;
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.links)) item.links = [];
+        item.links.splice(idx, 1);
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'link-up' && isProject) {
+        const idx = Number(btn.dataset.index);
+        if (Number.isNaN(idx) || idx < 1) return;
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.links)) item.links = [];
+        const a = item.links[idx - 1];
+        item.links[idx - 1] = item.links[idx];
+        item.links[idx] = a;
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+    if (act === 'link-down' && isProject) {
+        const idx = Number(btn.dataset.index);
+        readSlidesLinksFromDom(item);
+        if (!Array.isArray(item.links)) item.links = [];
+        if (Number.isNaN(idx) || idx >= item.links.length - 1) return;
+        const a = item.links[idx + 1];
+        item.links[idx + 1] = item.links[idx];
+        item.links[idx] = a;
+        renderSlidesLinksUI(item);
+        syncRawFromModel();
+        return;
+    }
+
     if (act === 'download-projects') downloadProjects();
     if (act === 'download-tags') downloadTags();
     if (act === 'load') load();
