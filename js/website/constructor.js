@@ -21,25 +21,48 @@ function getEmbedVideoUrl(url, type) {
     return null;
 }
 
-function buildFilters(filters) {
+function buildFilters(filters, tagCounts) {
     const list = filters || [];
-    const primary = list.filter(f => f.primary !== false && (f.primary === true || list.indexOf(f) < 7));
-    const rest = list
-        .filter(f => !primary.includes(f))
-        .sort((a, b) => (a.label || a.tag || '').localeCompare(b.label || b.tag || '', undefined, { sensitivity: 'base' }));
+    const counts = tagCounts || {};
 
-    const btn = (f, active) =>
-        `<button class="filter-btn${active ? ' active' : ''}" data-tag="${escapeHtml(f.tag || '')}">${escapeHtml(f.label || f.tag || '')}</button>`;
+    const getCount = (tag) => {
+        if (!tag) return 0;
+        const v = counts[tag];
+        return Number.isFinite(v) ? v : 0;
+    };
 
-    const mainBtns = primary.map((f, i) => btn(f, i === 0)).join('');
-    const moreBtn = rest.length
-        ? `<button type="button" class="filter-more-btn" data-i18n="filter_more" aria-expanded="false"></button>`
-        : '';
-    const extraRow = rest.length
-        ? `<div class="project-filters-extra"><div class="project-filters-extra-inner">${rest.map(f => btn(f, false)).join('')}</div></div>`
-        : '';
+    const tags = list
+        .map(f => ({ tag: f?.tag || '', label: f?.label || f?.tag || '' }))
+        .filter(x => x.tag && x.tag !== 'all')
+        .map(x => ({ ...x, count: getCount(x.tag) }))
+        .sort((a, b) => {
+            const byCount = (b.count - a.count);
+            if (byCount) return byCount;
+            return (a.label || a.tag).localeCompare(b.label || b.tag, undefined, { sensitivity: 'base' });
+        });
 
-    return `<div class="project-filters-main">${mainBtns}${moreBtn}</div>${extraRow}`;
+    const optionsHtml = tags.map(tg => {
+        const disabled = tg.count <= 0;
+        return `
+            <button type="button" class="tag-option" role="option" data-tag="${escapeHtml(tg.tag)}" ${disabled ? 'disabled aria-disabled="true"' : ''}>
+                <span class="tag-option-label" data-tag-label="${escapeHtml(tg.tag)}">${escapeHtml(tg.label)}</span>
+                <span class="tag-option-count" aria-hidden="true">${tg.count}</span>
+            </button>
+        `;
+    }).join('');
+
+    return `
+        <div class="tag-search" data-tag-search>
+            <div class="tag-search-bar" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                <div class="tag-search-selected" data-tag-selected></div>
+                <input class="tag-search-input" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="filter_search_placeholder" placeholder="Search tags" aria-label="Tags" />
+                <button type="button" class="tag-search-clear" data-tag-clear aria-label="Clear">×</button>
+            </div>
+            <div class="tag-search-dropdown" data-tag-dropdown role="listbox" hidden>
+                ${optionsHtml || '<div class="tag-option-empty" data-tag-empty>No tags</div>'}
+            </div>
+        </div>
+    `;
 }
 
 function buildProjects(projects) {

@@ -60,6 +60,11 @@ function applyTranslations() {
         const val = t(key);
         if (val) el.setAttribute('aria-label', val);
     });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const val = t(key);
+        if (val && val !== key) el.setAttribute('placeholder', val);
+    });
     updateProjectsCarouselDotsI18n();
 }
 
@@ -96,16 +101,12 @@ function initFilterMore() {
 }
 
 function updateFilterLabels() {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        const tag = btn.dataset.tag;
+    document.querySelectorAll('[data-tag-label]').forEach(el => {
+        const tag = el.getAttribute('data-tag-label');
         if (!tag) return;
         const key = 'filter_' + tag;
         const translated = t(key);
-        if (translated !== key) btn.textContent = translated;
-    });
-    document.querySelectorAll('.filter-more-btn').forEach(btn => {
-        const extra = document.querySelector('.project-filters-extra');
-        btn.textContent = extra && extra.classList.contains('is-open') ? t('filter_less') : t('filter_more');
+        if (translated !== key) el.textContent = translated;
     });
     updatePetProjectsBtn();
 }
@@ -489,8 +490,16 @@ async function loadData() {
 
         const filtersContainer = document.querySelector('.project-filters');
         if (filtersContainer) {
-            filtersContainer.innerHTML = buildFilters(filters);
-            initFilterMore();
+            const allProjects = [...projects, ...petProjects];
+            const tagCounts = allProjects.reduce((acc, p) => {
+                const unique = new Set((p?.tags || []).filter(Boolean));
+                unique.forEach(tag => {
+                    acc[tag] = (acc[tag] || 0) + 1;
+                });
+                return acc;
+            }, {});
+            tagCounts.all = allProjects.length;
+            filtersContainer.innerHTML = buildFilters(filters, tagCounts);
             updateFilterLabels();
         }
 
@@ -636,20 +645,149 @@ function initProjectCards() {
         observer.observe(el);
     });
 
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tag = btn.dataset.tag;
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            projectCards.forEach(card => {
-                const tags = card.dataset.tags || '';
-                const match = tag === 'all' || tags.split(' ').includes(tag);
-                card.classList.toggle('hidden', !match);
+    const tagSearch = document.querySelector('[data-tag-search]');
+    const tagInput = tagSearch?.querySelector('.tag-search-input');
+    const dropdown = tagSearch?.querySelector('[data-tag-dropdown]');
+    const clearBtn = tagSearch?.querySelector('[data-tag-clear]');
+    const selectedWrap = tagSearch?.querySelector('[data-tag-selected]');
+    const options = Array.from(tagSearch?.querySelectorAll('.tag-option') || []);
+
+    const selected = new Set();
+
+    function normalizeTags(str) {
+        return (str || '').split(/\s+/).map(s => s.trim()).filter(Boolean);
+    }
+
+    function applyTagFilter() {
+        const activeTags = Array.from(selected);
+        projectCards.forEach(card => {
+            const tags = normalizeTags(card.dataset.tags);
+            const match = activeTags.length === 0 || activeTags.every(tg => tags.includes(tg));
+            card.classList.toggle('hidden', !match);
+        });
+        document.querySelectorAll('.projects-carousel').forEach(c => {
+            c.dispatchEvent(new CustomEvent('projects-visible-changed'));
+        });
+    }
+
+    function getTagLabel(tag) {
+        const key = 'filter_' + tag;
+        const translated = t(key);
+        if (translated !== key) return translated;
+        const el = tagSearch?.querySelector(`[data-tag-label="${CSS.escape(tag)}"]`);
+        return el?.textContent || tag;
+    }
+
+    function renderSelectedChips() {
+        if (!selectedWrap) return;
+        const tags = Array.from(selected);
+        selectedWrap.innerHTML = tags.map(tag => {
+            const label = getTagLabel(tag);
+            return `
+                <button type="button" class="tag-chip" data-tag-chip="${escapeHtml(tag)}" aria-label="${escapeHtml(label)}">
+                    <span class="tag-chip-label">${escapeHtml(label)}</span>
+                    <span class="tag-chip-x" aria-hidden="true">×</span>
+                </button>
+            `;
+        }).join('');
+        selectedWrap.querySelectorAll('[data-tag-chip]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tag = btn.getAttribute('data-tag-chip');
+                if (!tag) return;
+                selected.delete(tag);
+                applyTagFilter();
+                renderSelectedChips();
+                updateClearBtn();
             });
-            document.querySelector('.projects-carousel:not(.projects-pet-carousel)')?.dispatchEvent(new CustomEvent('projects-visible-changed'));
+        });
+    }
+
+    function openDropdown() {
+        if (!tagSearch || !dropdown) return;
+        dropdown.hidden = false;
+        tagSearch.querySelector('.tag-search-bar')?.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown() {
+        if (!tagSearch || !dropdown) return;
+        dropdown.hidden = true;
+        tagSearch.querySelector('.tag-search-bar')?.setAttribute('aria-expanded', 'false');
+    }
+
+    function updateClearBtn() {
+        if (!clearBtn) return;
+        clearBtn.hidden = selected.size === 0 && !(tagInput?.value || '').trim();
+    }
+
+    function filterDropdownOptions(q) {
+        const query = (q || '').trim().toLowerCase();
+        let anyVisible = false;
+        options.forEach(opt => {
+            const tag = opt.dataset.tag || '';
+            const labelEl = opt.querySelector('[data-tag-label]');
+            const label = (labelEl?.textContent || tag).toLowerCase();
+            const isSelected = selected.has(tag);
+            const matches = !query || tag.toLowerCase().includes(query) || label.includes(query);
+            const show = matches && !isSelected;
+            opt.hidden = !show;
+            if (show) anyVisible = true;
+        });
+        const empty = dropdown?.querySelector('.tag-option-empty');
+        if (empty) empty.hidden = anyVisible;
+    }
+
+    options.forEach(opt => {
+        opt.addEventListener('click', () => {
+            if (opt.disabled) return;
+            const tag = opt.dataset.tag;
+            if (!tag) return;
+            selected.add(tag);
+            applyTagFilter();
+            renderSelectedChips();
+            filterDropdownOptions(tagInput?.value || '');
+            updateClearBtn();
+            tagInput?.focus();
+            openDropdown();
         });
     });
+
+    tagInput?.addEventListener('focus', () => {
+        filterDropdownOptions(tagInput.value);
+        openDropdown();
+        updateClearBtn();
+    });
+    tagInput?.addEventListener('input', () => {
+        filterDropdownOptions(tagInput.value);
+        openDropdown();
+        updateClearBtn();
+    });
+    tagInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeDropdown();
+            tagInput.blur();
+        }
+    });
+
+    clearBtn?.addEventListener('click', () => {
+        selected.clear();
+        if (tagInput) tagInput.value = '';
+        applyTagFilter();
+        renderSelectedChips();
+        filterDropdownOptions('');
+        closeDropdown();
+        updateClearBtn();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!tagSearch) return;
+        if (tagSearch.contains(e.target)) return;
+        closeDropdown();
+    });
+
+    applyTagFilter();
+    renderSelectedChips();
+    filterDropdownOptions('');
+    updateClearBtn();
 
     projectCards.forEach(card => {
         card.addEventListener('click', (e) => {

@@ -84,6 +84,7 @@
   "filter_numpy": "NumPy",
   "filter_pytorch": "PyTorch",
   "filter_dotnet": ".NET",
+  "filter_search_placeholder": "Search tags",
   "filter_more": "More",
   "filter_less": "Less",
   "skills_show_all": "Show all skills",

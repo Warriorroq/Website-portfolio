@@ -84,6 +84,7 @@
   "filter_numpy": "NumPy",
   "filter_pytorch": "PyTorch",
   "filter_dotnet": ".NET",
+  "filter_search_placeholder": "Поиск по тегам",
   "filter_more": "Ещё",
   "filter_less": "Свернуть",
   "skills_show_all": "Показать все навыки",
