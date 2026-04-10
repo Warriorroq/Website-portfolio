@@ -1631,6 +1631,1606 @@
     {
       "tag": "generation",
       "label": "Generation"
+    },
+    {
+      "tag": "aspnet-core",
+      "label": "ASP.NET Core"
+    },
+    {
+      "tag": "blazor",
+      "label": "Blazor"
+    },
+    {
+      "tag": "wpf",
+      "label": "WPF"
+    },
+    {
+      "tag": "winforms",
+      "label": "WinForms"
+    },
+    {
+      "tag": "maui",
+      "label": ".NET MAUI"
+    },
+    {
+      "tag": "xamarin",
+      "label": "Xamarin"
+    },
+    {
+      "tag": "ef-core",
+      "label": "Entity Framework Core"
+    },
+    {
+      "tag": "dapper",
+      "label": "Dapper"
+    },
+    {
+      "tag": "serilog",
+      "label": "Serilog"
+    },
+    {
+      "tag": "nunit",
+      "label": "NUnit"
+    },
+    {
+      "tag": "xunit",
+      "label": "xUnit.net"
+    },
+    {
+      "tag": "hangfire",
+      "label": "Hangfire"
+    },
+    {
+      "tag": "mediatr",
+      "label": "MediatR"
+    },
+    {
+      "tag": "automapper",
+      "label": "AutoMapper"
+    },
+    {
+      "tag": "signalr",
+      "label": "SignalR"
+    },
+    {
+      "tag": "grpc-dotnet",
+      "label": "gRPC .NET"
+    },
+    {
+      "tag": "csharp-linq",
+      "label": "LINQ"
+    },
+    {
+      "tag": "csharp-async",
+      "label": "async/await (C#)"
+    },
+    {
+      "tag": "roslyn",
+      "label": "Roslyn"
+    },
+    {
+      "tag": "nuget",
+      "label": "NuGet"
+    },
+    {
+      "tag": "dotnet-cli",
+      "label": ".NET CLI"
+    },
+    {
+      "tag": "fsharp",
+      "label": "F#"
+    },
+    {
+      "tag": "vb-net",
+      "label": "VB.NET"
+    },
+    {
+      "tag": "aspnet-mvc",
+      "label": "ASP.NET MVC"
+    },
+    {
+      "tag": "aspnet-webapi",
+      "label": "ASP.NET Web API"
+    },
+    {
+      "tag": "minimal-apis",
+      "label": "Minimal APIs"
+    },
+    {
+      "tag": "razor-pages",
+      "label": "Razor Pages"
+    },
+    {
+      "tag": "mudblazor",
+      "label": "MudBlazor"
+    },
+    {
+      "tag": "avalonia",
+      "label": "Avalonia"
+    },
+    {
+      "tag": "uno-platform",
+      "label": "Uno Platform"
+    },
+    {
+      "tag": "godot-csharp",
+      "label": "Godot C#"
+    },
+    {
+      "tag": "unity-csharp",
+      "label": "Unity C#"
+    },
+    {
+      "tag": "resharper",
+      "label": "ReSharper"
+    },
+    {
+      "tag": "rider",
+      "label": "Rider"
+    },
+    {
+      "tag": "visual-studio",
+      "label": "Visual Studio"
+    },
+    {
+      "tag": "vs-code",
+      "label": "VS Code"
+    },
+    {
+      "tag": "spring-security",
+      "label": "Spring Security"
+    },
+    {
+      "tag": "spring-data",
+      "label": "Spring Data"
+    },
+    {
+      "tag": "spring-cloud",
+      "label": "Spring Cloud"
+    },
+    {
+      "tag": "jakarta-ee",
+      "label": "Jakarta EE"
+    },
+    {
+      "tag": "quarkus",
+      "label": "Quarkus"
+    },
+    {
+      "tag": "micronaut",
+      "label": "Micronaut"
+    },
+    {
+      "tag": "jackson",
+      "label": "Jackson"
+    },
+    {
+      "tag": "lombok",
+      "label": "Lombok"
+    },
+    {
+      "tag": "javafx",
+      "label": "JavaFX"
+    },
+    {
+      "tag": "junit5",
+      "label": "JUnit 5"
+    },
+    {
+      "tag": "mockito",
+      "label": "Mockito"
+    },
+    {
+      "tag": "testcontainers",
+      "label": "Testcontainers"
+    },
+    {
+      "tag": "kafka-java",
+      "label": "Apache Kafka (Java)"
+    },
+    {
+      "tag": "apache-camel",
+      "label": "Apache Camel"
+    },
+    {
+      "tag": "vert-x",
+      "label": "Vert.x"
+    },
+    {
+      "tag": "netty",
+      "label": "Netty"
+    },
+    {
+      "tag": "tomcat",
+      "label": "Tomcat"
+    },
+    {
+      "tag": "jetty",
+      "label": "Jetty"
+    },
+    {
+      "tag": "wildfly",
+      "label": "WildFly"
+    },
+    {
+      "tag": "glassfish",
+      "label": "GlassFish"
+    },
+    {
+      "tag": "intellij-idea",
+      "label": "IntelliJ IDEA"
+    },
+    {
+      "tag": "eclipse-ide",
+      "label": "Eclipse IDE"
+    },
+    {
+      "tag": "java-modules",
+      "label": "Java Platform Module System"
+    },
+    {
+      "tag": "java-records",
+      "label": "Java Records"
+    },
+    {
+      "tag": "java-streams",
+      "label": "Java Streams"
+    },
+    {
+      "tag": "java-concurrency",
+      "label": "Java Concurrency"
+    },
+    {
+      "tag": "jvm-tuning",
+      "label": "JVM Tuning"
+    },
+    {
+      "tag": "graalvm",
+      "label": "GraalVM"
+    },
+    {
+      "tag": "jmh",
+      "label": "JMH"
+    },
+    {
+      "tag": "python-uvicorn",
+      "label": "Uvicorn"
+    },
+    {
+      "tag": "python-gunicorn",
+      "label": "Gunicorn"
+    },
+    {
+      "tag": "pydantic",
+      "label": "Pydantic"
+    },
+    {
+      "tag": "poetry",
+      "label": "Poetry"
+    },
+    {
+      "tag": "pipenv",
+      "label": "Pipenv"
+    },
+    {
+      "tag": "uv-package",
+      "label": "uv"
+    },
+    {
+      "tag": "ruff",
+      "label": "Ruff"
+    },
+    {
+      "tag": "black-formatter",
+      "label": "Black"
+    },
+    {
+      "tag": "mypy",
+      "label": "mypy"
+    },
+    {
+      "tag": "scipy",
+      "label": "SciPy"
+    },
+    {
+      "tag": "scikit-learn",
+      "label": "scikit-learn"
+    },
+    {
+      "tag": "tensorflow",
+      "label": "TensorFlow"
+    },
+    {
+      "tag": "pytorch",
+      "label": "PyTorch"
+    },
+    {
+      "tag": "keras",
+      "label": "Keras"
+    },
+    {
+      "tag": "jax",
+      "label": "JAX"
+    },
+    {
+      "tag": "httpx",
+      "label": "HTTPX"
+    },
+    {
+      "tag": "aiohttp",
+      "label": "aiohttp"
+    },
+    {
+      "tag": "python-requests",
+      "label": "Requests"
+    },
+    {
+      "tag": "jinja2",
+      "label": "Jinja2"
+    },
+    {
+      "tag": "beautifulsoup",
+      "label": "Beautiful Soup"
+    },
+    {
+      "tag": "scrapy",
+      "label": "Scrapy"
+    },
+    {
+      "tag": "pillow",
+      "label": "Pillow"
+    },
+    {
+      "tag": "opencv",
+      "label": "OpenCV"
+    },
+    {
+      "tag": "matplotlib",
+      "label": "Matplotlib"
+    },
+    {
+      "tag": "seaborn",
+      "label": "seaborn"
+    },
+    {
+      "tag": "jupyter",
+      "label": "Jupyter"
+    },
+    {
+      "tag": "streamlit",
+      "label": "Streamlit"
+    },
+    {
+      "tag": "gradio",
+      "label": "Gradio"
+    },
+    {
+      "tag": "langchain",
+      "label": "LangChain"
+    },
+    {
+      "tag": "llamaindex",
+      "label": "LlamaIndex"
+    },
+    {
+      "tag": "huggingface",
+      "label": "Hugging Face"
+    },
+    {
+      "tag": "transformers-lib",
+      "label": "Transformers"
+    },
+    {
+      "tag": "spacy",
+      "label": "spaCy"
+    },
+    {
+      "tag": "nltk",
+      "label": "NLTK"
+    },
+    {
+      "tag": "opencv-python",
+      "label": "OpenCV (Python)"
+    },
+    {
+      "tag": "tornado",
+      "label": "Tornado"
+    },
+    {
+      "tag": "bottle",
+      "label": "Bottle"
+    },
+    {
+      "tag": "cherrypy",
+      "label": "CherryPy"
+    },
+    {
+      "tag": "tortoise-orm",
+      "label": "Tortoise ORM"
+    },
+    {
+      "tag": "peewee",
+      "label": "Peewee"
+    },
+    {
+      "tag": "python-dotenv",
+      "label": "python-dotenv"
+    },
+    {
+      "tag": "pydantic-settings",
+      "label": "Pydantic Settings"
+    },
+    {
+      "tag": "structlog",
+      "label": "structlog"
+    },
+    {
+      "tag": "loguru",
+      "label": "Loguru"
+    },
+    {
+      "tag": "python-multiprocessing",
+      "label": "multiprocessing"
+    },
+    {
+      "tag": "asyncio",
+      "label": "asyncio"
+    },
+    {
+      "tag": "python-typing",
+      "label": "typing (Python)"
+    },
+    {
+      "tag": "cython",
+      "label": "Cython"
+    },
+    {
+      "tag": "numba",
+      "label": "Numba"
+    },
+    {
+      "tag": "polars",
+      "label": "Polars"
+    },
+    {
+      "tag": "duckdb",
+      "label": "DuckDB"
+    },
+    {
+      "tag": "apache-airflow",
+      "label": "Apache Airflow"
+    },
+    {
+      "tag": "prefect",
+      "label": "Prefect"
+    },
+    {
+      "tag": "dagster",
+      "label": "Dagster"
+    },
+    {
+      "tag": "dask",
+      "label": "Dask"
+    },
+    {
+      "tag": "ray",
+      "label": "Ray"
+    },
+    {
+      "tag": "cmake",
+      "label": "CMake"
+    },
+    {
+      "tag": "conan",
+      "label": "Conan"
+    },
+    {
+      "tag": "vcpkg",
+      "label": "vcpkg"
+    },
+    {
+      "tag": "boost-cpp",
+      "label": "Boost"
+    },
+    {
+      "tag": "qt-cpp",
+      "label": "Qt"
+    },
+    {
+      "tag": "wxwidgets",
+      "label": "wxWidgets"
+    },
+    {
+      "tag": "catch2",
+      "label": "Catch2"
+    },
+    {
+      "tag": "doctest-cpp",
+      "label": "doctest"
+    },
+    {
+      "tag": "spdlog",
+      "label": "spdlog"
+    },
+    {
+      "tag": "imgui",
+      "label": "Dear ImGui"
+    },
+    {
+      "tag": "entt",
+      "label": "EnTT"
+    },
+    {
+      "tag": "glm",
+      "label": "GLM"
+    },
+    {
+      "tag": "glfw",
+      "label": "GLFW"
+    },
+    {
+      "tag": "sdl2",
+      "label": "SDL2"
+    },
+    {
+      "tag": "sfml",
+      "label": "SFML"
+    },
+    {
+      "tag": "openal",
+      "label": "OpenAL"
+    },
+    {
+      "tag": "vulkan",
+      "label": "Vulkan"
+    },
+    {
+      "tag": "opengl",
+      "label": "OpenGL"
+    },
+    {
+      "tag": "directx",
+      "label": "DirectX"
+    },
+    {
+      "tag": "metal-api",
+      "label": "Metal"
+    },
+    {
+      "tag": "llvm",
+      "label": "LLVM"
+    },
+    {
+      "tag": "clang",
+      "label": "Clang"
+    },
+    {
+      "tag": "gcc",
+      "label": "GCC"
+    },
+    {
+      "tag": "msvc",
+      "label": "MSVC"
+    },
+    {
+      "tag": "cpp20",
+      "label": "C++20"
+    },
+    {
+      "tag": "cpp23",
+      "label": "C++23"
+    },
+    {
+      "tag": "ranges-cpp",
+      "label": "C++ Ranges"
+    },
+    {
+      "tag": "concepts-cpp",
+      "label": "C++ Concepts"
+    },
+    {
+      "tag": "coroutines-cpp",
+      "label": "C++ Coroutines"
+    },
+    {
+      "tag": "asio-cpp",
+      "label": "Asio"
+    },
+    {
+      "tag": "protobuf-cpp",
+      "label": "Protocol Buffers (C++)"
+    },
+    {
+      "tag": "grpc-cpp",
+      "label": "gRPC (C++)"
+    },
+    {
+      "tag": "abseil",
+      "label": "Abseil"
+    },
+    {
+      "tag": "folly",
+      "label": "Folly"
+    },
+    {
+      "tag": "webpack",
+      "label": "webpack"
+    },
+    {
+      "tag": "vite",
+      "label": "Vite"
+    },
+    {
+      "tag": "rollup",
+      "label": "Rollup"
+    },
+    {
+      "tag": "parcel-bundler",
+      "label": "Parcel"
+    },
+    {
+      "tag": "esbuild",
+      "label": "esbuild"
+    },
+    {
+      "tag": "swc",
+      "label": "SWC"
+    },
+    {
+      "tag": "babel",
+      "label": "Babel"
+    },
+    {
+      "tag": "eslint",
+      "label": "ESLint"
+    },
+    {
+      "tag": "prettier",
+      "label": "Prettier"
+    },
+    {
+      "tag": "biome",
+      "label": "Biome"
+    },
+    {
+      "tag": "jest",
+      "label": "Jest"
+    },
+    {
+      "tag": "vitest",
+      "label": "Vitest"
+    },
+    {
+      "tag": "cypress",
+      "label": "Cypress"
+    },
+    {
+      "tag": "playwright",
+      "label": "Playwright"
+    },
+    {
+      "tag": "mocha",
+      "label": "Mocha"
+    },
+    {
+      "tag": "karma-runner",
+      "label": "Karma"
+    },
+    {
+      "tag": "jasmine",
+      "label": "Jasmine"
+    },
+    {
+      "tag": "testing-library",
+      "label": "Testing Library"
+    },
+    {
+      "tag": "rxjs",
+      "label": "RxJS"
+    },
+    {
+      "tag": "lodash",
+      "label": "Lodash"
+    },
+    {
+      "tag": "axios",
+      "label": "Axios"
+    },
+    {
+      "tag": "zod",
+      "label": "Zod"
+    },
+    {
+      "tag": "prisma",
+      "label": "Prisma"
+    },
+    {
+      "tag": "drizzle-orm",
+      "label": "Drizzle ORM"
+    },
+    {
+      "tag": "typeorm",
+      "label": "TypeORM"
+    },
+    {
+      "tag": "sequelize",
+      "label": "Sequelize"
+    },
+    {
+      "tag": "knex",
+      "label": "Knex.js"
+    },
+    {
+      "tag": "mongoose",
+      "label": "Mongoose"
+    },
+    {
+      "tag": "tailwindcss",
+      "label": "Tailwind CSS"
+    },
+    {
+      "tag": "bootstrap-css",
+      "label": "Bootstrap"
+    },
+    {
+      "tag": "mui",
+      "label": "MUI"
+    },
+    {
+      "tag": "chakra-ui",
+      "label": "Chakra UI"
+    },
+    {
+      "tag": "radix-ui",
+      "label": "Radix UI"
+    },
+    {
+      "tag": "shadcn-ui",
+      "label": "shadcn/ui"
+    },
+    {
+      "tag": "framer-motion",
+      "label": "Framer Motion"
+    },
+    {
+      "tag": "three-js",
+      "label": "Three.js"
+    },
+    {
+      "tag": "babylon-js",
+      "label": "Babylon.js"
+    },
+    {
+      "tag": "d3",
+      "label": "D3.js"
+    },
+    {
+      "tag": "chart-js",
+      "label": "Chart.js"
+    },
+    {
+      "tag": "echarts",
+      "label": "Apache ECharts"
+    },
+    {
+      "tag": "highcharts",
+      "label": "Highcharts"
+    },
+    {
+      "tag": "redux",
+      "label": "Redux"
+    },
+    {
+      "tag": "redux-toolkit",
+      "label": "Redux Toolkit"
+    },
+    {
+      "tag": "zustand",
+      "label": "Zustand"
+    },
+    {
+      "tag": "jotai",
+      "label": "Jotai"
+    },
+    {
+      "tag": "recoil",
+      "label": "Recoil"
+    },
+    {
+      "tag": "mobx",
+      "label": "MobX"
+    },
+    {
+      "tag": "xstate",
+      "label": "XState"
+    },
+    {
+      "tag": "tanstack-query",
+      "label": "TanStack Query"
+    },
+    {
+      "tag": "tanstack-router",
+      "label": "TanStack Router"
+    },
+    {
+      "tag": "react-router",
+      "label": "React Router"
+    },
+    {
+      "tag": "remix",
+      "label": "Remix"
+    },
+    {
+      "tag": "astro",
+      "label": "Astro"
+    },
+    {
+      "tag": "nuxt",
+      "label": "Nuxt"
+    },
+    {
+      "tag": "solid-js",
+      "label": "SolidJS"
+    },
+    {
+      "tag": "qwik",
+      "label": "Qwik"
+    },
+    {
+      "tag": "lit",
+      "label": "Lit"
+    },
+    {
+      "tag": "stencil",
+      "label": "Stencil"
+    },
+    {
+      "tag": "electron",
+      "label": "Electron"
+    },
+    {
+      "tag": "tauri",
+      "label": "Tauri"
+    },
+    {
+      "tag": "capacitor",
+      "label": "Capacitor"
+    },
+    {
+      "tag": "ionic",
+      "label": "Ionic"
+    },
+    {
+      "tag": "react-native",
+      "label": "React Native"
+    },
+    {
+      "tag": "expo",
+      "label": "Expo"
+    },
+    {
+      "tag": "jetpack-compose",
+      "label": "Jetpack Compose"
+    },
+    {
+      "tag": "android-studio",
+      "label": "Android Studio"
+    },
+    {
+      "tag": "xcode",
+      "label": "Xcode"
+    },
+    {
+      "tag": "swiftui",
+      "label": "SwiftUI"
+    },
+    {
+      "tag": "combine-swift",
+      "label": "Combine"
+    },
+    {
+      "tag": "swift-concurrency",
+      "label": "Swift Concurrency"
+    },
+    {
+      "tag": "objc",
+      "label": "Objective-C"
+    },
+    {
+      "tag": "cocoapods",
+      "label": "CocoaPods"
+    },
+    {
+      "tag": "spm",
+      "label": "Swift Package Manager"
+    },
+    {
+      "tag": "gcp",
+      "label": "Google Cloud"
+    },
+    {
+      "tag": "azure",
+      "label": "Microsoft Azure"
+    },
+    {
+      "tag": "vercel",
+      "label": "Vercel"
+    },
+    {
+      "tag": "netlify",
+      "label": "Netlify"
+    },
+    {
+      "tag": "cloudflare",
+      "label": "Cloudflare"
+    },
+    {
+      "tag": "digitalocean",
+      "label": "DigitalOcean"
+    },
+    {
+      "tag": "heroku",
+      "label": "Heroku"
+    },
+    {
+      "tag": "fly-io",
+      "label": "Fly.io"
+    },
+    {
+      "tag": "railway",
+      "label": "Railway"
+    },
+    {
+      "tag": "render-com",
+      "label": "Render"
+    },
+    {
+      "tag": "terraform",
+      "label": "Terraform"
+    },
+    {
+      "tag": "pulumi",
+      "label": "Pulumi"
+    },
+    {
+      "tag": "ansible",
+      "label": "Ansible"
+    },
+    {
+      "tag": "chef",
+      "label": "Chef"
+    },
+    {
+      "tag": "puppet",
+      "label": "Puppet"
+    },
+    {
+      "tag": "github-actions",
+      "label": "GitHub Actions"
+    },
+    {
+      "tag": "gitlab-ci",
+      "label": "GitLab CI"
+    },
+    {
+      "tag": "jenkins",
+      "label": "Jenkins"
+    },
+    {
+      "tag": "circleci",
+      "label": "CircleCI"
+    },
+    {
+      "tag": "travis-ci",
+      "label": "Travis CI"
+    },
+    {
+      "tag": "teamcity",
+      "label": "TeamCity"
+    },
+    {
+      "tag": "argocd",
+      "label": "Argo CD"
+    },
+    {
+      "tag": "helm",
+      "label": "Helm"
+    },
+    {
+      "tag": "istio",
+      "label": "Istio"
+    },
+    {
+      "tag": "linkerd",
+      "label": "Linkerd"
+    },
+    {
+      "tag": "envoy",
+      "label": "Envoy"
+    },
+    {
+      "tag": "consul",
+      "label": "Consul"
+    },
+    {
+      "tag": "vault-hashicorp",
+      "label": "HashiCorp Vault"
+    },
+    {
+      "tag": "nomad",
+      "label": "Nomad"
+    },
+    {
+      "tag": "prometheus",
+      "label": "Prometheus"
+    },
+    {
+      "tag": "grafana",
+      "label": "Grafana"
+    },
+    {
+      "tag": "loki",
+      "label": "Loki"
+    },
+    {
+      "tag": "tempo",
+      "label": "Tempo"
+    },
+    {
+      "tag": "jaeger",
+      "label": "Jaeger"
+    },
+    {
+      "tag": "opentelemetry",
+      "label": "OpenTelemetry"
+    },
+    {
+      "tag": "datadog",
+      "label": "Datadog"
+    },
+    {
+      "tag": "newrelic",
+      "label": "New Relic"
+    },
+    {
+      "tag": "sentry",
+      "label": "Sentry"
+    },
+    {
+      "tag": "elasticsearch",
+      "label": "Elasticsearch"
+    },
+    {
+      "tag": "opensearch",
+      "label": "OpenSearch"
+    },
+    {
+      "tag": "solr",
+      "label": "Apache Solr"
+    },
+    {
+      "tag": "mongodb",
+      "label": "MongoDB"
+    },
+    {
+      "tag": "cassandra",
+      "label": "Apache Cassandra"
+    },
+    {
+      "tag": "cockroachdb",
+      "label": "CockroachDB"
+    },
+    {
+      "tag": "planetscale",
+      "label": "PlanetScale"
+    },
+    {
+      "tag": "supabase",
+      "label": "Supabase"
+    },
+    {
+      "tag": "firebase-auth",
+      "label": "Firebase Auth"
+    },
+    {
+      "tag": "firestore",
+      "label": "Cloud Firestore"
+    },
+    {
+      "tag": "stripe",
+      "label": "Stripe"
+    },
+    {
+      "tag": "paypal-sdk",
+      "label": "PayPal"
+    },
+    {
+      "tag": "square-api",
+      "label": "Square API"
+    },
+    {
+      "tag": "rabbitmq",
+      "label": "RabbitMQ"
+    },
+    {
+      "tag": "apache-kafka",
+      "label": "Apache Kafka"
+    },
+    {
+      "tag": "apache-pulsar",
+      "label": "Apache Pulsar"
+    },
+    {
+      "tag": "nats-io",
+      "label": "NATS"
+    },
+    {
+      "tag": "mqtt",
+      "label": "MQTT"
+    },
+    {
+      "tag": "nginx",
+      "label": "Nginx"
+    },
+    {
+      "tag": "apache-httpd",
+      "label": "Apache HTTP Server"
+    },
+    {
+      "tag": "traefik",
+      "label": "Traefik"
+    },
+    {
+      "tag": "caddy",
+      "label": "Caddy"
+    },
+    {
+      "tag": "haproxy",
+      "label": "HAProxy"
+    },
+    {
+      "tag": "linux-admin",
+      "label": "Linux Administration"
+    },
+    {
+      "tag": "bash",
+      "label": "Bash"
+    },
+    {
+      "tag": "powershell-scripting",
+      "label": "PowerShell"
+    },
+    {
+      "tag": "zsh",
+      "label": "Zsh"
+    },
+    {
+      "tag": "vim",
+      "label": "Vim"
+    },
+    {
+      "tag": "emacs",
+      "label": "Emacs"
+    },
+    {
+      "tag": "make",
+      "label": "Make"
+    },
+    {
+      "tag": "justfile",
+      "label": "just"
+    },
+    {
+      "tag": "nix",
+      "label": "Nix"
+    },
+    {
+      "tag": "homebrew",
+      "label": "Homebrew"
+    },
+    {
+      "tag": "chocolatey",
+      "label": "Chocolatey"
+    },
+    {
+      "tag": "winget",
+      "label": "winget"
+    },
+    {
+      "tag": "sql-server",
+      "label": "SQL Server"
+    },
+    {
+      "tag": "sqlite",
+      "label": "SQLite"
+    },
+    {
+      "tag": "mariadb",
+      "label": "MariaDB"
+    },
+    {
+      "tag": "oracle-db",
+      "label": "Oracle Database"
+    },
+    {
+      "tag": "neo4j",
+      "label": "Neo4j"
+    },
+    {
+      "tag": "arangodb",
+      "label": "ArangoDB"
+    },
+    {
+      "tag": "influxdb",
+      "label": "InfluxDB"
+    },
+    {
+      "tag": "timescaledb",
+      "label": "TimescaleDB"
+    },
+    {
+      "tag": "clickhouse",
+      "label": "ClickHouse"
+    },
+    {
+      "tag": "snowflake-db",
+      "label": "Snowflake"
+    },
+    {
+      "tag": "bigquery",
+      "label": "BigQuery"
+    },
+    {
+      "tag": "databricks",
+      "label": "Databricks"
+    },
+    {
+      "tag": "apache-spark",
+      "label": "Apache Spark"
+    },
+    {
+      "tag": "apache-flink",
+      "label": "Apache Flink"
+    },
+    {
+      "tag": "apache-beam",
+      "label": "Apache Beam"
+    },
+    {
+      "tag": "dbt",
+      "label": "dbt"
+    },
+    {
+      "tag": "snowplow",
+      "label": "Snowplow"
+    },
+    {
+      "tag": "segment",
+      "label": "Segment"
+    },
+    {
+      "tag": "mixpanel",
+      "label": "Mixpanel"
+    },
+    {
+      "tag": "amplitude",
+      "label": "Amplitude"
+    },
+    {
+      "tag": "posthog",
+      "label": "PostHog"
+    },
+    {
+      "tag": "oauth2",
+      "label": "OAuth 2.0"
+    },
+    {
+      "tag": "openid-connect",
+      "label": "OpenID Connect"
+    },
+    {
+      "tag": "jwt",
+      "label": "JWT"
+    },
+    {
+      "tag": "passkeys",
+      "label": "Passkeys"
+    },
+    {
+      "tag": "webauthn",
+      "label": "WebAuthn"
+    },
+    {
+      "tag": "ldap",
+      "label": "LDAP"
+    },
+    {
+      "tag": "saml",
+      "label": "SAML"
+    },
+    {
+      "tag": "kerberos",
+      "label": "Kerberos"
+    },
+    {
+      "tag": "mtls",
+      "label": "mTLS"
+    },
+    {
+      "tag": "zero-trust",
+      "label": "Zero Trust"
+    },
+    {
+      "tag": "soc2",
+      "label": "SOC 2"
+    },
+    {
+      "tag": "gdpr",
+      "label": "GDPR"
+    },
+    {
+      "tag": "pci-dss",
+      "label": "PCI DSS"
+    },
+    {
+      "tag": "owasp",
+      "label": "OWASP"
+    },
+    {
+      "tag": "penetration-testing",
+      "label": "Penetration Testing"
+    },
+    {
+      "tag": "burp-suite",
+      "label": "Burp Suite"
+    },
+    {
+      "tag": "wireshark",
+      "label": "Wireshark"
+    },
+    {
+      "tag": "ffmpeg",
+      "label": "FFmpeg"
+    },
+    {
+      "tag": "gstreamer",
+      "label": "GStreamer"
+    },
+    {
+      "tag": "webrtc",
+      "label": "WebRTC"
+    },
+    {
+      "tag": "socket-io",
+      "label": "Socket.IO"
+    },
+    {
+      "tag": "server-sent-events",
+      "label": "Server-Sent Events"
+    },
+    {
+      "tag": "htmx",
+      "label": "htmx"
+    },
+    {
+      "tag": "alpine-js",
+      "label": "Alpine.js"
+    },
+    {
+      "tag": "petite-vue",
+      "label": "Petite-Vue"
+    },
+    {
+      "tag": "jquery",
+      "label": "jQuery"
+    },
+    {
+      "tag": "backbone-js",
+      "label": "Backbone.js"
+    },
+    {
+      "tag": "ember-js",
+      "label": "Ember.js"
+    },
+    {
+      "tag": "polymer",
+      "label": "Polymer"
+    },
+    {
+      "tag": "dojo-toolkit",
+      "label": "Dojo"
+    },
+    {
+      "tag": "wasm",
+      "label": "WebAssembly"
+    },
+    {
+      "tag": "emscripten",
+      "label": "Emscripten"
+    },
+    {
+      "tag": "assemblyscript",
+      "label": "AssemblyScript"
+    },
+    {
+      "tag": "rust-wasm",
+      "label": "Rust + WASM"
+    },
+    {
+      "tag": "deno",
+      "label": "Deno"
+    },
+    {
+      "tag": "bun",
+      "label": "Bun"
+    },
+    {
+      "tag": "pm2",
+      "label": "PM2"
+    },
+    {
+      "tag": "nodemon",
+      "label": "nodemon"
+    },
+    {
+      "tag": "ts-node",
+      "label": "ts-node"
+    },
+    {
+      "tag": "tsx-runner",
+      "label": "tsx"
+    },
+    {
+      "tag": "esbuild-register",
+      "label": "esbuild-register"
+    },
+    {
+      "tag": "storybook",
+      "label": "Storybook"
+    },
+    {
+      "tag": "chromatic",
+      "label": "Chromatic"
+    },
+    {
+      "tag": "lerna",
+      "label": "Lerna"
+    },
+    {
+      "tag": "nx-monorepo",
+      "label": "Nx"
+    },
+    {
+      "tag": "turborepo",
+      "label": "Turborepo"
+    },
+    {
+      "tag": "rushjs",
+      "label": "Rush"
+    },
+    {
+      "tag": "pnpm",
+      "label": "pnpm"
+    },
+    {
+      "tag": "yarn",
+      "label": "Yarn"
+    },
+    {
+      "tag": "npm-cli",
+      "label": "npm"
+    },
+    {
+      "tag": "semantic-release",
+      "label": "semantic-release"
+    },
+    {
+      "tag": "changesets",
+      "label": "Changesets"
+    },
+    {
+      "tag": "conventional-commits",
+      "label": "Conventional Commits"
+    },
+    {
+      "tag": "openapi",
+      "label": "OpenAPI"
+    },
+    {
+      "tag": "swagger",
+      "label": "Swagger"
+    },
+    {
+      "tag": "asyncapi",
+      "label": "AsyncAPI"
+    },
+    {
+      "tag": "grpc",
+      "label": "gRPC"
+    },
+    {
+      "tag": "soap",
+      "label": "SOAP"
+    },
+    {
+      "tag": "json-schema",
+      "label": "JSON Schema"
+    },
+    {
+      "tag": "avro",
+      "label": "Apache Avro"
+    },
+    {
+      "tag": "thrift",
+      "label": "Apache Thrift"
+    },
+    {
+      "tag": "capn-proto",
+      "label": "Cap'n Proto"
+    },
+    {
+      "tag": "msgpack",
+      "label": "MessagePack"
+    },
+    {
+      "tag": "flatbuffers",
+      "label": "FlatBuffers"
+    },
+    {
+      "tag": "simdjson",
+      "label": "simdjson"
+    },
+    {
+      "tag": "rapidjson",
+      "label": "RapidJSON"
+    },
+    {
+      "tag": "yaml",
+      "label": "YAML"
+    },
+    {
+      "tag": "toml",
+      "label": "TOML"
+    },
+    {
+      "tag": "protobuf",
+      "label": "Protocol Buffers"
+    },
+    {
+      "tag": "graphql-apollo",
+      "label": "Apollo GraphQL"
+    },
+    {
+      "tag": "relay-graphql",
+      "label": "Relay"
+    },
+    {
+      "tag": "urql",
+      "label": "urql"
+    },
+    {
+      "tag": "hasura",
+      "label": "Hasura"
+    },
+    {
+      "tag": "postgraphile",
+      "label": "PostGraphile"
+    },
+    {
+      "tag": "strapi",
+      "label": "Strapi"
+    },
+    {
+      "tag": "sanity-cms",
+      "label": "Sanity"
+    },
+    {
+      "tag": "contentful",
+      "label": "Contentful"
+    },
+    {
+      "tag": "wordpress-dev",
+      "label": "WordPress Development"
     }
   ]
 }
