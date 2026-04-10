@@ -872,32 +872,9 @@ img {
 }
 
 .projects-carousel {
-    position: relative;
     width: 100%;
-    padding: 0.85rem 0.5rem 1.1rem;
-    border-radius: var(--radius-lg);
-    background:
-        linear-gradient(160deg, rgba(255, 255, 255, 0.045) 0%, transparent 42%),
-        linear-gradient(210deg, rgba(99, 102, 241, 0.08) 0%, transparent 55%);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.06),
-        0 16px 48px -20px rgba(0, 0, 0, 0.55);
     -webkit-user-select: none;
     user-select: none;
-}
-
-.projects-carousel::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 8%;
-    right: 8%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.35), transparent);
-    border-radius: 999px;
-    pointer-events: none;
-    opacity: 0.85;
 }
 
 .projects-carousel-dots {
@@ -905,19 +882,10 @@ img {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 0.45rem;
-    margin-top: 1rem;
-    padding: 0.45rem 0.85rem;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0;
     min-height: 0;
-    width: fit-content;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 999px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 .projects-carousel-dots[hidden] {
@@ -925,49 +893,40 @@ img {
 }
 
 .projects-carousel-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     padding: 0;
     border: none;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    background: var(--border);
     cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     flex-shrink: 0;
-    opacity: 0.65;
-    transition:
-        width 0.38s cubic-bezier(0.25, 0.8, 0.25, 1),
-        height 0.25s ease,
-        background 0.25s ease,
-        opacity 0.25s ease,
-        box-shadow 0.3s ease;
 }
 
 .projects-carousel-dot:hover {
-    background: rgba(255, 255, 255, 0.28);
+    background: var(--text-muted);
     opacity: 1;
 }
 
 .projects-carousel-dot:focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 3px;
+    outline-offset: 2px;
 }
 
 .projects-carousel-dot[aria-selected="true"] {
-    width: 1.65rem;
-    height: 8px;
+    background: var(--accent);
+    transform: scale(1.15);
     opacity: 1;
-    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%);
-    box-shadow: 0 0 18px rgba(99, 102, 241, 0.45);
 }
 
 .projects-row {
     display: flex;
     flex-direction: row;
-    gap: 1.15rem;
+    gap: 1rem;
     overflow-x: auto;
-    padding: 0.35rem 0.75rem 0.65rem;
+    padding-bottom: 0.5rem;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 0.75rem;
     -webkit-overflow-scrolling: touch;
     cursor: grab;
     scroll-behavior: smooth;
@@ -975,28 +934,12 @@ img {
     -ms-overflow-style: none;
     -webkit-user-select: none;
     user-select: none;
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 1.25rem,
-        black calc(100% - 1.25rem),
-        transparent 100%
-    );
-    mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 1.25rem,
-        black calc(100% - 1.25rem),
-        transparent 100%
-    );
+    -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 5rem), transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black calc(100% - 5rem), transparent 100%);
 }
 
 .projects-row::-webkit-scrollbar {
     display: none;
-}
-
-.projects-row:active {
-    cursor: grabbing;
 }
 
 .project-card {
@@ -1013,18 +956,11 @@ img {
     overflow: hidden;
     cursor: pointer;
     scroll-snap-align: start;
-    transition: flex-basis 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), max-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s ease, border-color var(--transition), opacity 0.3s ease, transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s ease;
+    transition: flex-basis 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), max-width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s ease, border-color var(--transition), opacity 0.3s ease, transform 0.3s ease;
 }
 
 .project-card.hidden {
     display: none !important;
-}
-
-.projects-carousel .project-card:hover:not(.expanded) {
-    transform: translateY(-4px);
-    box-shadow:
-        0 14px 36px -12px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(99, 102, 241, 0.22);
 }
 
 .project-card:hover {
@@ -1580,22 +1516,6 @@ img {
         padding-right: 1rem;
         margin-left: 0;
         margin-right: 0;
-        scroll-padding-inline: 1rem;
-    }
-
-    .projects-carousel {
-        padding-left: 0.35rem;
-        padding-right: 0.35rem;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .projects-carousel-dot {
-        transition-duration: 0.01ms;
-    }
-
-    .projects-carousel .project-card:hover:not(.expanded) {
-        transform: none;
     }
 }
 
