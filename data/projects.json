@@ -4,29 +4,83 @@
       "title": "Suns around",
       "role": "Developer",
       "platform": "PC · Windows · Endless Jam 2023",
-      "tags": ["pc", "gameplay", "procedural", "unity", "csharp", "pc", "hlsl", "shadergraph", "math", "algorithms"],
-      "tech": ["Unity", "C#", "Map Generation"],
-      "achievements": ["Small survival game with procedural generated levels. Keep your ship alive and gain score by defeating enemies; don't leave the beacon behind."],
+      "tags": [
+        "pc",
+        "gameplay",
+        "procedural",
+        "unity",
+        "csharp",
+        "pc",
+        "hlsl",
+        "shadergraph",
+        "math",
+        "algorithms"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Map Generation"
+      ],
+      "achievements": [
+        "Small survival game with procedural generated levels. Keep your ship alive and gain score by defeating enemies; don't leave the beacon behind."
+      ],
       "slides": [
-        {"label": "Video 1", "url": "https://youtu.be/0WA-wfAu4V0"},
-        {"label": "Video 2", "url": "https://youtu.be/ONDDRs4v98o"},
-        {"label": "Video 3", "url": "https://youtu.be/FaNPD7ph_Vo"},
-        {"label": "Video 4", "url": "https://youtu.be/fYvEnZ0Owd0"},
-        {"label": "Video 5", "url": "https://youtu.be/oinQ6np6GIE"},
-        {"label": "Video 6", "url": "https://youtu.be/ea45Slu5KJk"},
-        {"label": "Video 7", "url": "https://youtu.be/1rEpw9pq7G8"}
+        {
+          "label": "Video 1",
+          "url": "https://youtu.be/0WA-wfAu4V0"
+        },
+        {
+          "label": "Video 2",
+          "url": "https://youtu.be/ONDDRs4v98o"
+        },
+        {
+          "label": "Video 3",
+          "url": "https://youtu.be/FaNPD7ph_Vo"
+        },
+        {
+          "label": "Video 4",
+          "url": "https://youtu.be/fYvEnZ0Owd0"
+        },
+        {
+          "label": "Video 5",
+          "url": "https://youtu.be/oinQ6np6GIE"
+        },
+        {
+          "label": "Video 6",
+          "url": "https://youtu.be/ea45Slu5KJk"
+        },
+        {
+          "label": "Video 7",
+          "url": "https://youtu.be/1rEpw9pq7G8"
+        }
       ],
       "links": [
-        {"label": "Itch.io", "url": "https://warriorroq.itch.io/suns-around"},
-        {"label": "GitHub", "url": "https://github.com/Warriorroq/Planet-escalation-"}
+        {
+          "label": "Itch.io",
+          "url": "https://warriorroq.itch.io/suns-around"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/Planet-escalation-"
+        }
       ]
     },
     {
       "title": "Whisper",
       "role": "Developer",
       "platform": "PC · Unreal Engine 5 · NPC system (UE5)",
-      "tags": ["ue5", "pc", "gameplay", "ai-perception", "eqs", "blueprints"],
-      "tech": ["UE5", "C++"],
+      "tags": [
+        "ue5",
+        "pc",
+        "gameplay",
+        "ai-perception",
+        "eqs",
+        "blueprints"
+      ],
+      "tech": [
+        "UE5",
+        "C++"
+      ],
       "achievements": [
         "Built a fully local AI-driven NPC system in Unreal Engine, running all logic on the user's machine without cloud LLM services.",
         "Integrated speech recognition (Whisper), voice synthesis (Piper), and facial animation via NVIDIA Audio2Face.",
@@ -39,17 +93,50 @@
       "title": "Christmas Horror",
       "role": "Gameplay/AI Developer (in development)",
       "platform": "PC · Unreal Engine 5",
-      "tags": ["ue5", "pc", "gameplay", "ai-perception", "ue5-navigation", "eqs", "gas", "blueprints", "behavior-trees", "algorithms"],
-      "tech": ["UE5", "C++", "AI Perception", "Navigation", "EQS", "GAS", "Blueprints", "Animations/BlendSpaces", "Behavior Trees"],
+      "tags": [
+        "ue5",
+        "pc",
+        "gameplay",
+        "ai-perception",
+        "ue5-navigation",
+        "eqs",
+        "gas",
+        "blueprints",
+        "behavior-trees",
+        "algorithms"
+      ],
+      "tech": [
+        "UE5",
+        "C++",
+        "AI Perception",
+        "Navigation",
+        "EQS",
+        "GAS",
+        "Blueprints",
+        "Animations/BlendSpaces",
+        "Behavior Trees"
+      ],
       "achievements": [
         "Implemented enemy with chase logic and player finding.",
         "Interactable NPCs and core gameplay mechanics."
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "images/CH/photo_2026-02-26_16-30-13.jpg" },
-        { "label": "Screenshot 2", "url": "images/CH/photo_2026-02-26_16-30-27.jpg" },
-        { "label": "Screenshot 3", "url": "images/CH/photo_2026-02-26_16-43-39.jpg" },
-        { "label": "Screenshot 4", "url": "images/CH/photo_2026-02-26_16-43-43.jpg" }
+        {
+          "label": "Screenshot 1",
+          "url": "images/CH/photo_2026-02-26_16-30-13.jpg"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "images/CH/photo_2026-02-26_16-30-27.jpg"
+        },
+        {
+          "label": "Screenshot 3",
+          "url": "images/CH/photo_2026-02-26_16-43-39.jpg"
+        },
+        {
+          "label": "Screenshot 4",
+          "url": "images/CH/photo_2026-02-26_16-43-43.jpg"
+        }
       ],
       "links": []
     },
@@ -57,37 +144,92 @@
       "title": "Civichess",
       "role": "Game Developer",
       "platform": "PC · Unity",
-      "tags": ["unity", "csharp", "pc", "gameplay", "hlsl", "shadergraph", "facepunch", "netcode", "math", "algorithms"],
-      "tech": ["Unity", "C#", "Map Generation", "Facepunch Transport", "Netcode", "Math"],
+      "tags": [
+        "unity",
+        "csharp",
+        "pc",
+        "gameplay",
+        "hlsl",
+        "shadergraph",
+        "facepunch",
+        "netcode",
+        "math",
+        "algorithms"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Map Generation",
+        "Facepunch Transport",
+        "Netcode",
+        "Math"
+      ],
       "achievements": [
         "Designed for 2–64 players, lightweight enough to run everywhere.",
         "Maps scalable up to near-infinite sizes (though games would drag on)."
       ],
       "slides": [
-        { "label": "Gameplay video", "url": "https://www.youtube.com/watch?v=eFcwD_wYpbE" }
+        {
+          "label": "Gameplay video",
+          "url": "https://www.youtube.com/watch?v=eFcwD_wYpbE"
+        }
       ],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/Warriorroq/Civichess" },
-        { "label": "YouTube", "url": "https://www.youtube.com/watch?v=eFcwD_wYpbE" }
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/Civichess"
+        },
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/watch?v=eFcwD_wYpbE"
+        }
       ]
     },
     {
       "title": "Realtime Fluid Simulation",
       "role": "Developer",
       "platform": "PC · Unity 2023 · URP",
-      "tags": ["unity", "csharp", "pc", "hlsl", "shadergraph", "optimization", "algorithms", "math"],
-      "tech": ["Unity", "C#", "ShaderLab", "HLSL", "URP", "Compute Shaders", "Marching Cubes", "SPH", "Ray Marching"],
+      "tags": [
+        "unity",
+        "csharp",
+        "pc",
+        "hlsl",
+        "shadergraph",
+        "optimization",
+        "algorithms",
+        "math"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "ShaderLab",
+        "HLSL",
+        "URP",
+        "Compute Shaders",
+        "Marching Cubes",
+        "SPH",
+        "Ray Marching"
+      ],
       "achievements": [
         "Real-time GPU-based fluid simulation and rendering pipeline (Unity 2023.2 URP).",
         "3D SPH-style particle simulation with Marching Cubes; 2D/3D grid solvers; screen-space surface reconstruction; ray-marched volume rendering.",
         "Optimised compute shaders for counting, scanning, hashing and sorting; indirect instanced particle rendering."
       ],
       "slides": [
-        { "label": "Demo video", "url": "https://youtu.be/zkypHZ4-ptY" }
+        {
+          "label": "Demo video",
+          "url": "https://youtu.be/zkypHZ4-ptY"
+        }
       ],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/Warriorroq/RealtimeFluidSimulation" },
-        { "label": "YouTube", "url": "https://youtu.be/zkypHZ4-ptY" }
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/RealtimeFluidSimulation"
+        },
+        {
+          "label": "YouTube",
+          "url": "https://youtu.be/zkypHZ4-ptY"
+        }
       ]
     }
   ],
@@ -96,45 +238,130 @@
       "title": "Moon Match",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "shadergraph", "tooling", "external-sdk", "analytics"],
-      "tech": ["Unity", "C#", "Mobile"],
+      "tags": [
+        "mobile",
+        "unity",
+        "csharp",
+        "gameplay",
+        "zenject",
+        "shadergraph",
+        "tooling",
+        "external-sdk",
+        "analytics",
+        "genre-arcade",
+        "genre-puzzle",
+        "genre-match-3"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Mobile"
+      ],
       "achievements": [
         "Implemented core match-3 gameplay mechanics and developed all major game systems."
       ],
       "slides": [
-        { "label": "Screenshot 0", "url": "https://play-lh.googleusercontent.com/3GzZB6MPnwqflEnqpT2PQcaULY8ZdarauIeEni-NnEdm-ZjninXucaL_G_7OaqN1tIbz1aXtsdoBQoksuNpo=w2560-h1440-rw" },
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/zDeKacXqRgGRP5Wxf_nv7RIxIScbtLwUag9ua-35s2z65ilY93BndlxsA6oerDEX5wp_62qiISwncQ-D5fGNBQ=w526-h296-rw" },
-        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/sAgiN40Jvbftqy_OBxuF64j1tcL9dWXpNXJa3lDSE8FfTvBHPMjc7GY0KxZHTYArp-loZgyzGs5MQNFL74TODA=w2560-h1440-rw" }
+        {
+          "label": "Screenshot 0",
+          "url": "https://play-lh.googleusercontent.com/3GzZB6MPnwqflEnqpT2PQcaULY8ZdarauIeEni-NnEdm-ZjninXucaL_G_7OaqN1tIbz1aXtsdoBQoksuNpo=w2560-h1440-rw"
+        },
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/zDeKacXqRgGRP5Wxf_nv7RIxIScbtLwUag9ua-35s2z65ilY93BndlxsA6oerDEX5wp_62qiISwncQ-D5fGNBQ=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/sAgiN40Jvbftqy_OBxuF64j1tcL9dWXpNXJa3lDSE8FfTvBHPMjc7GY0KxZHTYArp-loZgyzGs5MQNFL74TODA=w2560-h1440-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcointilematch" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcointilematch"
+        }
       ]
     },
     {
       "title": "Bubble Merge",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
-      "tech": ["Unity", "C#", "Mobile"],
+      "tags": [
+        "mobile",
+        "unity",
+        "csharp",
+        "gameplay",
+        "zenject",
+        "tooling",
+        "external-sdk",
+        "analytics",
+        "genre-arcade",
+        "genre-puzzle"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Mobile"
+      ],
       "achievements": [
         "Developed the core gameplay mechanics and supported the project from prototyping to release.",
         "Created tools to speed up level creation."
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/BtvodYYa2G9VfWaqF0tlLosXuyDKQf-Sme9jEQWDQuR6oLm88FjrZ4suzNO16-NN1aw=w526-h296-rw" },
-        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/d1Ze4rJK7W9GUkemHsUSYSdkDZh_igu0VWM1x1SEEi60TGY_xCp2fO01yND-8YJpoIQr=w526-h296-rw" },
-        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/rPLjqyyth40hvDcv-SLMtYj3zyy81MHcPy2ZBQeNdwfBLObgi_IxLVx2MZSjKwd5lgI=w526-h296-rw" }
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/BtvodYYa2G9VfWaqF0tlLosXuyDKQf-Sme9jEQWDQuR6oLm88FjrZ4suzNO16-NN1aw=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/d1Ze4rJK7W9GUkemHsUSYSdkDZh_igu0VWM1x1SEEi60TGY_xCp2fO01yND-8YJpoIQr=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 3",
+          "url": "https://play-lh.googleusercontent.com/rPLjqyyth40hvDcv-SLMtYj3zyy81MHcPy2ZBQeNdwfBLObgi_IxLVx2MZSjKwd5lgI=w526-h296-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcoinbubblemerge" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcoinbubblemerge"
+        }
       ]
     },
     {
       "title": "Bus Jam",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "aws", "algorithms", "gameplay", "zenject", "prototyping", "tooling", "external-sdk", "analytics", "external-sdk", "optimization", "tooling", "aws-lambda", "rds", "s3", "route53", "social", "hlsl", "shadergraph", "math"],
-      "tech": ["Unity", "C#", "Mobile", "AWS"],
+      "tags": [
+        "prototyping",
+        "mobile",
+        "unity",
+        "csharp",
+        "aws",
+        "algorithms",
+        "gameplay",
+        "zenject",
+        "tooling",
+        "external-sdk",
+        "analytics",
+        "optimization",
+        "aws-lambda",
+        "rds",
+        "s3",
+        "route53",
+        "social",
+        "hlsl",
+        "shadergraph",
+        "math",
+        "genre-arcade",
+        "genre-puzzle",
+        "genre-match-3"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Mobile",
+        "AWS"
+      ],
       "achievements": [
         "Developed the core gameplay features and supported the project from prototyping to release.",
         "Implemented procedural jiggle algorithm for gameplay",
@@ -142,101 +369,232 @@
         "Created a tools to generate random levels and manage social features of the game"
       ],
       "slides": [
-        { "label": "Screenshot 0", "url": "https://play-lh.googleusercontent.com/DYFrMM_r_fzXnybx0DIQRk8dDLoh081gIc-Vvy3wJ9mDYvMLKt-h1PJcsZAb91XTvAg=w2560-h1440-rw" },
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/I0THTGHRwWt1vDvtROHIHk4Qm9EtZBizIEBwCa5VClAjZySb9ycODepUqyoDnJR2MSI=w526-h296-rw" },
-        { "label": "Screenshot 2" , "url": "https://play-lh.googleusercontent.com/FRwNZaorT17kxAsk31D6er6uk7H_CB4tO3T2ofuT2aEZajx5Y9wwef6bcPYs7BKz7Vk=w526-h296-rw" }
+        {
+          "label": "Screenshot 0",
+          "url": "https://play-lh.googleusercontent.com/DYFrMM_r_fzXnybx0DIQRk8dDLoh081gIc-Vvy3wJ9mDYvMLKt-h1PJcsZAb91XTvAg=w2560-h1440-rw"
+        },
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/I0THTGHRwWt1vDvtROHIHk4Qm9EtZBizIEBwCa5VClAjZySb9ycODepUqyoDnJR2MSI=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/FRwNZaorT17kxAsk31D6er6uk7H_CB4tO3T2ofuT2aEZajx5Y9wwef6bcPYs7BKz7Vk=w526-h296-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.buspuzzlegame" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.roamergames.buspuzzlegame"
+        }
       ]
     },
     {
       "title": "Crypto Crawler",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "tooling", "external-sdk", "analytics"],
-      "tech": ["Unity", "C#"],
+      "tags": [
+        "mobile",
+        "unity",
+        "csharp",
+        "gameplay",
+        "zenject",
+        "tooling",
+        "external-sdk",
+        "analytics",
+        "genre-arcade",
+        "genre-fighting"
+      ],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
       "achievements": [
         "Resolved critical bugs and actively contributed to ongoing updates since 2024"
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/9Ozxz54PLXy2P6YrvKF3rc-cYgFq_AE6k_3mNfQ9urJM1zdNVn7AAK598a-OBvOendw=w2560-h1440-rw" },
-        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/u6qcKeZEPjhME513QWqRNmUPwwdZuPIavF5cTd_WWqIkzDZe1EojJ_rI6xdjooeGmon5=w526-h296-rw" }
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/9Ozxz54PLXy2P6YrvKF3rc-cYgFq_AE6k_3mNfQ9urJM1zdNVn7AAK598a-OBvOendw=w2560-h1440-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/u6qcKeZEPjhME513QWqRNmUPwwdZuPIavF5cTd_WWqIkzDZe1EojJ_rI6xdjooeGmon5=w526-h296-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.cryptocrawler" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.roamergames.cryptocrawler"
+        }
       ]
     },
     {
       "title": "Boe Wings",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "external-sdk", "analytics", "tooling"],
-      "tech": ["Unity", "C#"],
+      "tags": [
+        "mobile",
+        "unity",
+        "csharp",
+        "gameplay",
+        "zenject",
+        "external-sdk",
+        "analytics",
+        "tooling",
+        "genre-arcade",
+        "genre-flight-sim"
+      ],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
       "achievements": [
         "Resolved critical bugs and actively contributed to ongoing updates since 2024"
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/HB0E0_YCNLdqAYrO4PgVUHBunZd5Pfsqrz7EGpWuWveM6LP2oJcUX6kVusSroFdYRw=w526-h296-rw" },
-        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/2wO43NRY8ZU1uLsQ4_veb6L4IzudeKQgOsD1G63ykvi-KjZKOr1whhDmuWOVsqHDCA=w526-h296-rw" },
-        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/09krBIzFSQJGzrBxMZyI1HvqU8vnQBHEOvwef_bvbGhvg26Afls8hEspbwRCa7S7YIA=w526-h296-rw" }
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/HB0E0_YCNLdqAYrO4PgVUHBunZd5Pfsqrz7EGpWuWveM6LP2oJcUX6kVusSroFdYRw=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/2wO43NRY8ZU1uLsQ4_veb6L4IzudeKQgOsD1G63ykvi-KjZKOr1whhDmuWOVsqHDCA=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 3",
+          "url": "https://play-lh.googleusercontent.com/09krBIzFSQJGzrBxMZyI1HvqU8vnQBHEOvwef_bvbGhvg26Afls8hEspbwRCa7S7YIA=w526-h296-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.RoamerGames.CryptoJet&pcampaignid=web_share" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.RoamerGames.CryptoJet&pcampaignid=web_share"
+        }
       ]
     },
     {
       "title": "Bubble Shooter - Neneko Pop",
       "role": "Gameplay Unity Developer",
       "platform": "Mobile · Roamer Games",
-      "tags": ["mobile", "unity", "csharp", "gameplay", "zenject", "shadergraph", "hlsl", "tooling", "external-sdk", "analytics", "optimization", "algorithms"],
-      "tech": ["Unity", "C#"],
+      "tags": [
+        "mobile",
+        "unity",
+        "csharp",
+        "gameplay",
+        "zenject",
+        "shadergraph",
+        "hlsl",
+        "tooling",
+        "external-sdk",
+        "analytics",
+        "optimization",
+        "algorithms",
+        "genre-arcade",
+        "genre-puzzle"
+      ],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
       "achievements": [
         "Developed the core gameplay mechanics and supported the project from prototyping to release.",
         "Created tools to speed up level creation."
       ],
       "slides": [
-        { "label": "Screenshot 1", "url": "https://play-lh.googleusercontent.com/CL4Zvi7MwjPYPPb9V5h64T6bFTS6ru3_I-Tnq_yFb1KjirvMnJffBldqiToKbMXszI7Dg0r9SiLE8VNn8DptlUc=w526-h296-rw" },
-        { "label": "Screenshot 2", "url": "https://play-lh.googleusercontent.com/DLsUPSbDpXYklknMvXo8TnFq770408FBQMgecTa1FYbknaVfmBiRkiNehVKEb-dP0Jq06BPmNqmkoc_4owoMCQ=w526-h296-rw" },
-        { "label": "Screenshot 3", "url": "https://play-lh.googleusercontent.com/HVJL_2BW7p3zvmNNl7GCCkExYEeUPxxaSVKN6w02C_5EQkomuJ7psUZ6_XA_wM5zIYVKJpLZWIXbhLDoOyox=w526-h296-rw" }
+        {
+          "label": "Screenshot 1",
+          "url": "https://play-lh.googleusercontent.com/CL4Zvi7MwjPYPPb9V5h64T6bFTS6ru3_I-Tnq_yFb1KjirvMnJffBldqiToKbMXszI7Dg0r9SiLE8VNn8DptlUc=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://play-lh.googleusercontent.com/DLsUPSbDpXYklknMvXo8TnFq770408FBQMgecTa1FYbknaVfmBiRkiNehVKEb-dP0Jq06BPmNqmkoc_4owoMCQ=w526-h296-rw"
+        },
+        {
+          "label": "Screenshot 3",
+          "url": "https://play-lh.googleusercontent.com/HVJL_2BW7p3zvmNNl7GCCkExYEeUPxxaSVKN6w02C_5EQkomuJ7psUZ6_XA_wM5zIYVKJpLZWIXbhLDoOyox=w526-h296-rw"
+        }
       ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.roamergames.bubbleshooterneneko" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.roamergames.bubbleshooterneneko"
+        }
       ]
     },
     {
       "title": "Dice Gambit",
       "role": "Gameplay Systems & Polishing",
       "platform": "PC · Steam",
-      "tags": ["pc", "unity", "csharp", "steam"],
-      "tech": ["Unity", "C#", "Steam API"],
+      "tags": [
+        "pc",
+        "unity",
+        "csharp",
+        "steam"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Steam API"
+      ],
       "achievements": [
         "Contributed to gameplay system polishing and participated in playtesting to help improve the overall player experience."
       ],
       "slides": [
-        { "label": "Screenshot 1", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/fb1d483d337c3b5918e47552e3f03de158a01589/header_alt_assets_2.jpg?t=1769684777" },
-        { "label": "Screenshot 2", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/b079ce5b6f5fccc8411453913e19f6dee4d73acf/ss_b079ce5b6f5fccc8411453913e19f6dee4d73acf.1920x1080.jpg?t=1769684777" }
+        {
+          "label": "Screenshot 1",
+          "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/fb1d483d337c3b5918e47552e3f03de158a01589/header_alt_assets_2.jpg?t=1769684777"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1812860/b079ce5b6f5fccc8411453913e19f6dee4d73acf/ss_b079ce5b6f5fccc8411453913e19f6dee4d73acf.1920x1080.jpg?t=1769684777"
+        }
       ],
       "links": [
-        { "label": "Steam", "url": "https://store.steampowered.com/app/1812860/Dice_Gambit" }
+        {
+          "label": "Steam",
+          "url": "https://store.steampowered.com/app/1812860/Dice_Gambit"
+        }
       ]
     },
     {
       "title": "Floss",
       "role": "Gameplay Systems & Polishing",
       "platform": "PC · Steam",
-      "tags": ["pc", "unity", "csharp", "steam"],
-      "tech": ["Unity", "C#", "Steam API"],
+      "tags": [
+        "pc",
+        "unity",
+        "csharp",
+        "steam",
+        "genre-shooter"
+      ],
+      "tech": [
+        "Unity",
+        "C#",
+        "Steam API"
+      ],
       "achievements": [
         "Contributed to gameplay system polishing and participated in early playtesting to help improve the overall player experience."
       ],
       "slides": [
-        { "label": "Screenshot 0", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/a2e8715c4161428e3efd252dc75f0ce06f7688cc/header.jpg?t=1766772869" },
-        { "label": "Screenshot 1", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/14be074f5823883f21b2ecb7e4ea2bbeaee8057c/ss_14be074f5823883f21b2ecb7e4ea2bbeaee8057c.1920x1080.jpg?t=1766772869" },
-        { "label": "Screenshot 2", "url":"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/1dcf27d0e9768800ce7f686b590ba85697e6a3db/ss_1dcf27d0e9768800ce7f686b590ba85697e6a3db.1920x1080.jpg?t=1766772869" }
+        {
+          "label": "Screenshot 0",
+          "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/a2e8715c4161428e3efd252dc75f0ce06f7688cc/header.jpg?t=1766772869"
+        },
+        {
+          "label": "Screenshot 1",
+          "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/14be074f5823883f21b2ecb7e4ea2bbeaee8057c/ss_14be074f5823883f21b2ecb7e4ea2bbeaee8057c.1920x1080.jpg?t=1766772869"
+        },
+        {
+          "label": "Screenshot 2",
+          "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4003010/1dcf27d0e9768800ce7f686b590ba85697e6a3db/ss_1dcf27d0e9768800ce7f686b590ba85697e6a3db.1920x1080.jpg?t=1766772869"
+        }
       ],
       "links": [
-        { "label": "Steam", "url": "https://store.steampowered.com/app/4003010/FLOSS" }
+        {
+          "label": "Steam",
+          "url": "https://store.steampowered.com/app/4003010/FLOSS"
+        }
       ]
     }
   ]

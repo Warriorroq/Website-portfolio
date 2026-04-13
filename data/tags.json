@@ -3231,6 +3231,46 @@
     {
       "tag": "wordpress-dev",
       "label": "WordPress Development"
+    },
+    {
+      "tag": "2d",
+      "label": "2D",
+      "primary": false
+    },
+    {
+      "tag": "mesh-generation",
+      "label": "Mesh generation",
+      "primary": false
+    },
+    {
+      "tag": "level-generation",
+      "label": "Level generaion",
+      "primary": false
+    },
+    {
+      "tag": "3d",
+      "label": "3D",
+      "primary": false
+    },
+    {
+      "tag": "2.5d",
+      "label": "2.5D",
+      "primary": false
+    },
+    {
+      "tag": "debugging",
+      "label": "Debugging",
+      "primary": false
+    },
+    {
+      "tag": "custom-navigation",
+      "label": "Custom Navigation",
+      "primary": false
+    },
+    {
+      "tag": "voice-recognition",
+      "label": "Voice Recognition",
+      "primary": false
     }
   ]
 }
