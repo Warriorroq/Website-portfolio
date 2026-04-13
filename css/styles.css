@@ -875,6 +875,7 @@ img {
     width: 100%;
     -webkit-user-select: none;
     user-select: none;
+    overflow-y: hidden;
 }
 
 .projects-carousel-dots {
@@ -925,6 +926,7 @@ img {
     flex-direction: row;
     gap: 1rem;
     overflow-x: auto;
+    overflow-y: hidden;
     padding-bottom: 0.5rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;

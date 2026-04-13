@@ -864,42 +864,64 @@ function initProjectCards() {
 let isDragging = false;
 let hasDragged = false;
 let startX = 0;
+let startY = 0;
 let scrollLeft = 0;
 let activeProjectsRow = null;
 
 function initProjectsRowsScroll() {
-    const blockWheel = (e) => {
-        e.preventDefault();
-    };
-    document.querySelectorAll('.projects-carousel').forEach(carousel => {
-        carousel.addEventListener('wheel', blockWheel, { passive: false });
-    });
     document.querySelectorAll('.projects-row').forEach(projectsRow => {
-        projectsRow.addEventListener('wheel', blockWheel, { passive: false });
-        function startDrag(clientX) {
+        const onWheel = (e) => {
+            // Allow normal page scroll on vertical wheel.
+            // Only "capture" the wheel when user is clearly scrolling horizontally
+            // (trackpad deltaX) or uses Shift+wheel (common horizontal scroll gesture).
+            const dx = e.deltaX || 0;
+            const dy = e.deltaY || 0;
+            const wantsHorizontal = Math.abs(dx) > Math.abs(dy) || e.shiftKey;
+            if (!wantsHorizontal) return;
+
+            e.preventDefault();
+            const delta = dx !== 0 ? dx : dy; // shift+wheel often comes via deltaY
+            projectsRow.scrollLeft += delta;
+        };
+
+        projectsRow.addEventListener('wheel', onWheel, { passive: false });
+
+        function startDrag(clientX, clientY) {
             isDragging = true;
             hasDragged = false;
             activeProjectsRow = projectsRow;
             startX = clientX;
+            startY = clientY;
             scrollLeft = projectsRow.scrollLeft;
             projectsRow.style.cursor = 'grabbing';
         }
 
         projectsRow.addEventListener('mousedown', (e) => {
             if (e.target.closest('a')) return;
-            startDrag(e.pageX);
+            startDrag(e.pageX, e.pageY);
         });
 
         projectsRow.addEventListener('touchstart', (e) => {
             if (e.target.closest('a')) return;
-            startDrag(e.touches[0].clientX);
+            startDrag(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
 
         projectsRow.addEventListener('touchmove', (e) => {
             if (!isDragging || !activeProjectsRow || activeProjectsRow !== projectsRow) return;
-            e.preventDefault();
             const x = e.touches[0].clientX;
-            const walk = (x - startX) * 1.2;
+            const y = e.touches[0].clientY;
+            const dx = x - startX;
+            const dy = y - startY;
+
+            // If the gesture is primarily vertical, don't block page scroll.
+            if (Math.abs(dy) > Math.abs(dx) + 4) {
+                endDragScroll();
+                return;
+            }
+
+            // Horizontal drag: prevent page scroll and move carousel.
+            e.preventDefault();
+            const walk = dx * 1.2;
             activeProjectsRow.scrollLeft = scrollLeft - walk;
             if (Math.abs(walk) > 5) hasDragged = true;
         }, { passive: false });
