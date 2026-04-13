@@ -3271,6 +3271,61 @@
       "tag": "voice-recognition",
       "label": "Voice Recognition",
       "primary": false
+    },
+    {
+      "tag": "object-detection",
+      "label": "Object Detection",
+      "primary": false
+    },
+    {
+      "tag": "computer-vision",
+      "label": "Computer Vision",
+      "primary": false
+    },
+    {
+      "tag": "css",
+      "label": "CSS",
+      "primary": false
+    },
+    {
+      "tag": "html",
+      "label": "HTML",
+      "primary": false
+    },
+    {
+      "tag": "prototyping",
+      "label": "Prototyping",
+      "primary": false
+    },
+    {
+      "tag": "openweathermap",
+      "label": "OpenWeatherMap",
+      "primary": false
+    },
+    {
+      "tag": "geolocation",
+      "label": "Geolocation",
+      "primary": false
+    },
+    {
+      "tag": "forecast",
+      "label": "Forecast",
+      "primary": false
+    },
+    {
+      "tag": "client-server",
+      "label": "Client-Server",
+      "primary": false
+    },
+    {
+      "tag": "battleships",
+      "label": "Battleships",
+      "primary": false
+    },
+    {
+      "tag": "asio",
+      "label": "Asio (C++)",
+      "primary": false
     }
   ]
 }

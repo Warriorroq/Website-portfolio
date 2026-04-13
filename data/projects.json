@@ -75,7 +75,8 @@
         "gameplay",
         "ai-perception",
         "eqs",
-        "blueprints"
+        "blueprints",
+        "cpp"
       ],
       "tech": [
         "UE5",
@@ -103,7 +104,8 @@
         "gas",
         "blueprints",
         "behavior-trees",
-        "algorithms"
+        "algorithms",
+        "cpp"
       ],
       "tech": [
         "UE5",
@@ -231,6 +233,99 @@
           "url": "https://youtu.be/zkypHZ4-ptY"
         }
       ]
+    },
+    {
+      "title": "ML Traffic Sign Recognition",
+      "role": "Developer",
+      "platform": "Python · TensorFlow/Keras · Object detection",
+      "tags": [
+        "computer-vision",
+        "ml",
+        "python",
+        "object-detection",
+        "tensorflow",
+        "keras",
+        "opencv",
+        "pc"
+      ],
+      "tech": [
+        "Python",
+        "TensorFlow",
+        "Keras",
+        "OpenCV"
+      ],
+      "achievements": [
+        "Traffic sign detection + classification model training/testing pipeline (with bounding boxes).",
+        "Uses the Kaggle Road Sign Detection dataset (annotations/images) and exports a saved `.keras` model."
+      ],
+      "slides": [],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/MLTrafficSignRecognition"
+        }
+      ]
+    },
+    {
+      "title": "Weather Website",
+      "role": "Developer",
+      "platform": "Web · OpenWeatherMap API",
+      "tags": [
+        "web",
+        "html",
+        "css",
+        "javascript",
+        "frontend",
+        "api",
+        "openweathermap",
+        "geolocation",
+        "forecast"
+      ],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Fetch API",
+        "OpenWeatherMap"
+      ],
+      "achievements": [
+        "Multi-page weather website with city search and geolocation-based weather lookup.",
+        "Shows current conditions plus forecast data with C/F unit toggle."
+      ],
+      "slides": [],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/weather-website"
+        }
+      ]
+    },
+    {
+      "title": "ASIO Server/Client",
+      "role": "Developer",
+      "platform": "C++ · ASIO · Client/server",
+      "tags": [
+        "cpp",
+        "networking",
+        "client-server",
+        "asio",
+        "battleships",
+        "pc"
+      ],
+      "tech": [
+        "C++",
+        "ASIO"
+      ],
+      "achievements": [
+        "Client/server networking project (BattleShips) implemented in C++ using ASIO."
+      ],
+      "slides": [],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/ASIOServer-Client"
+        }
+      ]
     }
   ],
   "projects": [
@@ -250,7 +345,8 @@
         "analytics",
         "genre-arcade",
         "genre-puzzle",
-        "genre-match-3"
+        "genre-match-3",
+        "prototyping"
       ],
       "tech": [
         "Unity",
@@ -295,7 +391,8 @@
         "external-sdk",
         "analytics",
         "genre-arcade",
-        "genre-puzzle"
+        "genre-puzzle",
+        "prototyping"
       ],
       "tech": [
         "Unity",
@@ -443,7 +540,8 @@
         "analytics",
         "tooling",
         "genre-arcade",
-        "genre-flight-sim"
+        "genre-flight-sim",
+        "prototyping"
       ],
       "tech": [
         "Unity",
@@ -491,7 +589,8 @@
         "optimization",
         "algorithms",
         "genre-arcade",
-        "genre-puzzle"
+        "genre-puzzle",
+        "prototyping"
       ],
       "tech": [
         "Unity",
@@ -566,7 +665,8 @@
         "unity",
         "csharp",
         "steam",
-        "genre-shooter"
+        "genre-shooter",
+        "prototyping"
       ],
       "tech": [
         "Unity",
