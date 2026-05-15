@@ -1,18 +1,16 @@
 {
   "skills": [
-    { "title": "Languages", "items": ["C#", "Python", "C++", "HLSL", "JavaScript"] },
+    {
+      "title": "Programming languages",
+      "items": ["C#", "Python", "C++", "HLSL"]
+    },
     {
       "title": "Unity",
       "items": [
         "Gameplay systems",
         "R3, Zenject, Netcode",
-        "Shader Graph, DOTS, VFX Graph",
-        "Steam API (Facepunch)",
-        "Addressables, AssetBundles",
-        "Timeline, Cinemachine",
-        "Animation Rigging, Procedural animation",
-        "Editor scripting",
-        "Optimization & profiling"
+        "Shader Graph, DOTS",
+        "Steam API (Facepunch)"
       ]
     },
     {
@@ -24,32 +22,45 @@
         "GAS",
         "Blueprints (BPs)",
         "Animations / BlendSpaces",
-        "Multiplayer replication basics",
+        "Multiplayer replication",
         "AI (Behavior Trees)"
       ]
     },
     {
-      "title": "AWS / Backend",
+      "title": "AWS",
       "items": [
-        "Lambda, DynamoDB, RDS",
-        "Route53, S3, CloudWatch",
-        "IAM, PostgreSQL",
-        "API Gateway",
-        "Cognito",
-        "ECS"
+        "Route53, S3, Lambda",
+        "IAM, CloudWatch",
+        "DynamoDB, RDS"
       ]
     },
     {
-      "title": "Other",
+      "title": "Python",
       "items": [
-        "Math (linear algebra, probability)",
-        "Algorithms",
-        "Data structures",
-        "Design patterns",
-        "Performance profiling",
-        "Unit testing",
-        "Git, SQL",
-        "Jira, Confluence"
+        "BeautifulSoup",
+        "NumPy, PyTorch",
+        "FastAPI, Flask",
+        "SQLAlchemy",
+        "Discord / Telegram bots"
+      ]
+    },
+    {
+      "title": ".NET / C#",
+      "items": [
+        "MAUI, Blazor",
+        "R3, PostgreSQL",
+        "Integration testing",
+        "WinForms",
+        "Bots, SCI",
+        "MetaMask SDK"
+      ]
+    },
+    {
+      "title": "Extra",
+      "items": [
+        "SQL, Git",
+        "Math (linear algebra, discrete mathematics, probability)",
+        "Algorithms"
       ]
     }
   ]

@@ -2,23 +2,30 @@
   "experience": [
     {
       "company": "Roamer Games",
-      "period": "Oct 2024 — Now",
+      "period": "Oct 2024 — May 2026",
       "role": "Gameplay & Systems Unity Engineer / Cloud Software Engineer · Berlin (Hybrid)",
       "items": [
         "Shipped 4 mobile games (Moon Match, Bitcoin Bubble Merge, Bitcoin Bus Jam, BS - Neneko pop!)",
-        "Live mobile projects with ongoing updates (Crypto Crawler, Boe Wings)",
-        "Designed and implemented in-game social features and internal tooling, improving engagement and speeding up live content iteration",
-        "Built and maintained backend services using AWS (Lambda, DynamoDB, RDS) for live updates and player-related systems"
+        "Worked on live mobile projects with ongoing updates (Crypto Crawler, Boe Wings)",
+        "Designed and implemented in-game social features and internal tooling, improving player engagement and accelerating content iteration for live projects",
+        "Built and maintained backend services for game features using AWS (Lambda, DynamoDB, RDS), supporting live updates and player-related systems"
+      ]
+    },
+    {
+      "company": "Side activity",
+      "period": "",
+      "role": "Steam releases",
+      "items": [
+        "Contributed to Steam releases: Dice Gambit, Floss (gameplay systems and polishing)"
       ]
     },
     {
       "company": "VicVent Studios",
       "period": "Mar 2024 — Aug 2024",
-      "role": "Unity Developer · Kiev (Remote)",
+      "role": "Gameplay Unity Developer · Kiev (Remote)",
       "items": [
-        "Developed multiple gameplay prototypes (TPS, FPS, Tower Defense, Racing)",
-        "Implemented core mechanics, player input, AI behavior, and progression systems to validate concepts and production feasibility",
-        "Scraping tool with backend integration"
+        "Developed multiple gameplay prototypes (TPS, FPS, Tower Defense, Racing), implementing core mechanics, player input, AI behavior, and progression systems to validate game concepts and production feasibility",
+        "Developed a scraping tool with backend integration"
       ]
     },
     {
@@ -40,7 +47,7 @@
       "items": [
         "Developed Telegram / Discord bots using Python",
         "Built small backend services and automation tools for small businesses",
-        "Optimized scripts and services for performance and reliability",
+        "Optimized existing scripts and services for performance and reliability",
         "Solved algorithmic and math problems for CS students"
       ]
     }
