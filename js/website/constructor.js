@@ -55,7 +55,7 @@ function buildFilters(filters, tagCounts) {
         <div class="tag-search" data-tag-search>
             <div class="tag-search-bar" role="combobox" aria-expanded="false" aria-haspopup="listbox">
                 <div class="tag-search-selected" data-tag-selected></div>
-                <input class="tag-search-input" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="filter_search_placeholder" placeholder="Search tags" aria-label="Tags" />
+                <input class="tag-search-input" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="filter_search_placeholder" data-i18n-aria="filter_search_aria" placeholder="Search by title or tags" aria-label="Search projects" />
                 <button type="button" class="tag-search-clear" data-tag-clear aria-label="Clear">×</button>
             </div>
             <div class="tag-search-dropdown" data-tag-dropdown role="listbox" hidden>
@@ -93,7 +93,7 @@ function buildProjects(projects) {
         const linksHtml = (p.links || []).map(l => `<a href="${escapeHtml(l.url || '#')}" target="_blank">${escapeHtml(l.label || '')}</a>`).join('');
 
         return `
-            <article class="project-card" data-tags="${escapeHtml(tagsStr)}" tabindex="0">
+            <article class="project-card" data-tags="${escapeHtml(tagsStr)}" data-title="${escapeHtml(p.title || '')}" tabindex="0">
                 <div class="project-preview">
                     <div class="project-media" title="Click to change photo">
                         <div class="project-media-slides">${slidesHtml}</div>

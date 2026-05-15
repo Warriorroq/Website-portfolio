@@ -661,9 +661,13 @@ function initProjectCards() {
 
     function applyTagFilter() {
         const activeTags = Array.from(selected);
+        const titleQuery = (tagInput?.value || '').trim().toLowerCase();
         projectCards.forEach(card => {
             const tags = normalizeTags(card.dataset.tags);
-            const match = activeTags.length === 0 || activeTags.every(tg => tags.includes(tg));
+            const tagMatch = activeTags.length === 0 || activeTags.every(tg => tags.includes(tg));
+            const title = (card.dataset.title || '').toLowerCase();
+            const titleMatch = !titleQuery || title.includes(titleQuery);
+            const match = tagMatch && titleMatch;
             card.classList.toggle('hidden', !match);
         });
         document.querySelectorAll('.projects-carousel').forEach(c => {
@@ -759,6 +763,7 @@ function initProjectCards() {
     });
     tagInput?.addEventListener('input', () => {
         filterDropdownOptions(tagInput.value);
+        applyTagFilter();
         openDropdown();
         updateClearBtn();
     });
