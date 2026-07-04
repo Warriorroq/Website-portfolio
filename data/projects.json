@@ -326,6 +326,53 @@
           "url": "https://github.com/Warriorroq/ASIOServer-Client"
         }
       ]
+    },
+    {
+      "title": "Game Design Document Editor",
+      "role": "Node.js developer",
+      "platform": "PC · Web",
+      "tags": [
+        "pc",
+        "nodejs",
+        "editor-tools",
+        "gamedev",
+        "game-design",
+        "tools",
+        "3d",
+        "three-js",
+        "github-actions",
+        "git"
+      ],
+      "tech": [
+        "Node.js",
+        "Tree.js",
+        "Git flow"
+      ],
+      "achievements": [
+        "Game design document editor with structured sections, rich text editor, and visual desk/board per section.",
+        "Desk canvas for images, text, shapes, strokes, and freehand drawing with selection, transforms, grouping, and layer order.",
+        "Project image asset library with rename, usage tracking, cross-desk copy/paste, and persistent assets/ storage.",
+        "Desk video embeds from YouTube, Vimeo, and direct video files; movable, resizable, and layerable like other desk items.",
+        "Global search across editor, folders, and desk images with match cycling, counts, and scroll-to-highlight.",
+        "Sidebar with drag-and-drop reorder, nested folders, and section organization.",
+        "3D Space sections (beta) for level blocking: primitives, imported models, gizmo transforms, snap grid, and orbit camera.",
+        "Project-wide 3D model library with reuse and usage tracking across 3D sections.",
+        "Compact layout for narrow windows with Document/Desk toggle and full-width desk.",
+        "Desktop app (Windows) with .gde file association and single-window reuse on open.",
+        "Git integration on desktop: pull with stash/discard, auto-merge, and push-ahead checks.",
+        "Editor scroll and desk viewport persist per section across sessions."
+      ],
+      "slides": [],
+      "links": [
+        {
+          "label": "Latest release",
+          "url": "https://github.com/Warriorroq/Game-Design-Document-Editor/releases"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Warriorroq/Game-Design-Document-Editor"
+        }
+      ]
     }
   ],
   "projects": [
@@ -372,8 +419,8 @@
       ],
       "links": [
         {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.roamergames.bitcointilematch"
+          "label": "App Store",
+          "url": "https://apps.apple.com/de/app/moon-match-earn-bitcoin/id6744020238?l=en-GB"
         }
       ]
     },
@@ -481,8 +528,8 @@
       ],
       "links": [
         {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.roamergames.buspuzzlegame"
+          "label": "App Store",
+          "url": "https://apps.apple.com/de/app/baggs-bus-jam/id6737689259?l=en-GB"
         }
       ]
     },
@@ -521,8 +568,8 @@
       ],
       "links": [
         {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.roamergames.cryptocrawler"
+          "label": "App Store",
+          "url": "https://apps.apple.com/de/app/crypto-crawler-earn-bitcoin/id6504913121?l=en-GB"
         }
       ]
     },
@@ -566,8 +613,8 @@
       ],
       "links": [
         {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.RoamerGames.CryptoJet&pcampaignid=web_share"
+          "label": "App Store",
+          "url": "https://apps.apple.com/de/app/boe-wings-earn-bitcoin/id6483861221?l=en-GB"
         }
       ]
     },
@@ -616,8 +663,8 @@
       ],
       "links": [
         {
-          "label": "Google Play",
-          "url": "https://play.google.com/store/apps/details?id=com.roamergames.bubbleshooterneneko"
+          "label": "App Store",
+          "url": "https://apps.apple.com/de/app/bubble-shooter-neneko-pop/id6752477642?l=en-GB"
         }
       ]
     },
